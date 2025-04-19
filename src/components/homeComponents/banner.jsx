@@ -26,7 +26,7 @@ const banner = () => {
               <img
                 src={SearchIcon}
                 alt="Search Icon"
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 z-10"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 z-10  hover:translate-y-4"
               />
               <input
                 type="text"
@@ -39,13 +39,16 @@ const banner = () => {
             </div>
           </div>
 
-          <div className=" flex gap-[20px]">
+          <div className=" flex gap-">
             {/* Bottom Image (on top visually) */}
             <img
               src={studyStudents}
-              className="top-[125px] w-[276px] h-[320px] relative"
+              className="top-[50px] w-[276px] h-[320px] relative"
             />
-            <img src={Students} className="w-[276px] h-[320px]" />
+            <img
+              src={Students}
+              className="w-[276px] h-[320px]"
+            />
           </div>
         </div>
       </Container>
