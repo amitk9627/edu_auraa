@@ -334,14 +334,13 @@ const LoginMobile = ({ onCloseModal }) => {
     <div className="bg-white  py-6 px-2 flex flex-col gap-3 rounded-md w-[95%]">
       <div className="flex gap-3 items-center justify-center border-b border-[#e5e5e5] pb-6 w-[95%] mx-auto">
         <button
-          //   onClick={() =>
-          //     setFormType({
-          //       ...formType,
-          //       student: true,
-          //       corporateForm: false,
-          //       institute: false,
-          //     })
-          //   }
+          onClick={() =>
+            setFormType({
+              ...formType,
+              student: true,
+              institute: false,
+            })
+          }
           className={`${
             formType.student ? " text-[#3D5FDD] " : " text-[#8F8F8F]"
           } flex items-center justify-center font-semibold  gap-1 rounded-lg px-2 py-1`}
@@ -357,14 +356,13 @@ const LoginMobile = ({ onCloseModal }) => {
           <span className="text-[18px]">As Student</span>
         </button>
         <button
-          //   onClick={() =>
-          //     setFormType({
-          //       ...formType,
-          //       student: false,
-          //       corporateForm: false,
-          //       institute: true,
-          //     })
-          //   }
+          onClick={() =>
+            setFormType({
+              ...formType,
+              student: false,
+              institute: true,
+            })
+          }
           className={`${
             formType.institute ? "text-[#3D5FDD]" : " text-[#8F8F8F]"
           } flex items-center justify-center gap-1 font-semibold rounded-lg px-[6px] py-1`}
