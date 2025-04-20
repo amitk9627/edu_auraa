@@ -39,10 +39,10 @@ const ExamCategoryGrid = () => {
           {exams.map((exam, idx) => (
             <div
               key={idx}
-              className="border-[#DFDFDF] rounded-[8px] py-6 px-[37px] flex flex-col items-center justify-center text-center shadow-sm w-[276px] h-[276px] transition"
+              className="border-[#DFDFDF] rounded-[8px] py-6 px-[37px] flex flex-col items-center justify-center text-center shadow-sm w-[276px] max-md:w-[160px] h-[276px] max-md:h-[144px] transition"
             >
               <img src={exam.icon} alt={exam.title} className="w-12 h-12 mb-4" />
-              <h3 className="text-[16px] font-semibold text-[#000]">{exam.title}</h3>
+              <h3 className="text-[16px] max-md:text-[12px] font-semibold text-[#000]">{exam.title}</h3>
             </div>
           ))}
         </div>

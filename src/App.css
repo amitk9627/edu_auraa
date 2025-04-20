@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+/* swiper */
+.swiper-pagination {
+  margin-top: 5rem;
+  text-align: center;
+  position: relative; /* makes it appear under the Swiper */
+}

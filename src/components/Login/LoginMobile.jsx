@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch } from "react-redux";
@@ -21,18 +20,15 @@ const maskNumber = (number) => {
     number?.slice(0, 2) + "*".repeat(number?.length - 4) + number?.slice(-2)
   );
 };
-const validateEmail=()=>{
-
-}
+const validateEmail = () => {};
 
 const LoginMobile = ({ onCloseModal }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [phoneNo, setPhoneNo] = useState("");
   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
   const [formType, setFormType] = useState({
-    userForm: true,
-    corporateForm: false,
-    travelAgentForm: false,
+    student: true,
+    institute: false,
   });
   const dispatch = useDispatch();
   const [isEnterPhoneNumber, setIsEnterPhoneNumber] = useState(false);
@@ -335,23 +331,23 @@ const LoginMobile = ({ onCloseModal }) => {
   // };
 
   return (
-    <div className="bg-white py-6 px-2 flex flex-col gap-3 rounded-md">
+    <div className="bg-white  py-6 px-2 flex flex-col gap-3 rounded-md w-[95%]">
       <div className="flex gap-3 items-center justify-center border-b border-[#e5e5e5] pb-6 w-[95%] mx-auto">
         <button
           //   onClick={() =>
           //     setFormType({
           //       ...formType,
-          //       userForm: true,
+          //       student: true,
           //       corporateForm: false,
-          //       travelAgentForm: false,
+          //       institute: false,
           //     })
           //   }
           className={`${
-            formType.userForm ? " text-[#3D5FDD] " : " text-[#8F8F8F]"
+            formType.student ? " text-[#3D5FDD] " : " text-[#8F8F8F]"
           } flex items-center justify-center font-semibold  gap-1 rounded-lg px-2 py-1`}
         >
           <span>
-            {formType.userForm ? (
+            {formType.student ? (
               <RadioButtonCheckedTwoToneIcon style={{ fontSize: "18px" }} />
             ) : (
               <RadioButtonUncheckedIcon style={{ fontSize: "18px" }} />
@@ -364,16 +360,16 @@ const LoginMobile = ({ onCloseModal }) => {
           //   onClick={() =>
           //     setFormType({
           //       ...formType,
-          //       userForm: false,
+          //       student: false,
           //       corporateForm: false,
-          //       travelAgentForm: true,
+          //       institute: true,
           //     })
           //   }
           className={`${
-            formType.travelAgentForm ? "text-[#3D5FDD]" : " text-[#8F8F8F]"
+            formType.institute ? "text-[#3D5FDD]" : " text-[#8F8F8F]"
           } flex items-center justify-center gap-1 font-semibold rounded-lg px-[6px] py-1`}
         >
-          {formType.travelAgentForm ? (
+          {formType.institute ? (
             <RadioButtonCheckedTwoToneIcon style={{ fontSize: "18px" }} />
           ) : (
             <RadioButtonUncheckedIcon style={{ fontSize: "18px" }} />
@@ -382,7 +378,7 @@ const LoginMobile = ({ onCloseModal }) => {
           <span className="text-[18px]">As Institute</span>
         </button>
       </div>
-      {formType.userForm && (
+      {formType.student && (
         <div>
           {isLoginForm ? (
             <>
@@ -399,15 +395,12 @@ const LoginMobile = ({ onCloseModal }) => {
                     </div>
                     <div className="flex flex-col gap-4">
                       <label className="text-[#222222] text-[16px] font-medium ">
-                        Login With Phone Number
+                        Email/Phone Number
                       </label>
 
                       <div className="flex items-center border border-[#E7E7E7] rounded-[12px] py-4">
-                        <span className="inline-block size-7 ps-[12px] w-[52px]">
-                          +91
-                        </span>
                         <input
-                          type="tel"
+                          type="text"
                           placeholder="your contact number"
                           value={phoneNo}
                           onChange={(e) => setPhoneNo(e.target.value)}
@@ -728,7 +721,7 @@ const LoginMobile = ({ onCloseModal }) => {
           )}
         </div>
       )}
-      {formType.travelAgentForm && (
+      {formType.institute && (
         <div className="mb-2">
           <>
             {/* LOGIN SCREEN OR REGISTER */}

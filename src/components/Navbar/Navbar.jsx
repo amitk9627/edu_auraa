@@ -68,9 +68,7 @@ const HomeHeroSection = () => {
               className=" absolute top-4 left-4 bg-transparent z-20 text-[28px] md:hidden"
               onClick={() => setIsSideDrawerOpen(true)}
             >
-              <MdMenu
-                className={`text-[#202020]`}
-              />
+              <MdMenu className={`text-[#202020]`} />
             </button>
 
             {/* Logo */}
@@ -154,7 +152,7 @@ const HomeHeroSection = () => {
         <Box
           sx={style}
           className={`border-none outline-none 
-          "w-full"
+          ${windowDimensions.width < 1200 ? "w-full" : ""}
             rounded-[22px] overflow-hidden`}
         >
           <div className="rounded-[20px] px-4">

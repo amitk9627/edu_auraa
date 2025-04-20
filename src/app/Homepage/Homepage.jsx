@@ -15,8 +15,8 @@ const Homepage = () => {
       <Navbar />
       <Banner />
       <Statistics />
-      <CoachingInstitutes />
-      <Container>
+      <Container><CoachingInstitutes />
+      
         <OfferCards />
       </Container>
       <ExamCategoryGrid />
