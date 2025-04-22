@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonCheckedTwoToneIcon from "@mui/icons-material/RadioButtonCheckedTwoTone";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../../assets/images/LoginImage.svg"; //".././assets/loginImage.svg";
 // import GoogleImage from "../../assets/image/GoogleImage.png";
 import OtpInput from "react-otp-input";
@@ -37,6 +37,7 @@ const maskNumber = (number) => {
   );
 };
 export const Login = ({ onCloseModal }) => {
+
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [phoneNo, setPhoneNo] = useState("");
   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
@@ -943,6 +944,7 @@ export const Login = ({ onCloseModal }) => {
 };
 
 const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
+  const navigate = useNavigate();
   const [phoneNo, setPhoneNo] = useState("");
   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
   const [formType, setFormType] = useState({
@@ -1299,7 +1301,7 @@ const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
                 <div>
                   {/*  */}
                   <button
-                    className={`w-full  ${
+                    className={`w-full cursor-pointer  ${
                       phoneNo.length >= 5 && phoneNo.length <= 15
                         ? "bg-blue-600"
                         : "bg-gray-400"
@@ -1309,6 +1311,7 @@ const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
                          py-3 px-2 rounded-lg text-xl font-semibold`}
                     // onClick={verifyPhoneNumber}
                     disabled={!(phoneNo.length >= 5 && phoneNo.length <= 15)}
+                    onClick={() => navigate("/profile")}
                   >
                     Continue
                   </button>
