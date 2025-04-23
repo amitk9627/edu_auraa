@@ -65,14 +65,14 @@ const HomeHeroSection = () => {
         <Container>
           <nav className="flex items-center justify-between py-3 w-full">
             <button
-              className=" absolute top-4 left-4 bg-transparent z-20 text-[28px] md:hidden"
+              className=" absolute top-3 left-4 bg-transparent z-20 text-[28px] md:hidden"
               onClick={() => setIsSideDrawerOpen(true)}
             >
               <MdMenu className={`text-[#202020]`} />
             </button>
 
             {/* Logo */}
-            <img src={logo} className="max-md:mx-auto"></img>
+            <img src={logo} className="max-md:mx-auto max-md:h-6"></img>
             <div className="flex items-center space-x-[48px] max-md:hidden">
               <div className="flex leading-[16px] items-center space-x-[28px] text-[16px] font-medium text-[#333333]">
                 <a href="#" className="hover:text-indigo-600">

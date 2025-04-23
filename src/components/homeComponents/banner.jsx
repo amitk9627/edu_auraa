@@ -5,7 +5,7 @@ import studyStudents from "../../assets/images/studyStudents.svg";
 import Container from "../Container/Container";
 const banner = () => {
   return (
-    <div className="bg-gray-50 py-[60px] h-[580px] max-md:h-[85%]">
+    <div className="bg-gray-100 py-[60px] h-[580px] max-md:h-[85%]">
       <Container>
         <div className="grid grid-cols-2 max-md:grid-cols-1 max-md:gap-14  max-md:mx-4 ">
           {/* Left Text Content */}

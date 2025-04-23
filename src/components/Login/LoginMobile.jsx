@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import OTPInput from "react-otp-input";
+import OtpInput from "react-otp-input";
 import { useDispatch } from "react-redux";
 import CountdownTimer from "./CountdownTimer";
 import {
@@ -8,12 +8,18 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  TextField,
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RadioButtonCheckedTwoToneIcon from "@mui/icons-material/RadioButtonCheckedTwoTone";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
+const inputStyle = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "10px", // Adjust the radius as needed
+  },
+};
 const maskNumber = (number) => {
   if (!number) return null;
   return (
@@ -330,6 +336,10 @@ const LoginMobile = ({ onCloseModal }) => {
   //   }
   // };
 
+  // 000--------------
+  const [isInstituteLoginForm, setIsInstituteLoginForm] = useState(false);
+  const [isInstituteEnterPhoneNumber, setIsInstituteEnterPhoneNumber] =
+    useState(false);
   return (
     <div className="bg-white  py-6 px-2 flex flex-col gap-3 rounded-md w-[95%]">
       <div className="flex gap-3 items-center justify-center border-b border-[#e5e5e5] pb-6 w-[95%] mx-auto">
@@ -377,494 +387,421 @@ const LoginMobile = ({ onCloseModal }) => {
         </button>
       </div>
       {formType.student && (
-        <div>
+        <div className="flex flex-col gap-10 mt-4">
           {isLoginForm ? (
             <>
-              {/* LOGIN SCREEN OR REGISTER */}
-              {!isEnterPhoneNumber ? (
+              {isEnterPhoneNumber ? (
                 <>
-                  {/* LOGIN SCREEN shadow shadow-[0px_2px_20px_0px_#0000001F] */}
-                  <div className="bg-white rounded-[12px] px-3 py-6 ">
-                    <div className="mb-8">
-                      <h2 className="text-[#222222] text-[24px] font-bold">
-                        Login{" "}
-                        <span className="w-[60px] h-[3px] inline-block rounded-[4px] bg-[#7878FF]"></span>
-                      </h2>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <label className="text-[#222222] text-[16px] font-medium ">
-                        Email/Phone Number
-                      </label>
-
-                      <div className="flex items-center border border-[#E7E7E7] rounded-[12px] py-4">
-                        <input
-                          type="text"
-                          placeholder="your contact number"
-                          value={phoneNo}
-                          onChange={(e) => setPhoneNo(e.target.value)}
-                          className="w-full outline-none placeholder:text-[#B3B3B3] placeholder:text-[16px] focus:outline-none text-[16px] text-[#3F3F3F] font-semibold"
-                        />
-                      </div>
-
-                      <button
-                        className={`w-full  ${
-                          phoneNo.length > 5 && phoneNo.length <= 15
-                            ? "primary_gradient_color"
-                            : "bg-gray-400"
-                        } text-[#fff] font-semibold rounded-[12px] py-4`}
-                        // onClick={verifyPhoneNumber}
-                        disabled={!(phoneNo.length > 5 && phoneNo.length <= 15)}
-                      >
-                        Continue
-                      </button>
-
-                      <div className="flex flex-col gap-6">
-                        <span className="text-[14px] text-[#000] font-medium">
-                          Don’t have an account?{" "}
-                          <button
-                            className="text-[#7878FF] bg-transparent"
-                            // onClick={() => setIsLoginForm(false)}
-                          >
-                            Register
-                          </button>
-                        </span>
-
-                        {/* <span className="text-[14px]">
-                          By proceeding, you are agree to WTI’s{" "}
-                          <span className="text-[#0077B6] font-semibold">
-                            Privacy Policy, User Agreement
-                          </span>
-                          and{" "}
-                          <span className="text-[14px] text-[#0077B6] font-semibold">
-                            T&Cs
-                          </span>
-                        </span> */}
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* OTP SCREEN */}
-                  <div className="bg-white rounded-[12px] px-3 py-6">
-                    <div className="mb-8">
-                      <h2 className="text-[#222222] text-[24px] font-bold">
-                        Enter OTP{" "}
-                        <span className="w-[60px] h-[3px] inline-block rounded-[4px] bg-[#7878FF]"></span>
-                      </h2>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <label className="text-[#222222] text-[16px] font-medium ">
-                        Login With Phone Number
-                      </label>
-
-                      <div className="flex flex-col items-center w-full justify-center  rounded-[12px] py-4">
-                        <OTPInput
-                          className=""
-                          value={otp}
-                          onChange={setOtp}
-                          numInputs={6}
-                          renderSeparator={<span className="mx-4"></span>}
-                          renderInput={(props) => (
-                            <input
-                              {...props}
-                              type="number"
-                              className="text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
-                              maxLength={1}
-                              // placeholder="*"
-                              style={{ width: "20px", height: "40px" }}
-                            />
-                          )}
-                        />
-                        {wrongOTP && (
-                          <p className="text-[12px] text-red-500">Wrong OTP</p>
-                        )}
-
-                        <div className="w-full">
-                          <div className="flex flex-col mt-8 justify-start text-[#797979] text-sm">
-                            <p className="text-start">
-                              (OTP has been sent to +91{" "}
-                              {maskNumber(phoneNo) ?? "NA"})
-                            </p>
-                            <p className="mt-0">
-                              <>
-                                Didn&apos;t received OTP?{" "}
-                                <button
-                                  //   onClick={() => resendOTP()}
-                                  className=" hover:underline font-semibold text-[#7878FF]"
-                                  disabled={timeRemaining != 0}
-                                >
-                                  Resend OTP
-                                </button>{" "}
-                                {timeRemaining > 0 && (
-                                  <>
-                                    in
-                                    <CountdownTimer
-                                      timeRemaining={timeRemaining}
-                                      setTimeRemaining={setTimeRemaining}
-                                      setIsTimeUp={setIsTimeUp}
-                                      isTimeUp={isTimeUp}
-                                    />
-                                  </>
-                                )}
-                              </>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <button className="primary_gradient_color text-[#fff] font-semibold rounded-[12px] py-4">
-                    Validate
-                  </button> */}
-
-                      <button
-                        disabled={otp.length > 5 ? false : true}
-                        className={`w-full ${
-                          otp.length > 5
-                            ? "primary_gradient_color cursor-pointer"
-                            : "bg-gray-200"
-                        } text-[#fff] font-semibold rounded-[12px] py-4`}
-                        // onClick={verifyOTP}
-                      >
-                        Validate
-                      </button>
-                      <div className="flex flex-col gap-6">
-                        <span className="text-[14px] text-[#000] font-medium">
-                          Don’t have an account?{" "}
-                          <button
-                            className="text-[#7878FF] bg-transparent"
-                            // onClick={() => setIsLoginForm(false)}
-                          >
-                            Register
-                          </button>
-                        </span>
-
-                        <span className="text-[14px]">
-                          By proceeding, you are agree to WTI’s{" "}
-                          <span className="text-[#0077B6] font-semibold">
-                            Privacy Policy, User Agreement
-                          </span>
-                          and{" "}
-                          <span className="text-[14px] text-[#0077B6] font-semibold">
-                            T&Cs
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              {/* REGISTER */}
-              <div className="bg-white rounded-[12px] px-5 py-6 ">
-                <div className="mb-8">
-                  <h2 className="text-[#222222] text-[24px] font-bold">
-                    Register{" "}
-                    <span className="w-[60px] h-[3px] inline-block rounded-[4px] bg-[#7878FF]"></span>
-                  </h2>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <div className="">
-                    <input
-                      type="text"
-                      placeholder="Enter Your Full Name"
-                      className="focus:outline-none focus:border-[#5b69fd] outline-none text-[16px] text-[#3F3F3F] border-b border-[#E4E4E4] pb-2 w-full"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className="">
-                    <input
-                      type="email"
-                      placeholder="Enter your Email ID"
-                      className="focus:outline-none focus:border-[#5b69fd] outline-none text-[16px] text-[#3F3F3F] border-b border-[#E4E4E4] pb-2 w-full"
-                      value={emailId}
-                      onChange={(e) => setEmailId(e.target.value)}
-                    />
-                  </div>
-
-                  <PhoneInput
-                    name="number"
-                    required={true}
-                    countryCodeEditable={false}
-                    country={"in"}
-                    placeholder="Phone Number"
-                    // onChange={(e) => setRegisterPhoneNo(e)}
-                    onChange={handlePhoneChange}
-                    inputStyle={{
-                      height: "51px",
-                      borderRadius: "12px",
-                      width: "100%",
-                    }}
-                    buttonStyle={{ borderRadius: "12px 0 0 12px" }}
-                    containerClass="phone-input-custom"
-                  />
-
-                  <FormControl fullWidth>
-                    <FormLabel id="demo-controlled-radio-buttons-group">
-                      Gender
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      value={gender || ""}
-                      onChange={(e) => setGender(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="MALE"
-                        control={
-                          <Radio
-                            sx={{
-                              "& .MuiSvgIcon-root": {
-                                fontSize: 16,
-                              },
-                            }}
-                          />
-                        }
-                        label="Male"
-                        className="text-[#333] text-md"
-                      />
-                      <FormControlLabel
-                        value="FEMALE"
-                        control={
-                          <Radio
-                            sx={{
-                              "& .MuiSvgIcon-root": {
-                                fontSize: 16,
-                              },
-                            }}
-                          />
-                        }
-                        label="Female"
-                        className="text-[#333] text-md"
-                      />
-
-                      <FormControlLabel
-                        value="OTHERS"
-                        control={
-                          <Radio
-                            sx={{
-                              "& .MuiSvgIcon-root": {
-                                fontSize: 16,
-                              },
-                            }}
-                          />
-                        }
-                        label="Others"
-                        className="text-[#333] text-md"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-
-                  {/* <button
-                className="primary_gradient_color text-[#fff] font-semibold rounded-[12px] py-4"
-             
-              >
-                Register
-              </button> */}
-
-                  {error && (
-                    <p className="text-red-500 text-md">Already Exist User</p>
-                  )}
-
-                  <button
-                    className={`w-full py-3 px-2 rounded-lg text-[16px] ${
-                      (contactCode.includes("91") &&
-                        registerPhoneNo.length == 10 &&
-                        name.length > 0 &&
-                        validateEmail(emailId)) ||
-                      (!contactCode.includes("91") &&
-                        registerPhoneNo.length > 6 &&
-                        registerPhoneNo.length <= 15 &&
-                        name.length > 0 &&
-                        validateEmail(emailId))
-                        ? "primary_gradient_color"
-                        : "bg-gray-400"
-                    } text-[#fff] font-semibold rounded-[12px] py-4`}
-                    disabled={
-                      contactCode.includes("91")
-                        ? !(
-                            registerPhoneNo.length == 10 &&
-                            name.length > 0 &&
-                            validateEmail(emailId)
-                          )
-                        : !(
-                            registerPhoneNo.length > 6 &&
-                            registerPhoneNo.length <= 15 &&
-                            name.length > 0 &&
-                            validateEmail(emailId)
-                          )
-                    }
-                    // onClick={registerUser}
-                  >
-                    Register
-                  </button>
-                  <div className="flex flex-col gap-6">
-                    <span className="text-[14px] text-[#000] font-medium">
-                      Already have an account?{" "}
-                      <button
-                        className="text-[#7878FF] bg-transparent"
-                        // onClick={() => setIsLoginForm(true)}
-                      >
-                        Login
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      )}
-      {formType.institute && (
-        <div className="mb-2">
-          <>
-            {/* LOGIN SCREEN OR REGISTER */}
-            {!isInputUserCred ? (
-              <>
-                {/* LOGIN SCREEN  */}
-                <div className="bg-white rounded-[12px] px-3 py-6 ">
-                  <div className="mb-8">
-                    <h2 className="text-[#222222] text-[24px] font-bold">
-                      Login{" "}
-                      <span className="w-[60px] h-[3px] inline-block rounded-[4px] bg-[#7878FF]"></span>
-                    </h2>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <label className="text-[#222222] text-[16px] font-medium ">
-                      Login with Email/Phone Number
-                    </label>
-
-                    <div className="flex items-center border border-[#E7E7E7] rounded-[12px] py-4">
-                      {/* <span className="inline-block size-7 ps-[12px] w-[52px]">
-                        +91
-                      </span> */}
-                      <input
-                        type="text"
-                        placeholder="Enter Your Email/Phone Number"
-                        value={userCred}
-                        onChange={(e) => setUserCred(e.target.value)}
-                        className="w-full outline-none placeholder:text-[#B3B3B3] placeholder:text-[16px] focus:outline-none text-[16px] px-3 text-[#3F3F3F] font-medium"
-                      />
-                    </div>
-                    {taUserFound && (
-                      <p className="text-[12px] text-red-500">User Not Found</p>
-                    )}
-
-                    <button
-                      className={`w-full  ${
-                        userCred.length >= 5 && userCred.length <= 30
-                          ? "bg-blue-600"
-                          : "bg-gray-400"
-                      } text-[#fff] font-semibold rounded-[12px] py-4 mb-8`}
-                      //   onClick={verifyTAPhoneNumber}
-                      disabled={
-                        !(userCred.length >= 5 && userCred.length <= 30)
-                      }
-                    >
-                      Continue
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* OTP SCREEN */}
-                <div className="bg-white rounded-[12px] px-3 py-6">
-                  <div className="mb-8">
-                    <h2 className="text-[#222222] text-[24px] font-bold">
-                      <button
-                      // onClick={() => setIsInputUserCred(!isInputUserCred)}
-                      >
-                        <ArrowBackIcon />
-                      </button>{" "}
-                      Enter OTP{" "}
-                      <span className="w-[60px] h-[3px] inline-block rounded-[4px] bg-[#7878FF]"></span>
-                    </h2>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <label className="text-[#222222] text-[16px] font-medium ">
-                      Login With Phone Number
-                    </label>
-
-                    <div className="flex flex-col items-center w-full justify-center  rounded-[12px] py-4">
-                      <OTPInput
+                  <div>
+                    <div className="flex flex-col space-y-4">
+                      <p className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            setIsEnterPhoneNumber(!isEnterPhoneNumber)
+                          }
+                        >
+                          <ArrowBackIcon />
+                        </button>
+                        <label className="text-lg font-medium">
+                          Enter the OTP
+                        </label>
+                      </p>
+                      <OtpInput
                         className=""
-                        value={agentOtp}
-                        onChange={setAgentOtp}
+                        value={otp}
+                        onChange={setOtp}
                         numInputs={6}
                         renderSeparator={<span className="mx-4"></span>}
                         renderInput={(props) => (
                           <input
                             {...props}
                             type="number"
-                            className="text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
+                            className=" text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
                             maxLength={1}
                             // placeholder="*"
-                            style={{ width: "20px", height: "40px" }}
+                            style={{ width: "60px", height: "40px" }}
                           />
                         )}
                       />
-                      {wrongTaOTP && (
+                      {wrongOTP && (
                         <p className="text-[12px] text-red-500">Wrong OTP</p>
                       )}
-
-                      <div className="w-full">
-                        <div className="flex flex-col mt-8 justify-start text-[#797979] text-sm">
-                          <p className="text-start">
-                            (OTP has been sent to +91{" "}
-                            {maskNumber(userCred) ?? "NA"})
-                          </p>
-                          <p className="mt-0">
-                            <>
-                              Didn&apos;t received OTP?{" "}
-                              <button
-                                onClick={() => verifyTAPhoneNumber()}
-                                className=" hover:underline font-semibold text-[#7878FF]"
-                                disabled={timeRemaining != 0}
-                              >
-                                Resend OTP
-                              </button>{" "}
-                              {timeRemaining > 0 && (
-                                <>
-                                  in
-                                  <CountdownTimer
-                                    timeRemaining={timeRemaining}
-                                    setTimeRemaining={setTimeRemaining}
-                                    setIsTimeUp={setIsTimeUp}
-                                    isTimeUp={isTimeUp}
-                                  />
-                                </>
-                              )}
-                            </>
-                          </p>
-                        </div>
-                      </div>
                     </div>
 
-                    {/* <button className="primary_gradient_color text-[#fff] font-semibold rounded-[12px] py-4">
-                    Validate
-                  </button> */}
+                    <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
+                      <p>
+                        (OTP has been sent to +91 {maskNumber(phoneNo) ?? "NA"}{" "}
+                        and registered email)
+                      </p>
+                      <p className="mt-2">
+                        <>
+                          Didn&apos;t received OTP?{" "}
+                          <button
+                            // onClick={() => resendOTP()}
+                            className=" hover:underline font-semibold text-[#7878FF]"
+                            disabled={timeRemaining != 0}
+                          >
+                            Resend OTP
+                          </button>{" "}
+                          {timeRemaining > 0 && (
+                            <>
+                              in
+                              <CountdownTimer
+                                timeRemaining={timeRemaining}
+                                setTimeRemaining={setTimeRemaining}
+                                setIsTimeUp={setIsTimeUp}
+                                isTimeUp={isTimeUp}
+                              />
+                            </>
+                          )}
+                        </>
+                      </p>
+                    </div>
+                  </div>
 
+                  <div>
                     <button
-                      disabled={agentOtp.length > 5 ? false : true}
+                      disabled={otp.length > 5 ? false : true}
                       className={`w-full ${
-                        agentOtp.length > 5
-                          ? "primary_gradient_color cursor-pointer"
+                        otp.length > 5
+                          ? "bg-blue-600 cursor-pointer"
                           : "bg-gray-200"
-                      } text-[#fff] font-semibold rounded-[12px] py-4`}
-                      //   onClick={verifyTAOTP}
+                      } py-3 px-2 rounded-lg text-xl text-white font-semibold`}
+                      // onClick={verifyOTP}
                     >
                       Validate
                     </button>
                   </div>
-                </div>
-              </>
-            )}
-          </>
+                  <p className="text-[#5C5C5C]">
+                    <span className="text-red-500">*</span> OTP is Valid for
+                    <span className="text-[#0195C6]"> 05 Minutes</span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <label htmlFor="Phonenumber" className="block text-lg mb-2">
+                      Email/Phone Number
+                    </label>
+
+                    <FormControl fullWidth>
+                      <TextField
+                        type="text"
+                        placeholder="Enter Your Number"
+                        value={phoneNo}
+                        size="small" // Makes it smaller
+                        margin="dense"
+                        onChange={(e) => setPhoneNo(e.target.value)}
+                      />
+                    </FormControl>
+                    {userFound && (
+                      <p className="text-[12px] text-red-500">User Not Found</p>
+                    )}
+                  </div>
+                  <div>
+                    {/*  */}
+                    <button
+                      className={`w-full  ${
+                        phoneNo.length >= 5 && phoneNo.length <= 15
+                          ? "bg-blue-600"
+                          : "bg-gray-400"
+                      }
+                         
+                            text-white
+                         py-3 px-2 rounded-lg text-xl font-semibold`}
+                      // onClick={verifyPhoneNumber}
+                      onClick={() => setIsEnterPhoneNumber(!isEnterPhoneNumber)}
+                      // disabled={!(phoneNo.length >= 5 && phoneNo.length <= 15)}
+                    >
+                      Continue
+                    </button>
+                  </div>
+                  <p>
+                    Don't have an account{" "}
+                    <button onClick={() => setIsLoginForm(!isLoginForm)}>
+                      Register Now
+                    </button>
+                  </p>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-col gap-[6px]">
+              <FormControl fullWidth>
+                <TextField
+                  type="text"
+                  label="Student Name"
+                  placeholder="Enter Your Name"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  // value={name}
+                  // onChange={(e) => setName(e.target.value)}
+                />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  type="email"
+                  label="Email Id"
+                  placeholder="Enter Your Email ID"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  //
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+
+              <TextField
+                name="number"
+                placeholder="Phone Number"
+                // onChange={(e) => setRegisterPhoneNo(e)}
+                // onChange={handlePhoneChange}
+                size="small" // Makes it smaller
+                margin="dense"
+              />
+              {error && (
+                <p className="text-red-500 text-md">Already Exist User</p>
+              )}
+              <div>
+                <button
+                  className={`w-full py-3 px-2 rounded-lg text-xl bg-gray-600 text-white font-semibold`}
+                  // onClick={registerUser}
+                >
+                  Register
+                </button>
+              </div>
+              <p>
+                Already have an account{" "}
+                <button onClick={() => setIsLoginForm(!isLoginForm)}>
+                  Login Now
+                </button>
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+      {formType.institute && (
+        <div className="flex flex-col gap-10 mt-4">
+          {isInstituteLoginForm ? (
+            <>
+              {isInstituteEnterPhoneNumber ? (
+                <>
+                  <div>
+                    <div className="flex flex-col space-y-4">
+                      <p className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            setIsInstituteEnterPhoneNumber(
+                              !isInstituteEnterPhoneNumber
+                            )
+                          }
+                        >
+                          <ArrowBackIcon />
+                        </button>
+                        <label className="text-lg font-medium">
+                          Enter the OTP
+                        </label>
+                      </p>
+                      <OtpInput
+                        className=""
+                        value={otp}
+                        onChange={setOtp}
+                        numInputs={6}
+                        renderSeparator={<span className="mx-4"></span>}
+                        renderInput={(props) => (
+                          <input
+                            {...props}
+                            type="number"
+                            className=" text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
+                            maxLength={1}
+                            // placeholder="*"
+                            style={{ width: "60px", height: "40px" }}
+                          />
+                        )}
+                      />
+                      {wrongOTP && (
+                        <p className="text-[12px] text-red-500">Wrong OTP</p>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
+                      <p>
+                        (OTP has been sent to +91 {maskNumber(phoneNo) ?? "NA"}{" "}
+                        and registered email)
+                      </p>
+                      <p className="mt-2">
+                        <>
+                          Didn&apos;t received OTP?{" "}
+                          <button
+                            // onClick={() => resendOTP()}
+                            className=" hover:underline font-semibold text-[#7878FF]"
+                            disabled={timeRemaining != 0}
+                          >
+                            Resend OTP
+                          </button>{" "}
+                          {timeRemaining > 0 && (
+                            <>
+                              in
+                              <CountdownTimer
+                                timeRemaining={timeRemaining}
+                                setTimeRemaining={setTimeRemaining}
+                                setIsTimeUp={setIsTimeUp}
+                                isTimeUp={isTimeUp}
+                              />
+                            </>
+                          )}
+                        </>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button
+                      disabled={otp.length > 5 ? false : true}
+                      className={`w-full ${
+                        otp.length > 5
+                          ? "bg-blue-600 cursor-pointer"
+                          : "bg-gray-200"
+                      } py-2 px-2 rounded-lg text-xl text-white font-semibold`}
+                      // onClick={verifyOTP}
+                      onClick={() => setIsEnterPhoneNumber(!isEnterPhoneNumber)}
+                    >
+                      Validate
+                    </button>
+                  </div>
+                  <p className="text-[#5C5C5C]">
+                    <span className="text-red-500">*</span> OTP is Valid for
+                    <span className="text-[#0195C6]"> 05 Minutes</span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <label htmlFor="Phonenumber" className="block text-lg mb-2">
+                      Email/Phone Number
+                    </label>
+
+                    <FormControl fullWidth>
+                      <TextField
+                        type="text"
+                        placeholder="Enter Your Number"
+                        value={phoneNo}
+                        size="small" // Makes it smaller
+                        margin="dense"
+                        onChange={(e) => setPhoneNo(e.target.value)}
+                      />
+                    </FormControl>
+                    {userFound && (
+                      <p className="text-[12px] text-red-500">User Not Found</p>
+                    )}
+                  </div>
+                  <div>
+                    {/*  */}
+                    <button
+                      className={`w-full bg-gray-400 text-white py-2 px-2 rounded-lg text-xl font-semibold`}
+                      onClick={() =>
+                        setIsInstituteEnterPhoneNumber(
+                          !isInstituteEnterPhoneNumber
+                        )
+                      }
+                    >
+                      Continue
+                    </button>
+                  </div>
+                  <p>
+                    Don't have an institute account{" "}
+                    <button
+                      onClick={() =>
+                        setIsInstituteLoginForm(!isInstituteLoginForm)
+                      }
+                    >
+                      Register Now
+                    </button>
+                  </p>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-col gap-[6px]">
+              <FormControl fullWidth>
+                <TextField
+                  type="text"
+                  label="Institute Name"
+                  placeholder="Enter Your Name"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  // value={name}
+                  // onChange={(e) => setName(e.target.value)}
+                />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  type="email"
+                  label="Email Id"
+                  placeholder="Enter Your Email ID"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  //
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+
+              <TextField
+                name="number"
+                placeholder="Phone Number"
+                label="Phone Number"
+                size="small" // Makes it smaller
+                margin="dense"
+                // onChange={(e) => setRegisterPhoneNo(e)}
+                // onChange={handlePhoneChange}
+              />
+              {error && (
+                <p className="text-red-500 text-md">Already Exist User</p>
+              )}
+              <FormControl fullWidth>
+                <TextField
+                  type="text"
+                  label="City"
+                  placeholder="Enter Your City"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <TextField
+                  type="type"
+                  label="Address"
+                  placeholder="Enter Your Address"
+                  size="small" // Makes it smaller
+                  margin="dense"
+                  //
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+              <div>
+                <button
+                  className={`w-full py-3 px-2 rounded-lg text-xl bg-gray-600 text-white font-semibold`}
+                  // onClick={registerUser}
+                >
+                  Register
+                </button>
+              </div>
+              <p>
+                Already have an account{" "}
+                <button
+                  onClick={() => setIsInstituteLoginForm(!isInstituteLoginForm)}
+                >
+                  Login Now
+                </button>
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

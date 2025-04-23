@@ -1279,7 +1279,7 @@ const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
                 </p>
               </>
             ) : (
-              <>
+              <div className="flex flex-col gap-8">
                 <div>
                   <label htmlFor="Phonenumber" className="block text-lg mb-2">
                     Email/Phone Number
@@ -1316,35 +1316,33 @@ const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
                     Continue
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </>
         ) : (
           <div className="flex flex-col gap-[6px]">
-          
-              {/* Name */}
-              <FormControl fullWidth>
-                <TextField
-                  type="text"
-                  label="Institute Name"
-                  placeholder="Enter Your Name"
-                  sx={inputStyle}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </FormControl>
-              {/* E-mail */}
-              <FormControl fullWidth>
-                <TextField
-                  type="email"
-                  label="Email Id"
-                  placeholder="Enter Your Email ID"
-                  sx={inputStyle}
-                  value={emailId}
-                  onChange={(e) => setEmailId(e.target.value)}
-                />
-              </FormControl>
-          
+            {/* Name */}
+            <FormControl fullWidth>
+              <TextField
+                type="text"
+                label="Institute Name"
+                placeholder="Enter Your Name"
+                sx={inputStyle}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </FormControl>
+            {/* E-mail */}
+            <FormControl fullWidth>
+              <TextField
+                type="email"
+                label="Email Id"
+                placeholder="Enter Your Email ID"
+                sx={inputStyle}
+                value={emailId}
+                onChange={(e) => setEmailId(e.target.value)}
+              />
+            </FormControl>
 
             {/* Mobile Number */}
             <TextField
@@ -1364,6 +1362,29 @@ const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
             {error && (
               <p className="text-red-500 text-md">Already Exist User</p>
             )}
+            <div className="flex items-center gap-2">
+              <FormControl fullWidth>
+                <TextField
+                  type="text"
+                  label="City"
+                  placeholder="Enter Your City"
+                  sx={inputStyle}
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <TextField
+                  type="type"
+                  label="Address"
+                  placeholder="Enter Your Address"
+                  sx={inputStyle}
+                  //
+                  //   value={emailId}
+                  //   onChange={(e) => setEmailId(e.target.value)}
+                />
+              </FormControl>
+            </div>
             <div>
               <button
                 className={`w-full py-3 px-2 rounded-lg text-xl ${

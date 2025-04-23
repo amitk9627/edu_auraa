@@ -19,8 +19,8 @@ const PromoCards = () => {
   ];
 
   return (
-    <div>
-      <h3 className="text-[32px] leading-[36px] text-[#000000] font-semibold mb-[28px]">
+    <div className="max-md:px-4">
+      <h3 className="text-[32px]  max-md:text-[24px]  leading-[36px] text-[#000000] font-semibold mb-[28px]">
       Popular  Coaching Institutes
       </h3>
 
@@ -28,14 +28,14 @@ const PromoCards = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`${card.bg} rounded-xl p-6 flex h-[214px] items-center justify-between shadow-sm`}
+            className={`${card.bg} rounded-xl p-6 max-md:p-3 flex h-[214px] max-md:h-[160px]  items-center justify-between shadow-sm`}
           >
             {/* Text Section */}
-            <div className="w-[349px]">
-              <h3 className="text-[24px] font-semibold text-[#333333]">
+            <div className="w-[349px] max-md:w-[320px]">
+              <h3 className="text-[24px] max-md:text-[18px] font-semibold text-[#333333]">
                 {card.title}
               </h3>
-              <p className="text-[18px] text-[#565E6D] mt-1">{card.subtitle}</p>
+              <p className="text-[18px] max-md:text-[14px] text-[#565E6D] mt-1">{card.subtitle}</p>
             </div>
 
             {/* Image */}

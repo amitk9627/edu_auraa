@@ -1,42 +1,44 @@
 import React from "react";
 import Container from "../Container/Container";
 import logo from "../../assets/images/Studyshala.svg";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-700 py-10">
+    <footer className="bg-white text-gray-700 py-10 max-md:px-4">
       <Container>
-        <div className="w-full mx-auto px-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <div className="col-span-1 lg:col-span-2">
-        <img src={logo}></img>
-
-            <p className="mt-2 text-sm text-gray-600">
-              Studyshala is India's largest online learning <br></br> platform. Download
-              our apps to start learning.
-            </p>
-            <div className="mt-6 pt-4">
+        <div className="w-full  mx-auto px-2 flex items-start max-md:flex-col  max-md:gap-5 justify-between ">
+          <div className="flex flex-col items-start gap-8 max-md:gap-4">
+            <div>
+              <img src={logo} className="max-md:h-8" />
+              <p className="mt-2 text-sm text-gray-600  max-md:text-justify">
+                Studyshala is India's largest online learning <br></br>{" "}
+                platform. Download our apps to start learning.
+              </p>
+            </div>
+            <div className="">
               <p className="text-sm font-semibold mb-1">
                 Starting your preparation?
               </p>
               <p className="text-sm text-gray-600">
-                Call us and we will answer all your questions <br></br> about learning on
-                Studyshala
+                Call us and we will answer all your questions <br></br> about
+                learning on Studyshala
               </p>
               <div className="mt-2 flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-gray-600"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+                <PhoneInTalkIcon />
+                <a
+                  href="tel:+918585858585"
+                  target="_blank"
+                  className="text-sm font-bold"
                 >
-                  <path d="M2 3a1 1 0 011-1h2.586a1 1 0 01.707.293l1.414 1.414a1 1 0 01.293.707V6a1 1 0 01-1 1H5.414L2.293 4.879A1 1 0 012 4.172V3z" />
-                  <path d="M6 8v6h6a1 1 0 011 1v2.586a1 1 0 01-.293.707l-1.414 1.414A1 1 0 0110.586 20H10a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707L9.707 15A1 1 0 0110.414 14H12v-2H6z" />
-                </svg>
-                <span className="text-sm font-bold">Call +91 8585858585</span>
+                  Call +91 8585858585
+                </a>
               </div>
             </div>
           </div>
 
-          <div className="col-span-1 lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-5 max-md:grid-cols-2">
             <div>
               <h3 className="font-semibold mb-2">Company</h3>
               <ul className="text-sm text-gray-600 space-y-1">
@@ -78,33 +80,31 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div className="sm:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
-              <div>
-                <h3 className="font-semibold mb-2">Popular goals</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>IIT JEE</li>
-                  <li>UPSC</li>
-                  <li>SSC</li>
-                </ul>
-              </div>
+            <div>
+              <h3 className="font-semibold mb-2">Popular goals</h3>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>IIT JEE</li>
+                <li>UPSC</li>
+                <li>SSC</li>
+              </ul>
+            </div>
 
-              <div>
-                <h3 className="font-semibold mb-2">Studyshala Centre</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>Kota IIT JEE</li>
-                  <li>Kota NEET UG</li>
-                  <li>Kota Foundation</li>
-                </ul>
-              </div>
+            <div>
+              <h3 className="font-semibold mb-2">Studyshala Centre</h3>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>Kota IIT JEE</li>
+                <li>Kota NEET UG</li>
+                <li>Kota Foundation</li>
+              </ul>
+            </div>
 
-              <div>
-                <h3 className="font-semibold mb-2">Study material</h3>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>UPSC Study Material</li>
-                  <li>NEET UG Study Material</li>
-                  <li>CA Foundation Study Material</li>
-                </ul>
-              </div>
+            <div>
+              <h3 className="font-semibold mb-2">Study material</h3>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>UPSC Study Material</li>
+                <li>NEET UG Study Material</li>
+                <li>CA Foundation Study Material</li>
+              </ul>
             </div>
           </div>
         </div>
