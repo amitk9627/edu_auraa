@@ -16,7 +16,7 @@ const Statistics = () => {
 
   return (
     <div className="py-10 max-md:py-5 bg-center bg-cover" style={bgBannerImage}>
-      <div className="max-w-6xl mx-auto px-4 h-[64px]  flex items-center justify-center gap-6 text-white text-center">
+      <div className="max-w-6xl mx-auto px-4 h-[64px]  flex items-center justify-between gap-6 text-white text-center">
         {stats.map((item, index) => (
           <div key={index} className="w-[20%]">
             <h2 className="text-[36px] max-md:text-[14px] leading-[36px] max-md:leading-5 text-[#fff] font-bold">

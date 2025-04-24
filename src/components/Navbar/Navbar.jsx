@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/images/Studyshala.svg";
+import logo from "../../assets/images/Logo.svg";
 import Container from "../Container/Container";
 import { Login } from "../Login/Login";
 import LoginMobile from "../Login/LoginMobile";
@@ -131,14 +131,20 @@ const HomeHeroSection = () => {
                   </div>
                 )}
               </> */}
-              {
+              <p className="flex items-center gap-4">
                 <button
                   onClick={() => handleOpen()}
-                  className="bg-[#5E5BFB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
+                  className="border border-[#55BFEB] leading-[16px] text-[#55BFEB] px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
-                  Login or Create account
+                  Login
+                </button>{" "}
+                <button
+                  // onClick={() => handleOpen()}
+                  className="bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
+                >
+                List Your Coaching
                 </button>
-              }
+              </p>
             </div>
           </nav>
         </Container>
