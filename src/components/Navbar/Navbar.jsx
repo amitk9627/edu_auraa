@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/images/Logo.svg";
+import logo from "../../assets/images/websiteLogo.svg";
 import Container from "../Container/Container";
 import { Login } from "../Login/Login";
 import LoginMobile from "../Login/LoginMobile";
@@ -72,7 +72,7 @@ const HomeHeroSection = () => {
             </button>
 
             {/* Logo */}
-            <img src={logo} className="max-md:mx-auto max-md:h-6"></img>
+            <img src={logo} className="max-md:mx-auto max-md:h-6 h-20"></img>
             <div className="flex items-center space-x-[48px] max-md:hidden">
               <div className="flex leading-[16px] items-center space-x-[28px] text-[16px] font-medium text-[#333333]">
                 <a href="#" className="hover:text-indigo-600">

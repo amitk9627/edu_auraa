@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../Container/Container";
-import logo from "../../assets/images/Studyshala.svg";
+import logo from "../../assets/images/websiteLogo.svg";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import { NavLink } from "react-router-dom";
 
@@ -11,7 +11,10 @@ const Footer = () => {
         <div className="w-full  mx-auto px-2 flex items-start max-md:flex-col  max-md:gap-5 justify-between ">
           <div className="flex flex-col items-start gap-8 max-md:gap-4">
             <div>
-              <img src={logo} className="max-md:h-8" />
+              
+              <img src={logo} className="max-md:h-8 h-24" />
+            
+             
               <p className="mt-2 text-sm text-gray-600  max-md:text-justify">
                 Studyshala is India's largest online learning <br></br>{" "}
                 platform. Download our apps to start learning.
