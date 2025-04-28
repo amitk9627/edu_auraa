@@ -9,6 +9,7 @@ import Drawer from "react-modern-drawer";
 import { FaUserCircle } from "react-icons/fa";
 import "react-modern-drawer/dist/index.css";
 import { MdMenu } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -138,12 +139,12 @@ const HomeHeroSection = () => {
                 >
                   Login
                 </button>{" "}
-                <button
+                <Link href="/institute-inf0"
                   // onClick={() => handleOpen()}
                   className="bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
                 List Your Coaching
-                </button>
+                </Link>
               </p>
             </div>
           </nav>
