@@ -139,7 +139,7 @@ const HomeHeroSection = () => {
                 >
                   Login
                 </button>{" "}
-                <Link href="/institute-inf0"
+                <Link to="/institute-info"
                   // onClick={() => handleOpen()}
                   className="bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
