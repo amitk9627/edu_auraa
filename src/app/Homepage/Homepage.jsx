@@ -12,7 +12,6 @@ import Footer from "../../components/Footer/Footer";
 const Homepage = () => {
   return (
     <div className="bg-[#f5f5f5]">
-      <Navbar />
       <Banner />
       <Statistics />
       <Container>
@@ -27,7 +26,6 @@ const Homepage = () => {
       <Container>
         <SubscribeBanner />
       </Container>
-      <Footer />
     </div>
   );
 };

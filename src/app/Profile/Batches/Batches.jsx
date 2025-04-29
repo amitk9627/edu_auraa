@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import profileImg from "../../../assets/images/profile-dummy.svg";
 import { RiPencilLine } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdOutlineImage } from "react-icons/md";
-import Profile from "../Profile";
-const Batches = () => {
+import { Box, Typography, Modal } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  p: 4,
+};
+
+const Batches = ({setValue}) => {
+  const [addBatch, setAddBatch] = useState(false);
   const batchData = [
     {
       batchName: "UPSC",
@@ -77,19 +88,80 @@ const Batches = () => {
       seats: 32,
     },
   ];
+  // ------------------
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  return ( 
-    <div>
-      <Profile>
-        <div className="">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center text-[#000000] text-[20px] font-semibold">
-              Batch Management
-            </div>
-            <button className="font-medium text-[#FFFFFF] text-[14px] cursor-poiter bg-[#315EAB] rounded-[6px] px-4 py-2">
-              <span className="px-1 text-[16px]">+</span> Add Batch
-            </button>
+  return (
+    <>
+      <div className="">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center text-[#000000] text-[20px] font-semibold">
+            Batch Management
           </div>
+          <button
+            onClick={() => setAddBatch(!addBatch)}
+            className="font-medium text-[#FFFFFF] text-[14px] cursor-poiter bg-[#315EAB] rounded-[6px] px-4 py-2"
+          >
+            {!addBatch ? (
+              <>
+                <span className="px-1 text-[16px]">+</span> Add Batch
+              </>
+            ) : (
+              <ClearIcon />
+            )}
+          </button>
+        </div>
+        {addBatch ? (
+          <div>
+            <div className="flex flex-col gap-3">
+              <input
+                type="text"
+                placeholder="Batch Name (e.g., 'UPSC Evening Batch')"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="date"
+                placeholder="Start Date"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="date"
+                placeholder="End Date"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Days of Classes (checkboxes: Mon–Sun)"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="time"
+                placeholder="Time Slot (e.g., 6 PM – 8 PM)"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Seats Available"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Faculty Assigned (dropdown)"
+                className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <div className="w-[70%] flex gap-4">
+                <button className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[1px_solid_#5E5BFB]">
+                  Skip
+                </button>
+                <button className="cursor-pointer py-2 w-full flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB] ">
+                  Save & Proceed
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="overflow-x-auto overflow-y-auto  h-[400px] pt-3">
             <table className="min-w-full">
               <thead className="relative">
@@ -121,7 +193,7 @@ const Batches = () => {
                       {item.seats}
                     </td>
                     <td className="py-3 space-x-2 text-[24px] text-[#757575]">
-                      <button className="cursor-pointer">
+                      <button className="cursor-pointer" onClick={handleOpen}>
                         <RiPencilLine />
                       </button>
                       <button className="cursor-pointer">
@@ -132,18 +204,83 @@ const Batches = () => {
                 ))}
               </tbody>
             </table>
+            <div className="w-[70%] flex gap-4">
+              <button
+                onClick={() => setValue(2)}
+                className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[1px_solid_#5E5BFB]"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => setValue(4)}
+                className="cursor-pointer py-2 w-full flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB] "
+              >
+                Next
+              </button>
+            </div>
           </div>
-          <div className="flex gap-3 font-medium pt-5">
-            <button className="w-full px-3 py-3 border rounded-[6px] border-[#565E6D] text-[#565E6D] cursor-pointer">
-              Back
-            </button>
-            <button className="w-full px-3 py-3 rounded-[6px] text-[#FFFFFF] bg-[#565E6D] cursor-pointer">
-              Save & Proceed
-            </button>
+        )}
+      </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Batch
+          </Typography>
+          <div>
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                type="text"
+                placeholder="Batch Name (e.g., 'UPSC Evening Batch')"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="date"
+                placeholder="Start Date"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="date"
+                placeholder="End Date"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Days of Classes (checkboxes: Mon–Sun)"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="time"
+                placeholder="Time Slot (e.g., 6 PM – 8 PM)"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Seats Available"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <input
+                type="text"
+                placeholder="Faculty Assigned (dropdown)"
+                className=" px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
+              />
+              <div className=" flex gap-4">
+                <button className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[1px_solid_#5E5BFB]">
+                  cancel{" "}
+                </button>
+                <button className="cursor-pointer py-2 w-full flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB] ">
+                  update
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </Profile>
-    </div>
+        </Box>
+      </Modal>
+    </>
   );
 };
 

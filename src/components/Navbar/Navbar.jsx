@@ -19,7 +19,7 @@ const style = {
   // bgcolor: "background.paper",
   // boxShadow: 24,
 };
-const HomeHeroSection = () => {
+const Navbar = () => {
   const [loginState, setLoginState] = useState(false);
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({
@@ -246,4 +246,4 @@ const HomeHeroSection = () => {
   );
 };
 
-export default HomeHeroSection;
+export default Navbar;
