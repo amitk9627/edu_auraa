@@ -3,7 +3,7 @@
 * {
   font-family: "Inter";
 }
-
+@import "@fontsource/inter";
 @media (max-width: 767px) {
   .swiper-button-prev,
   .swiper-button-next {

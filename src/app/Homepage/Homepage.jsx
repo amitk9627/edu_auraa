@@ -9,6 +9,7 @@ import SubscribeBanner from "../../components/homeComponents/SubscribeBanner";
 import OfferCards from "../../components/homeComponents/OfferCards";
 import CoachingByLocation from "../../components/homeComponents/CoachingByLocation";
 import Footer from "../../components/Footer/Footer";
+import Gallery from "../../components/MainProfile/Gallery";
 const Homepage = () => {
   return (
     <div className="bg-[#f5f5f5]">
@@ -26,6 +27,11 @@ const Homepage = () => {
       <Container>
         <SubscribeBanner />
       </Container>
+<<<<<<< Updated upstream
+=======
+      <Footer />
+      <Gallery />
+>>>>>>> Stashed changes
     </div>
   );
 };
