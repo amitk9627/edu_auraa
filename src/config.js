@@ -1,0 +1,1 @@
+export const backendUrl="eduauraabackend.up.railway.app";

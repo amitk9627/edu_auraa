@@ -27,11 +27,6 @@ const Homepage = () => {
       <Container>
         <SubscribeBanner />
       </Container>
-<<<<<<< Updated upstream
-=======
-      <Footer />
-      <Gallery />
->>>>>>> Stashed changes
     </div>
   );
 };
