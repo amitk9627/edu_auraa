@@ -2,28 +2,42 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userExist: false,
-  studentDetails: {
-    studentId: "",
-    name: "",
-    contact: "",
-    email: "",
-  },
-  instituteDetails: {
-    instituteId: "",
-    name: "",
-    contact: "",
-    state: "",
-    city: "",
-    email: "",
-  },
-  userType: "student",
+  _id: "",
+  instituteId: "",
+  userID: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  contact: "",
+  gender: "",
+  userType: "STUDENT",
 };
 
 export const userSlice = createSlice({
   name: "User",
   initialState,
-  reducers: {},
+  reducers: {
+    addUserDetails: (state, action) => {
+      console.log(action.payload);
+    },
+    setUserExist: (state, action) => {
+      state.user = action.payload;
+    },
+    addUserInfo: (state, action) => {
+      let { info } = action.payload;
+      console.log("info", info);
+      state.userExist = true;
+      state.firstName = info.firstName;
+      state._id = info._id;
+      state.instituteId = info.instituteId;
+      state.userID = info.userId;
+      state.lastName = info.lastName;
+      state.email = info.email;
+      state.contact = info.email;
+      state.gender = info.gender;
+    },
+  },
 });
 
-export const { increment, decrement, incrementByAmount } = userSlice.actions;
+export const { setUserExist, addUserDetails, addUserInfo } = userSlice.actions;
 export default userSlice.reducer;

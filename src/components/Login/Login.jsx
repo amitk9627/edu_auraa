@@ -7,14 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginImage from "../../assets/images/LoginImage.svg"; //".././assets/loginImage.svg";
 // import GoogleImage from "../../assets/image/GoogleImage.png";
 import OtpInput from "react-otp-input";
-
-// import axiosInstance from "@/service/axiosInstance";
+import axios from "axios";
+import CountdownTimer from "./CountdownTimer";
+import { jwtDecode } from "jwt-decode";
 // import { decodeToken, validateEmail } from "@/utils/commonFunction";
 // import { showLoader, hideLoader } from "@/lib/features/slices/loaderSlice";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { baseUrl } from "@/baseUrl";
-// import PhoneInput from "react-phone-input-2";
-// import "react-phone-input-2/lib/style.css";
 // import { closeModal } from "@/lib/features/slices/loginModalSlice";
 import {
   FormControl,
@@ -24,11 +23,26 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import {
+  addUserDetails,
+  addUserInfo,
+  setUserExist,
+} from "../../lib/slices/user";
 
 const inputStyle = {
   "& .MuiOutlinedInput-root": {
     borderRadius: "10px", // Adjust the radius as needed
   },
+};
+const decodeToken = async (token) => {
+  try {
+    const decoded = await jwtDecode(token);
+    // console.log('decoded', decoded);
+    return decoded;
+  } catch (error) {
+    console.error("Invalid token", error);
+    return null;
+  }
 };
 const maskNumber = (number) => {
   if (!number) return null;
@@ -44,7 +58,7 @@ export const Login = ({ onCloseModal }) => {
     student: true,
     institute: false,
   });
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [isEnterPhoneNumber, setIsEnterPhoneNumber] = useState(false);
   const [contactCode, setContactCode] = useState("");
   // const state = useSelector((store) => store);
@@ -61,112 +75,95 @@ export const Login = ({ onCloseModal }) => {
   const [errNumber, setErrNumber] = useState(false);
   const [isInstituteLoginForm, setIsInstituteLoginForm] = useState(false);
 
-  const handlePhoneChange = (value, country) => {
-    // country code
-    setContactCode(country.dialCode);
-    // phone nunber of user
-    const numberOnly = value.startsWith(`${country.dialCode}`)
-      ? value.slice(country.dialCode.length).trim()
-      : value;
-    setRegisterPhoneNo(numberOnly);
-  };
-
   // verify Phone number -----------------------------
   const verifyPhoneNumber = () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-    });
-   
-      axios
-        .post(`/global/app/v1/user/loginViaSms`, {
-          contact: Number(phoneNo),
-        })
-        .then((response) => {
-          setUserFound(false);
-          if (response.data.userAssociated) {
-            setIsEnterPhoneNumber(true);
-            dispatch(hideLoader());
-          }
-        })
-        .catch((error) => {
-          setUserFound(true);
-          dispatch(hideLoader());
-          if (!error.response.data.userAssociated) {
-            setTimeout(() => {
-              setIsLoginForm(false);
-              setUserFound(false);
-            }, 1000);
-          }
-          // console.log(error.response.data.result);
-        });
-    
+    axios
+      .post(`http://localhost:5000/app/v1/users/loginViaEmail`, {
+        email: phoneNo,
+      })
+      .then((response) => {
+        setUserFound(false);
+        if (response.data.userAssociated) {
+          setIsEnterPhoneNumber(true);
+          // dispatch(hideLoader());
+        }
+      })
+      .catch((error) => {
+        setUserFound(true);
+        // dispatch(hideLoader());
+        if (!error.response.data.userAssociated) {
+          setTimeout(() => {
+            setIsLoginForm(false);
+            setUserFound(false);
+          }, 1000);
+        }
+        // console.log(error.response.data.result);
+      });
   };
   // user OTP verify ---------------------------------
   const verifyOTP = async () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-      otp: otp,
-    });
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // try {
-    //   const res = await axiosInstance.post(
-    //     "/global/app/v1/user/verifyOtpViaSms",
-    //     {
-    //       contact: Number(phoneNo),
-    //       otp: otp,
-    //     }
-    //   );
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/app/v1/users/verifyOtpViaEmail",
+        {
+          email: phoneNo,
+          otp: otp,
+        }
+      );
+      console.log(res);
 
-    //   if (res.data.auth) {
-    //     dispatch(hideLoader());
-    //     dispatch(setUserExist(true));
-    //     dispatch(
-    //       setTokens({
-    //         refreshToken: res.data.refreshToken,
-    //         accessToken: res.data.accessToken,
-    //       })
-    //     );
-    //     localStorage.setItem("refreshToken", res.data.refreshToken);
-    //     localStorage.setItem("accessToken", res.data.accessToken);
-    //     setWrongOTP(false);
-    //     const user = await decodeToken(res.data?.accessToken);
-    //     setCookie(null, "authToken", res.data?.accessToken, {
-    //       path: "/", // Allows cookie access for all paths
-    //       maxAge: user.exp,
-    //     });
+      // "auth": true,
 
-    //     const info = {
-    //       userName: user.username,
-    //       userProfile: user.profileImg ?? "",
-    //       number: user.contact,
-    //       email: user.emailID,
-    //       gender: user.gender ?? "",
-    //     };
+      if (res.data.auth) {
+        // dispatch(hideLoader());
+        let response = res.data.response;
+        console.log(response)
+        dispatch(setUserExist(true));
+        // dispatch(
+        //   setTokens({
+        //     refreshToken: res.data.refreshToken,
+        //     accessToken: res.data.accessToken,
+        //   })
+        // );
+        // localStorage.setItem("refreshToken", res.data.refreshToken);
+        // localStorage.setItem("accessToken", res.data.accessToken);
+        setWrongOTP(false);
+        // {
 
-    //     const userDetails = {
-    //       userId: user.userID,
-    //       userObjId: user.user_obj_id,
-    //       userType: user.role,
-    //     };
-    //     dispatch(addUserDetails({ userDetails: userDetails }));
-    //     dispatch(addUserInfo({ info: info }));
-    //     onCloseModal();
-    //   }
-    // } catch (err) {
-    //   setWrongOTP(true);
-    //   dispatch(hideLoader());
-    //   console.log(err);
-    // }
+        //     "_id": "6814062807ff1152d86d083f",
+        //     "instituteId": "",
+        //     "userID": "USIN1746142760604",
+        //     "firstName": "Amit Kumar",
+        //     "lastName": "",
+        //     "email": "akgzp56@gmail.com",
+        //     "contact": "7860519627",
+        //     "gender": "UNKNOWN",
+        //     "userType": "STUDENT",
+        //     "createdAt": "2025-05-01T23:39:20.624Z",
+        //     "updatedAt": "2025-05-02T01:20:33.932Z",
+        //     "__v": 0
+        // }
+
+        const info = {
+          firstName: response.firstName,
+          lastName: response.LastName,
+          userProfile: response.profileImg ?? "",
+          number: response.contact,
+          email: response.email,
+          gender: response.gender ?? "",
+          userId: response.userID,
+          _id: response._id,
+          instituteId: response.instituteId,
+        };
+      
+        dispatch(addUserInfo({ info: info }));
+        onCloseModal();
+      }
+    } catch (err) {
+      setWrongOTP(true);
+      // dispatch(hideLoader());
+      console.log(err);
+    }
   };
   // ------------------------------ Resend OTP function
   const resendOTP = () => {
@@ -204,13 +201,16 @@ export const Login = ({ onCloseModal }) => {
 
   // ---------------------------------- user Register
   const registerUser = async () => {
-    // let endPoint = "/global/app/v1/user/createUser";
+    console.log("register User");
+    let endPoint = "http://localhost:5000/app/v1/users/createUser";
     try {
       const res = await axios.post(endPoint, {
         firstName: name,
         contact: parseInt(registerPhoneNo),
-        emailID: emailId,
+        email: emailId,
+        userType: "STUDENT",
       });
+    setIsLoginForm(true);
       console.log("create USER", res.data);
     } catch (err) {
       console.log(err);
@@ -474,7 +474,7 @@ export const Login = ({ onCloseModal }) => {
                             ? "bg-blue-600 cursor-pointer"
                             : "bg-gray-200"
                         } py-3 px-2 rounded-lg text-xl text-white font-semibold`}
-                        // onClick={verifyOTP}
+                        onClick={verifyOTP}
                       >
                         Validate
                       </button>
@@ -513,17 +513,15 @@ export const Login = ({ onCloseModal }) => {
                       {/*  */}
                       <button
                         className={`w-full  ${
-                          phoneNo.length >= 5 && phoneNo.length <= 15
-                            ? "bg-blue-600"
+                          phoneNo.length >= 5
+                            ? "bg-blue-600 cursor-pointer"
                             : "bg-gray-400"
                         }
                          
                             text-white
                          py-3 px-2 rounded-lg text-xl font-semibold`}
-                        // onClick={verifyPhoneNumber}
-                        disabled={
-                          !(phoneNo.length >= 5 && phoneNo.length <= 15)
-                        }
+                        onClick={verifyPhoneNumber}
+                        disabled={!(phoneNo.length >= 5)}
                       >
                         Continue
                       </button>
@@ -559,51 +557,28 @@ export const Login = ({ onCloseModal }) => {
                 <TextField
                   name="number"
                   required={true}
-                  countryCodeEditable={false}
-                  country={"in"}
                   placeholder="Phone Number"
                   // onChange={(e) => setRegisterPhoneNo(e)}
-                  onChange={handlePhoneChange}
+                  onChange={(e) => setRegisterPhoneNo(e.target.value)}
                   inputStyle={{
                     height: "51px",
                     borderRadius: "12px",
                     width: "100%",
                   }}
                   buttonStyle={{ borderRadius: "12px 0 0 12px" }}
-                  containerClass="phone-input-custom"
                 />
                 {error && (
                   <p className="text-red-500 text-md">Already Exist User</p>
                 )}
+                {/* {  !(emailId && registerPhoneNo && name) && <>hello</>} */}
                 <div>
                   <button
                     className={`w-full py-3 px-2 rounded-lg text-xl ${
-                      (contactCode.includes("91") &&
-                        registerPhoneNo.length == 10 &&
-                        name.length > 0 &&
-                        validateEmail(emailId)) ||
-                      (!contactCode.includes("91") &&
-                        registerPhoneNo.length > 6 &&
-                        registerPhoneNo.length <= 15 &&
-                        name.length > 0 &&
-                        validateEmail(emailId))
-                        ? "bg-blue-600"
-                        : "bg-gray-400"
+                      emailId && registerPhoneNo && name
+                        ? "bg-blue-500 cursor-pointer"
+                        : "bg-gray-500"
                     } text-white font-semibold`}
-                    disabled={
-                      contactCode.includes("91")
-                        ? !(
-                            registerPhoneNo.length == 10 &&
-                            name.length > 0 &&
-                            validateEmail(emailId)
-                          )
-                        : !(
-                            registerPhoneNo.length > 6 &&
-                            registerPhoneNo.length <= 15 &&
-                            name.length > 0 &&
-                            validateEmail(emailId)
-                          )
-                    }
+                    disabled={!(emailId && registerPhoneNo && name)}
                     onClick={registerUser}
                   >
                     Register

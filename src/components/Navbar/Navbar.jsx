@@ -4,7 +4,7 @@ import Container from "../Container/Container";
 import { Login } from "../Login/Login";
 import LoginMobile from "../Login/LoginMobile";
 import { Modal, Box } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Drawer from "react-modern-drawer";
 import { FaUserCircle } from "react-icons/fa";
 import "react-modern-drawer/dist/index.css";
@@ -26,13 +26,14 @@ const Navbar = () => {
     width: 0,
     height: 0,
   });
+  const userDetails = useSelector((store) => store.User);
+  console.log(userDetails)
   const handleOpen = () => {
     setLoginState(true);
   };
   const handleClose = () => {
     setLoginState(false);
   };
-  const UserDetail = useSelector((store) => store.User);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
@@ -90,7 +91,7 @@ const Navbar = () => {
                 </a>
               </div>
               {/* <>
-                {UserDetail?.userExist == false ? (
+                {userDetails?.userExist == false ? (
                   <>
                     <div
                       className="flex gap-2 bg-white rounded-[12px] px-2 py-4"
@@ -114,7 +115,7 @@ const Navbar = () => {
                   <div className="flex gap-2 bg-white rounded-[12px] px-2 py-4">
                     <div className="flex justify-center items-center size-[56px]">
                       <span className="rounded-full p-2 h-8 w-8 bg-orange-600 flex items-center justify-center text-white font-semibold">
-                        {String(UserDetail.fields.name)[0]}
+                        {String(userDetails?.firstName)[0] ?? "NA"}
                       </span>
                     </div>
 
@@ -133,17 +134,28 @@ const Navbar = () => {
                 )}
               </> */}
               <p className="flex items-center gap-4">
-                <button
-                  onClick={() => handleOpen()}
-                  className="border border-[#55BFEB] leading-[16px] text-[#55BFEB] px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
-                >
-                  Login
-                </button>{" "}
-                <Link to="/institute-info"
+                {userDetails?.userExist==false ? (
+                  <button
+                    onClick={() => handleOpen()}
+                    className="border border-[#55BFEB] leading-[16px] text-[#55BFEB] px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
+                  >
+                    Login
+                  </button>
+                ) : (
+                  <>
+                    <div className="flex justify-center items-center size-[56px]">
+                      <span className="rounded-full p-2 h-8 w-8 bg-orange-600 flex items-center justify-center text-white font-semibold">
+                        {String(userDetails?.firstName)[0] ?? "NA"}
+                      </span>
+                    </div>
+                  </>
+                )}
+                <Link
+                  to="/institute-info"
                   // onClick={() => handleOpen()}
                   className="bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
-                List Your Coaching
+                  List Your Coaching
                 </Link>
               </p>
             </div>
@@ -182,7 +194,7 @@ const Navbar = () => {
       >
         <div className="flex flex-col gap-3 p-4 w-full h-full bg-[#EDEDF3] overflow-y-scroll">
           <>
-            {UserDetail?.userExist == false ? (
+            {userDetails?.userExist == false ? (
               <>
                 <div
                   className="flex gap-2 bg-white rounded-[12px] px-2 py-4"
@@ -214,7 +226,7 @@ const Navbar = () => {
             )}
           </>
 
-          {UserDetail?.userExist == true && (
+          {/* {UserDetail?.userExist == true && (
             <div
               className="flex items-center gap-2 bg-white rounded-[12px] px-2 py-4 cursor-pointer w-full"
               onClick={() => {
@@ -239,7 +251,7 @@ const Navbar = () => {
                 </span>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </Drawer>
     </>
