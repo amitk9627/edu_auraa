@@ -9,7 +9,6 @@ import LoginImage from "../../assets/images/LoginImage.svg"; //".././assets/logi
 import OtpInput from "react-otp-input";
 import axios from "axios";
 import CountdownTimer from "./CountdownTimer";
-import { jwtDecode } from "jwt-decode";
 // import { decodeToken, validateEmail } from "@/utils/commonFunction";
 // import { showLoader, hideLoader } from "@/lib/features/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,16 +32,6 @@ const inputStyle = {
   "& .MuiOutlinedInput-root": {
     borderRadius: "10px", // Adjust the radius as needed
   },
-};
-const decodeToken = async (token) => {
-  try {
-    const decoded = await jwtDecode(token);
-    // console.log('decoded', decoded);
-    return decoded;
-  } catch (error) {
-    console.error("Invalid token", error);
-    return null;
-  }
 };
 const maskNumber = (number) => {
   if (!number) return null;
