@@ -78,7 +78,7 @@ export const Login = ({ onCloseModal }) => {
   // verify Phone number -----------------------------
   const verifyPhoneNumber = () => {
     axios
-      .post(`http://localhost:5000/app/v1/users/loginViaEmail`, {
+      .post(`https://eduauraabackend.up.railway.app/app/v1/users/loginViaEmail`, {
         email: phoneNo,
       })
       .then((response) => {
@@ -104,7 +104,7 @@ export const Login = ({ onCloseModal }) => {
   const verifyOTP = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/app/v1/users/verifyOtpViaEmail",
+        "https://eduauraabackend.up.railway.app/app/v1/users/verifyOtpViaEmail",
         {
           email: phoneNo,
           otp: otp,
@@ -202,7 +202,7 @@ export const Login = ({ onCloseModal }) => {
   // ---------------------------------- user Register
   const registerUser = async () => {
     console.log("register User");
-    let endPoint = "http://localhost:5000/app/v1/users/createUser";
+    let endPoint = "https://eduauraabackend.up.railway.app/app/v1/users/createUser";
     try {
       const res = await axios.post(endPoint, {
         firstName: name,
