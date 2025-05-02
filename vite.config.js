@@ -6,3 +6,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 })
+
+export default {
+  build: {
+    rollupOptions: {
+      external: ['redux-persist/integration/react'],
+    },
+  },
+};
