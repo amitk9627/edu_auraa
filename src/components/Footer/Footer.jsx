@@ -13,10 +13,8 @@ const Footer = () => {
             <div>
               
               <img src={logo} className="max-md:h-8 h-24" />
-            
-             
               <p className="mt-2 text-sm text-gray-600  max-md:text-justify">
-                Eduauraa is India's largest online learning <br></br>{" "}
+                Eduauraa Coaching is India's largest online learning <br></br>{" "}
                 platform. Download our apps to start learning.
               </p>
             </div>

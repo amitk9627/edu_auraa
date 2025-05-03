@@ -25,3 +25,6 @@
 .swiper-pagination-bullet-active {
   background-color: #ff0000;
 }
+.swiper-button-prev:after, .swiper-button-next:after{
+  font-size: 20px !important;
+}

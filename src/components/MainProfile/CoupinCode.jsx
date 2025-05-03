@@ -10,7 +10,7 @@ const CoupinCode = () => {
             placeholder="Enter your code"
             className="flex-1 border border-gray-300 rounded px-3 py-1.5 text-sm"
           />
-          <button className="bg-gray-700 text-white px-3 py-1.5 rounded text-sm">
+          <button className="bg-[#737373] text-white px-3 py-1.5 rounded text-sm">
             Apply Code
           </button>
         </div>

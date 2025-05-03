@@ -59,7 +59,7 @@ const BatchesOffered = () => {
     },
   ];
   return (
-    <div className="bg-[#f9f9f9] p-4 rounded shadow text-sm text-gray-800">
+    <div className="bg-[#f9f9f9] p-4 rounded  text-sm text-gray-800">
       <h2 className="font-semibold text-[24px] text-[#565E6D] mb-4">
         Batches Offered
       </h2>
@@ -69,17 +69,17 @@ const BatchesOffered = () => {
             key={batch.id}
             className={`relative border rounded bg-[#f9f9f9] p-4 ${
               selected === batch.id
-                ? "border-[#E4E4E4] shadow-2xl bg-[#f9f9f9]"
+                ? "border-[#E4E4E4] bg-[#f9f9f9]"
                 : "border-gray-200 bg-[#f9f9f9]"
             }`}
           >
             {batch.tag && (
-              <div className="absolute top-0 right-0 bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-bl">
+              <div className="absolute w-[100%] top-0 right-0 bg-gradient-to-r from-[#565E6D] to-[#A6B6D3] text-[#fff] text-center text-[14px] font-semibold px-2 py-0.5 rounded-bl">
                 {batch.tag}
               </div>
             )}
 
-            <div className="flex justify-between mb-1">
+            <div className="flex justify-between mb-1 mt-[20px]">
               <p className="font-semibold text-[24px] text-[#565E6D]">
                 {batch.title} {""} – {batch.duration}
               </p>

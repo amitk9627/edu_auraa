@@ -14,8 +14,8 @@ const ReferEarn = () => {
             value="https://eduauraa.com/invite/ABC123"
             className="flex-1 border border-gray-300 rounded px-3 py-1.5 text-sm text-gray-700 bg-gray-100"
           />
-          <button className="bg-gray-700 text-white px-3 py-1.5 rounded text-sm flex items-center gap-1">
-            <img src='' className="w-4 h-4" /> Copy Link
+          <button className="bg-[#737373] text-white px-3 py-1.5 rounded text-sm flex items-center gap-1">
+            Copy Link
           </button>
         </div>
         <p className="text-[11px] text-gray-500">

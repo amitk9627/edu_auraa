@@ -4,9 +4,9 @@ import share from "../../assets/MainProfileImages/share.png";
 
 const AcademyDetails = () => {
   return (
-    <div className="flex justify-between items-start mt-[30px]">
+    <div className="flex justify-between items-start mt-[30px] md:px-0 px-[16px]">
       <div>
-        <h1 className="text-2xl font-bold text-gray-700">
+        <h1 className="text-[14px] md:text-2xlfont-bold text-gray-700">
           Chanakya IAS Academy – UPSC
         </h1>
         <p>Tagline</p>

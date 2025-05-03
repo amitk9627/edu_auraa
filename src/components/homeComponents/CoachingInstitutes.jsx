@@ -2,7 +2,9 @@ import React from "react";
 import Container from "../Container/Container";
 import Star from "../../assets/images/star.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import CoachingInstituteimg1 from "../../assets/images/CoachingInstituteimg1.svg"
+import CoachingInstituteimg2 from "../../assets/images/CoachingInstituteimg2.svg"
+import CoachingInstituteimg3 from "../../assets/images/CoachingInstituteimg3.svg"
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,8 +17,7 @@ const institutes = [
     title: "Ednite Institute For Success",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__", // Replace with your image path
+    image: CoachingInstituteimg1,
     tags: [
       "JEE ADVANCE",
       "NEET",
@@ -30,8 +31,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg2,
     tags: [
       "IELTS",
       "STUDY VISA",
@@ -44,8 +44,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg3,
     tags: [
       "IELTS",
       "STUDY VISA",
@@ -58,8 +57,7 @@ const institutes = [
     title: "Ednite Institute For Success",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__", // Replace with your image path
+    image: CoachingInstituteimg1,
     tags: [
       "FOUNDATION COURSE",
       "NEET",
@@ -73,8 +71,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg2,
     tags: [
       "IELTS",
       "STUDY VISA",
@@ -87,8 +84,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg3,
     tags: [
       "IELTS",
       "STUDY VISA",
@@ -101,8 +97,7 @@ const institutes = [
     title: "Ednite Institute For Success",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__", // Replace with your image path
+    image: CoachingInstituteimg1,
     tags: [
       "FOUNDATION COURSE",
       "NEET",
@@ -116,8 +111,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg2,
     tags: [
       "IELTS",
       "STUDY VISA",
@@ -130,8 +124,7 @@ const institutes = [
     title: "Spearhead IELTS",
     rating: 4.9,
     reviews: 410,
-    image:
-      "https://s3-alpha-sig.figma.com/img/653d/dd7a/217c475954b42f3a52bb7f3962256495?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uEU634UyE4FZCrIjknHMyD7GHmguhnp2kyda6j8pWeLNXQbk2BWreWNZNCy8x9j-JJe~3vKZebxF71~l6tHNyqLoXiqXRBlj83qMAWhgAGHA-FpHEZQ4wdpPb09Pt99hjdyzHM0-tcsTvxxoTNfQdrZdpqjEP8-OCQlF1rSJ7ZRuRNmqmsbSUIgqARYGcx18u1gOa1eucNXN7Nmcq~Fpcf6kYdzjyr6cbmLFbg8oZ92WnwJAz~R9jGholaWHvlm7N0NniXeoYScf1JyLpe5rRyjZUqinp-z4Gmag~OQ9TE6RtT7FC7sYkygdpiw0zX~OsHZ57SoqJCFYP1-M3JHSzw__",
+    image: CoachingInstituteimg3,
     tags: [
       "IELTS",
       "STUDY VISA",

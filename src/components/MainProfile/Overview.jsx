@@ -9,12 +9,11 @@ import ReferEarn from "./ReferEarn";
 import BatchesOffered from "./BatchesOffered";
 import WhyChooseUs from "./WhyChooseUs";
 import MentorsSection from "./MentorsSection";
-import ContactForm from "../MainProfile/ContactForm";
 
 const Overview = () => {
   return (
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-[16px] md:px-0">
         <div className="md:col-span-2 space-y-10">
           <section>
             <h2 className="text-[24px] font-bold mb-4 text-[#565E6D]">
@@ -45,7 +44,6 @@ const Overview = () => {
         <div className="space-y-4 text-sm text-gray-800">
           <BookDemo />
           <CoupinCode />
-          <ContactForm />
           <ReferEarn />
         </div>
       </div>
