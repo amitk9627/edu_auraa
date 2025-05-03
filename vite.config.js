@@ -10,5 +10,8 @@ export default defineConfig({
       external: ['redux-persist/integration/react'],
     },
   },
+  optimizeDeps: {
+    include: ['redux-persist/integration/react']
+  }
 })
 
