@@ -104,7 +104,7 @@ export const Login = ({ onCloseModal }) => {
       const res = await axios.post(
         `${backendUrl}/app/v1/users/verifyOtpViaEmail`,
         {
-          userCred: isNaN(userCred)? userCred:Number(userCred),
+          userCred: isNaN(userCred) ? userCred : Number(userCred),
           otp: otp,
         }
       );
@@ -115,6 +115,7 @@ export const Login = ({ onCloseModal }) => {
       if (res.data.auth) {
         // dispatch(hideLoader());
         let response = res.data.response;
+        console.log(response);
         console.log(response);
         dispatch(setUserExist(true));
         // dispatch(
@@ -173,6 +174,8 @@ export const Login = ({ onCloseModal }) => {
         email: emailId,
         userType: "STUDENT",
       });
+      setUserCred(emailId);
+      setIsLoginForm(true);
       setUserCred(emailId);
       setIsLoginForm(true);
       console.log("create USER", res.data);
@@ -410,7 +413,9 @@ export const Login = ({ onCloseModal }) => {
                           <b>
                             {isNaN(userCred)
                               ? `${userCred} email`
-                              : `registered email associated with +91 ${maskNumber(userCred)} `}
+                              : `registered email associated with +91 ${maskNumber(
+                                  userCred
+                                )} `}
                           </b>{" "}
                           )
                         </p>
@@ -471,7 +476,7 @@ export const Login = ({ onCloseModal }) => {
                       <FormControl fullWidth>
                         <TextField
                           type="email"
-                          placeholder="Enter Your Email"
+                          placeholder="Enter Your Email/Phone Number"
                           sx={inputStyle}
                           value={userCred}
                           onChange={(e) => setUserCred(e.target.value)}
@@ -611,6 +616,7 @@ export const Login = ({ onCloseModal }) => {
                             <p>
                               (OTP has been sent to +91{" "}
                               {maskNumber(userCred) ?? "NA"} and registered
+                              {maskNumber(userCred) ?? "NA"} and registered
                               email)
                             </p>
                             <p className="mt-2">
@@ -675,6 +681,8 @@ export const Login = ({ onCloseModal }) => {
                               sx={inputStyle}
                               value={userCred}
                               onChange={(e) => setUserCred(e.target.value)}
+                              value={userCred}
+                              onChange={(e) => setUserCred(e.target.value)}
                             />
                           </FormControl>
                           {userFound && (
@@ -687,6 +695,7 @@ export const Login = ({ onCloseModal }) => {
                           <button
                             className={`w-full  ${
                               userCred.length >= 5 && userCred.length <= 15
+                              userCred.length >= 5 && userCred.length <= 15
                                 ? "bg-blue-600"
                                 : "bg-gray-400"
                             }
@@ -695,6 +704,7 @@ export const Login = ({ onCloseModal }) => {
                          py-3 px-2 rounded-lg text-xl font-semibold`}
                             // onClick={verifyPhoneNumber}
                             disabled={
+                              !(userCred.length >= 5 && userCred.length <= 15)
                               !(userCred.length >= 5 && userCred.length <= 15)
                             }
                           >
@@ -853,147 +863,147 @@ export const Login = ({ onCloseModal }) => {
 //     setRegisterPhoneNo(numberOnly);
 //   };
 
-//   // verify Phone number -----------------------------
-//   const verifyPhoneNumber = () => {
-//     let data = JSON.stringify({
-//       contact: Number(userCred),
-//     });
-//     // if (userCred.length > 0) {
-//     //   let config = {
-//     //     method: "post",
-//     //     maxBodyLength: Infinity,
-//     //     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
-//     //     headers: {
-//     //       "Content-Type": "application/json",
-//     //       Authorization: "Basic aGFyc2g6MTIz",
-//     //     },
-//     //     data: data,
-//     //   };
-//     //   dispatch(showLoader());
-//     //   axiosInstance
-//     //     .post(`/global/app/v1/user/loginViaSms`, {
-//     //       contact: Number(userCred),
-//     //     })
-//     //     .then((response) => {
-//     //       setUserFound(false);
-//     //       if (response.data.userAssociated) {
-//     //         setIsEnterPhoneNumber(true);
-//     //         dispatch(hideLoader());
-//     //       }
-//     //     })
-//     //     .catch((error) => {
-//     //       setUserFound(true);
-//     //       dispatch(hideLoader());
-//     //       if (!error.response.data.userAssociated) {
-//     //         setTimeout(() => {
-//     //           setIsLoginForm(false);
-//     //           setUserFound(false);
-//     //         }, 1000);
-//     //       }
-//     //       // console.log(error.response.data.result);
-//     //     });
-//     // }
-//   };
-//   // user OTP verify ---------------------------------
-//   const verifyOTP = async () => {
-//     let data = JSON.stringify({
-//       contact: Number(userCred),
-//       otp: otp,
-//     });
-//     // let config = {
-//     //   method: "post",
-//     //   maxBodyLength: Infinity,
-//     //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
-//     //   headers: {
-//     //     "Content-Type": "application/json",
-//     //     Authorization: "Basic aGFyc2g6MTIz",
-//     //   },
-//     //   data: data,
-//     // };
-//     // dispatch(showLoader());
-//     // try {
-//     //   const res = await axiosInstance.post(
-//     //     "/global/app/v1/user/verifyOtpViaSms",
-//     //     {
-//     //       contact: Number(userCred),
-//     //       otp: otp,
-//     //     }
-//     //   );
+// verify Phone number -----------------------------
+const verifyPhoneNumber = () => {
+  let data = JSON.stringify({
+    contact: Number(phoneNo),
+  });
+  // if (phoneNo.length > 0) {
+  //   let config = {
+  //     method: "post",
+  //     maxBodyLength: Infinity,
+  //     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic aGFyc2g6MTIz",
+  //     },
+  //     data: data,
+  //   };
+  //   dispatch(showLoader());
+  //   axiosInstance
+  //     .post(`/global/app/v1/user/loginViaSms`, {
+  //       contact: Number(phoneNo),
+  //     })
+  //     .then((response) => {
+  //       setUserFound(false);
+  //       if (response.data.userAssociated) {
+  //         setIsEnterPhoneNumber(true);
+  //         dispatch(hideLoader());
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setUserFound(true);
+  //       dispatch(hideLoader());
+  //       if (!error.response.data.userAssociated) {
+  //         setTimeout(() => {
+  //           setIsLoginForm(false);
+  //           setUserFound(false);
+  //         }, 1000);
+  //       }
+  //       // console.log(error.response.data.result);
+  //     });
+  // }
+};
+// user OTP verify ---------------------------------
+const verifyOTP = async () => {
+  let data = JSON.stringify({
+    contact: Number(phoneNo),
+    otp: otp,
+  });
+  // let config = {
+  //   method: "post",
+  //   maxBodyLength: Infinity,
+  //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: "Basic aGFyc2g6MTIz",
+  //   },
+  //   data: data,
+  // };
+  // dispatch(showLoader());
+  // try {
+  //   const res = await axiosInstance.post(
+  //     "/global/app/v1/user/verifyOtpViaSms",
+  //     {
+  //       contact: Number(phoneNo),
+  //       otp: otp,
+  //     }
+  //   );
 
-//     //   if (res.data.auth) {
-//     //     dispatch(hideLoader());
-//     //     dispatch(setUserExist(true));
-//     //     dispatch(
-//     //       setTokens({
-//     //         refreshToken: res.data.refreshToken,
-//     //         accessToken: res.data.accessToken,
-//     //       })
-//     //     );
-//     //     localStorage.setItem("refreshToken", res.data.refreshToken);
-//     //     localStorage.setItem("accessToken", res.data.accessToken);
-//     //     setWrongOTP(false);
-//     //     const user = await decodeToken(res.data?.accessToken);
-//     //     setCookie(null, "authToken", res.data?.accessToken, {
-//     //       path: "/", // Allows cookie access for all paths
-//     //       maxAge: user.exp,
-//     //     });
+  //   if (res.data.auth) {
+  //     dispatch(hideLoader());
+  //     dispatch(setUserExist(true));
+  //     dispatch(
+  //       setTokens({
+  //         refreshToken: res.data.refreshToken,
+  //         accessToken: res.data.accessToken,
+  //       })
+  //     );
+  //     localStorage.setItem("refreshToken", res.data.refreshToken);
+  //     localStorage.setItem("accessToken", res.data.accessToken);
+  //     setWrongOTP(false);
+  //     const user = await decodeToken(res.data?.accessToken);
+  //     setCookie(null, "authToken", res.data?.accessToken, {
+  //       path: "/", // Allows cookie access for all paths
+  //       maxAge: user.exp,
+  //     });
 
-//     //     const info = {
-//     //       userName: user.username,
-//     //       userProfile: user.profileImg ?? "",
-//     //       number: user.contact,
-//     //       email: user.emailID,
-//     //       gender: user.gender ?? "",
-//     //     };
+  //     const info = {
+  //       userName: user.username,
+  //       userProfile: user.profileImg ?? "",
+  //       number: user.contact,
+  //       email: user.emailID,
+  //       gender: user.gender ?? "",
+  //     };
 
-//     //     const userDetails = {
-//     //       userId: user.userID,
-//     //       userObjId: user.user_obj_id,
-//     //       userType: user.role,
-//     //     };
-//     //     dispatch(addUserDetails({ userDetails: userDetails }));
-//     //     dispatch(addUserInfo({ info: info }));
-//     //     onCloseModal();
-//     //   }
-//     // } catch (err) {
-//     //   setWrongOTP(true);
-//     //   dispatch(hideLoader());
-//     //   console.log(err);
-//     // }
-//   };
-//   // ------------------------------ Resend OTP function
-//   const resendOTP = () => {
-//     setTimeRemaining(30);
-//     let data = JSON.stringify({
-//       contact: Number(userCred),
-//     });
+  //     const userDetails = {
+  //       userId: user.userID,
+  //       userObjId: user.user_obj_id,
+  //       userType: user.role,
+  //     };
+  //     dispatch(addUserDetails({ userDetails: userDetails }));
+  //     dispatch(addUserInfo({ info: info }));
+  //     onCloseModal();
+  //   }
+  // } catch (err) {
+  //   setWrongOTP(true);
+  //   dispatch(hideLoader());
+  //   console.log(err);
+  // }
+};
+// ------------------------------ Resend OTP function
+const resendOTP = () => {
+  setTimeRemaining(30);
+  let data = JSON.stringify({
+    contact: Number(phoneNo),
+  });
 
-//     // let config = {
-//     //   method: "post",
-//     //   maxBodyLength: Infinity,
-//     //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
-//     //   headers: {
-//     //     "Content-Type": "application/json",
-//     //     Authorization: "Basic aGFyc2g6MTIz",
-//     //   },
-//     //   data: data,
-//     // };
-//     // dispatch(showLoader());
-//     // axiosInstance
-//     //   .post("/global/app/v1/user/resendOtpViaSms", {
-//     //     contact: Number(userCred),
-//     //   })
-//     //   .then((response) => {
-//     //     // console.log(response.data);
-//     //     setWrongOTP(false);
-//     //     dispatch(hideLoader());
-//     //     setIsTimeUp(false);
-//     //   })
-//     //   .catch((error) => {
-//     //     console.log(error);
-//     //     dispatch(hideLoader());
-//     //   });
-//   };
+  // let config = {
+  //   method: "post",
+  //   maxBodyLength: Infinity,
+  //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: "Basic aGFyc2g6MTIz",
+  //   },
+  //   data: data,
+  // };
+  // dispatch(showLoader());
+  // axiosInstance
+  //   .post("/global/app/v1/user/resendOtpViaSms", {
+  //     contact: Number(phoneNo),
+  //   })
+  //   .then((response) => {
+  //     // console.log(response.data);
+  //     setWrongOTP(false);
+  //     dispatch(hideLoader());
+  //     setIsTimeUp(false);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     dispatch(hideLoader());
+  //   });
+};
 
 //   // ---------------------------------- user Register
 //   const registerUser = async () => {
