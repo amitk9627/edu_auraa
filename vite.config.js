@@ -15,6 +15,7 @@ export default defineConfig({
   },
   resolve: {
     preserveSymlinks: true, // Helps with module resolution
-  }
+  },
+  dedupe: ['redux-persist'], // prevent duplication if multiple versions are being bundled
 })
 
