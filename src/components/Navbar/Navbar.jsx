@@ -80,12 +80,12 @@ const Navbar = () => {
                 <a href="#" className="hover:text-indigo-600">
                   Institutes
                 </a>
-                <a href="#" className="hover:text-indigo-600">
+                {/* <a href="#" className="hover:text-indigo-600">
                   About Us
-                </a>
-                <a href="#" className="hover:text-indigo-600">
+                </a> */}
+                {/* <a href="#" className="hover:text-indigo-600">
                   Blogs
-                </a>
+                </a> */}
                 <a href="#" className="hover:text-indigo-600">
                   Contact
                 </a>
@@ -144,7 +144,7 @@ const Navbar = () => {
                 ) : (
                   <>
                     <div className="flex justify-center items-center size-[56px]">
-                      <span className="rounded-full p-2 h-8 w-8 bg-orange-600 flex items-center justify-center text-white font-semibold">
+                      <span className="rounded-full p-2 h-12 w-12 bg-[#55BFEB] text-lg flex items-center justify-center text-white font-semibold">
                         {String(userDetails?.firstName)[0] ?? "NA"}
                       </span>
                     </div>

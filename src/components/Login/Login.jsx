@@ -12,7 +12,7 @@ import CountdownTimer from "./CountdownTimer";
 // import { decodeToken, validateEmail } from "@/utils/commonFunction";
 // import { showLoader, hideLoader } from "@/lib/features/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-// import { baseUrl } from "@/baseUrl";
+import { backendUrl } from "../../config";
 // import { closeModal } from "@/lib/features/slices/loginModalSlice";
 import {
   FormControl,
@@ -27,6 +27,7 @@ import {
   addUserInfo,
   setUserExist,
 } from "../../lib/slices/user";
+import { isValidEmail } from "../../utils/helper";
 
 const inputStyle = {
   "& .MuiOutlinedInput-root": {
@@ -41,7 +42,7 @@ const maskNumber = (number) => {
 };
 export const Login = ({ onCloseModal }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
-  const [phoneNo, setPhoneNo] = useState("");
+  const [userCred, setUserCred] = useState("");
   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
   const [formType, setFormType] = useState({
     student: true,
@@ -66,9 +67,17 @@ export const Login = ({ onCloseModal }) => {
 
   // verify Phone number -----------------------------
   const verifyPhoneNumber = () => {
+    let data = {};
+    if (isNaN(userCred) && isValidEmail(userCred)) {
+      data.userCred = userCred;
+    } else if (!isNaN(userCred)) {
+      data.userCred = Number(userCred);
+    } else {
+      return;
+    }
     axios
-      .post(`https://eduauraabackend.up.railway.app/app/v1/users/loginViaEmail`, {
-        email: phoneNo,
+      .post(`${backendUrl}/app/v1/users/loginViaEmail`, {
+        userCred: data.userCred,
       })
       .then((response) => {
         setUserFound(false);
@@ -93,9 +102,9 @@ export const Login = ({ onCloseModal }) => {
   const verifyOTP = async () => {
     try {
       const res = await axios.post(
-        "https://eduauraabackend.up.railway.app/app/v1/users/verifyOtpViaEmail",
+        `${backendUrl}/app/v1/users/verifyOtpViaEmail`,
         {
-          email: phoneNo,
+          userCred: isNaN(userCred)? userCred:Number(userCred),
           otp: otp,
         }
       );
@@ -106,7 +115,7 @@ export const Login = ({ onCloseModal }) => {
       if (res.data.auth) {
         // dispatch(hideLoader());
         let response = res.data.response;
-        console.log(response)
+        console.log(response);
         dispatch(setUserExist(true));
         // dispatch(
         //   setTokens({
@@ -118,7 +127,6 @@ export const Login = ({ onCloseModal }) => {
         // localStorage.setItem("accessToken", res.data.accessToken);
         setWrongOTP(false);
         // {
-
         //     "_id": "6814062807ff1152d86d083f",
         //     "instituteId": "",
         //     "userID": "USIN1746142760604",
@@ -144,7 +152,7 @@ export const Login = ({ onCloseModal }) => {
           _id: response._id,
           instituteId: response.instituteId,
         };
-      
+
         dispatch(addUserInfo({ info: info }));
         onCloseModal();
       }
@@ -154,44 +162,10 @@ export const Login = ({ onCloseModal }) => {
       console.log(err);
     }
   };
-  // ------------------------------ Resend OTP function
-  const resendOTP = () => {
-    setTimeRemaining(30);
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-    });
-
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // axiosInstance
-    //   .post("/global/app/v1/user/resendOtpViaSms", {
-    //     contact: Number(phoneNo),
-    //   })
-    //   .then((response) => {
-    //     // console.log(response.data);
-    //     setWrongOTP(false);
-    //     dispatch(hideLoader());
-    //     setIsTimeUp(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     dispatch(hideLoader());
-    //   });
-  };
 
   // ---------------------------------- user Register
   const registerUser = async () => {
-    console.log("register User");
-    let endPoint = "https://eduauraabackend.up.railway.app/app/v1/users/createUser";
+    let endPoint = `${backendUrl}/app/v1/users/createUser`;
     try {
       const res = await axios.post(endPoint, {
         firstName: name,
@@ -199,7 +173,8 @@ export const Login = ({ onCloseModal }) => {
         email: emailId,
         userType: "STUDENT",
       });
-    setIsLoginForm(true);
+      setUserCred(emailId);
+      setIsLoginForm(true);
       console.log("create USER", res.data);
     } catch (err) {
       console.log(err);
@@ -425,15 +400,25 @@ export const Login = ({ onCloseModal }) => {
                       </div>
 
                       <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
+                        {/* <p>
+                          (OTP has been sent to {" "}
+                          {maskNumber(userCred) ?? "NA"}
+                           and registered email)
+                        </p> */}
                         <p>
-                          (OTP has been sent to +91{" "}
-                          {maskNumber(phoneNo) ?? "NA"} and registered email)
+                          (OTP has been sent to{" "}
+                          <b>
+                            {isNaN(userCred)
+                              ? `${userCred} email`
+                              : `+91 ${maskNumber(userCred)}`}
+                          </b>{" "}
+                          registered email)
                         </p>
                         <p className="mt-2">
                           <>
                             Didn&apos;t received OTP?{" "}
                             <button
-                              // onClick={() => resendOTP()}
+                              onClick={() => verifyPhoneNumber()}
                               className=" hover:underline font-semibold text-[#7878FF]"
                               disabled={timeRemaining != 0}
                             >
@@ -480,16 +465,16 @@ export const Login = ({ onCloseModal }) => {
                         htmlFor="Phonenumber"
                         className="block text-lg mb-2"
                       >
-                        Email/Phone Number
+                        Enter Your Email
                       </label>
 
                       <FormControl fullWidth>
                         <TextField
-                          type="text"
-                          placeholder="Enter Your Number"
+                          type="email"
+                          placeholder="Enter Your Email"
                           sx={inputStyle}
-                          value={phoneNo}
-                          onChange={(e) => setPhoneNo(e.target.value)}
+                          value={userCred}
+                          onChange={(e) => setUserCred(e.target.value)}
                         />
                       </FormControl>
                       {userFound && (
@@ -502,7 +487,7 @@ export const Login = ({ onCloseModal }) => {
                       {/*  */}
                       <button
                         className={`w-full  ${
-                          phoneNo.length >= 5
+                          userCred.length >= 5
                             ? "bg-blue-600 cursor-pointer"
                             : "bg-gray-400"
                         }
@@ -510,7 +495,7 @@ export const Login = ({ onCloseModal }) => {
                             text-white
                          py-3 px-2 rounded-lg text-xl font-semibold`}
                         onClick={verifyPhoneNumber}
-                        disabled={!(phoneNo.length >= 5)}
+                        disabled={!(userCred.length >= 5)}
                       >
                         Continue
                       </button>
@@ -625,7 +610,7 @@ export const Login = ({ onCloseModal }) => {
                           <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
                             <p>
                               (OTP has been sent to +91{" "}
-                              {maskNumber(phoneNo) ?? "NA"} and registered
+                              {maskNumber(userCred) ?? "NA"} and registered
                               email)
                             </p>
                             <p className="mt-2">
@@ -688,8 +673,8 @@ export const Login = ({ onCloseModal }) => {
                               type="text"
                               placeholder="Enter Your Number"
                               sx={inputStyle}
-                              value={phoneNo}
-                              onChange={(e) => setPhoneNo(e.target.value)}
+                              value={userCred}
+                              onChange={(e) => setUserCred(e.target.value)}
                             />
                           </FormControl>
                           {userFound && (
@@ -701,7 +686,7 @@ export const Login = ({ onCloseModal }) => {
                         <div>
                           <button
                             className={`w-full  ${
-                              phoneNo.length >= 5 && phoneNo.length <= 15
+                              userCred.length >= 5 && userCred.length <= 15
                                 ? "bg-blue-600"
                                 : "bg-gray-400"
                             }
@@ -710,7 +695,7 @@ export const Login = ({ onCloseModal }) => {
                          py-3 px-2 rounded-lg text-xl font-semibold`}
                             // onClick={verifyPhoneNumber}
                             disabled={
-                              !(phoneNo.length >= 5 && phoneNo.length <= 15)
+                              !(userCred.length >= 5 && userCred.length <= 15)
                             }
                           >
                             Continue
@@ -833,485 +818,485 @@ export const Login = ({ onCloseModal }) => {
   );
 };
 
-const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
-  const navigate = useNavigate();
-  const [phoneNo, setPhoneNo] = useState("");
-  const [registerPhoneNo, setRegisterPhoneNo] = useState("");
-  const [formType, setFormType] = useState({
-    student: true,
-    institute: false,
-  });
-  // const dispatch = useDispatch();
-  const [isEnterPhoneNumber, setIsEnterPhoneNumber] = useState(false);
-  const [contactCode, setContactCode] = useState("");
-  // const state = useSelector((store) => store);
-  const [otp, setOtp] = useState("");
-  const [timeLeft, setTimeLeft] = useState(30); // 1 minute countdown (60 seconds)
-  const [isTimeUp, setIsTimeUp] = useState(false);
-  const [userFound, setUserFound] = useState(false);
-  const [wrongOTP, setWrongOTP] = useState(false);
-  const [name, setName] = useState("");
-  const [emailId, setEmailId] = useState("");
-  const [gender, setGender] = useState("MALE");
-  const [error, setError] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(30);
-  const [errEmail, setErrEmail] = useState(false);
-  const [errNumber, setErrNumber] = useState(false);
+// const InstituteLogin = ({ isInstituteLoginForm, setIsInstituteLoginForm }) => {
+//   const navigate = useNavigate();
+//   const [userCred, setUserCred] = useState("");
+//   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
+//   const [formType, setFormType] = useState({
+//     student: true,
+//     institute: false,
+//   });
+//   // const dispatch = useDispatch();
+//   const [isEnterPhoneNumber, setIsEnterPhoneNumber] = useState(false);
+//   const [contactCode, setContactCode] = useState("");
+//   // const state = useSelector((store) => store);
+//   const [otp, setOtp] = useState("");
+//   const [timeLeft, setTimeLeft] = useState(30); // 1 minute countdown (60 seconds)
+//   const [isTimeUp, setIsTimeUp] = useState(false);
+//   const [userFound, setUserFound] = useState(false);
+//   const [wrongOTP, setWrongOTP] = useState(false);
+//   const [name, setName] = useState("");
+//   const [emailId, setEmailId] = useState("");
+//   const [gender, setGender] = useState("MALE");
+//   const [error, setError] = useState(false);
+//   const [timeRemaining, setTimeRemaining] = useState(30);
+//   const [errEmail, setErrEmail] = useState(false);
+//   const [errNumber, setErrNumber] = useState(false);
 
-  const handlePhoneChange = (value, country) => {
-    // country code
-    setContactCode(country.dialCode);
-    // phone nunber of user
-    const numberOnly = value.startsWith(`${country.dialCode}`)
-      ? value.slice(country.dialCode.length).trim()
-      : value;
-    setRegisterPhoneNo(numberOnly);
-  };
+//   const handlePhoneChange = (value, country) => {
+//     // country code
+//     setContactCode(country.dialCode);
+//     // phone nunber of user
+//     const numberOnly = value.startsWith(`${country.dialCode}`)
+//       ? value.slice(country.dialCode.length).trim()
+//       : value;
+//     setRegisterPhoneNo(numberOnly);
+//   };
 
-  // verify Phone number -----------------------------
-  const verifyPhoneNumber = () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-    });
-    // if (phoneNo.length > 0) {
-    //   let config = {
-    //     method: "post",
-    //     maxBodyLength: Infinity,
-    //     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Basic aGFyc2g6MTIz",
-    //     },
-    //     data: data,
-    //   };
-    //   dispatch(showLoader());
-    //   axiosInstance
-    //     .post(`/global/app/v1/user/loginViaSms`, {
-    //       contact: Number(phoneNo),
-    //     })
-    //     .then((response) => {
-    //       setUserFound(false);
-    //       if (response.data.userAssociated) {
-    //         setIsEnterPhoneNumber(true);
-    //         dispatch(hideLoader());
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setUserFound(true);
-    //       dispatch(hideLoader());
-    //       if (!error.response.data.userAssociated) {
-    //         setTimeout(() => {
-    //           setIsLoginForm(false);
-    //           setUserFound(false);
-    //         }, 1000);
-    //       }
-    //       // console.log(error.response.data.result);
-    //     });
-    // }
-  };
-  // user OTP verify ---------------------------------
-  const verifyOTP = async () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-      otp: otp,
-    });
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // try {
-    //   const res = await axiosInstance.post(
-    //     "/global/app/v1/user/verifyOtpViaSms",
-    //     {
-    //       contact: Number(phoneNo),
-    //       otp: otp,
-    //     }
-    //   );
+//   // verify Phone number -----------------------------
+//   const verifyPhoneNumber = () => {
+//     let data = JSON.stringify({
+//       contact: Number(userCred),
+//     });
+//     // if (userCred.length > 0) {
+//     //   let config = {
+//     //     method: "post",
+//     //     maxBodyLength: Infinity,
+//     //     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
+//     //     headers: {
+//     //       "Content-Type": "application/json",
+//     //       Authorization: "Basic aGFyc2g6MTIz",
+//     //     },
+//     //     data: data,
+//     //   };
+//     //   dispatch(showLoader());
+//     //   axiosInstance
+//     //     .post(`/global/app/v1/user/loginViaSms`, {
+//     //       contact: Number(userCred),
+//     //     })
+//     //     .then((response) => {
+//     //       setUserFound(false);
+//     //       if (response.data.userAssociated) {
+//     //         setIsEnterPhoneNumber(true);
+//     //         dispatch(hideLoader());
+//     //       }
+//     //     })
+//     //     .catch((error) => {
+//     //       setUserFound(true);
+//     //       dispatch(hideLoader());
+//     //       if (!error.response.data.userAssociated) {
+//     //         setTimeout(() => {
+//     //           setIsLoginForm(false);
+//     //           setUserFound(false);
+//     //         }, 1000);
+//     //       }
+//     //       // console.log(error.response.data.result);
+//     //     });
+//     // }
+//   };
+//   // user OTP verify ---------------------------------
+//   const verifyOTP = async () => {
+//     let data = JSON.stringify({
+//       contact: Number(userCred),
+//       otp: otp,
+//     });
+//     // let config = {
+//     //   method: "post",
+//     //   maxBodyLength: Infinity,
+//     //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
+//     //   headers: {
+//     //     "Content-Type": "application/json",
+//     //     Authorization: "Basic aGFyc2g6MTIz",
+//     //   },
+//     //   data: data,
+//     // };
+//     // dispatch(showLoader());
+//     // try {
+//     //   const res = await axiosInstance.post(
+//     //     "/global/app/v1/user/verifyOtpViaSms",
+//     //     {
+//     //       contact: Number(userCred),
+//     //       otp: otp,
+//     //     }
+//     //   );
 
-    //   if (res.data.auth) {
-    //     dispatch(hideLoader());
-    //     dispatch(setUserExist(true));
-    //     dispatch(
-    //       setTokens({
-    //         refreshToken: res.data.refreshToken,
-    //         accessToken: res.data.accessToken,
-    //       })
-    //     );
-    //     localStorage.setItem("refreshToken", res.data.refreshToken);
-    //     localStorage.setItem("accessToken", res.data.accessToken);
-    //     setWrongOTP(false);
-    //     const user = await decodeToken(res.data?.accessToken);
-    //     setCookie(null, "authToken", res.data?.accessToken, {
-    //       path: "/", // Allows cookie access for all paths
-    //       maxAge: user.exp,
-    //     });
+//     //   if (res.data.auth) {
+//     //     dispatch(hideLoader());
+//     //     dispatch(setUserExist(true));
+//     //     dispatch(
+//     //       setTokens({
+//     //         refreshToken: res.data.refreshToken,
+//     //         accessToken: res.data.accessToken,
+//     //       })
+//     //     );
+//     //     localStorage.setItem("refreshToken", res.data.refreshToken);
+//     //     localStorage.setItem("accessToken", res.data.accessToken);
+//     //     setWrongOTP(false);
+//     //     const user = await decodeToken(res.data?.accessToken);
+//     //     setCookie(null, "authToken", res.data?.accessToken, {
+//     //       path: "/", // Allows cookie access for all paths
+//     //       maxAge: user.exp,
+//     //     });
 
-    //     const info = {
-    //       userName: user.username,
-    //       userProfile: user.profileImg ?? "",
-    //       number: user.contact,
-    //       email: user.emailID,
-    //       gender: user.gender ?? "",
-    //     };
+//     //     const info = {
+//     //       userName: user.username,
+//     //       userProfile: user.profileImg ?? "",
+//     //       number: user.contact,
+//     //       email: user.emailID,
+//     //       gender: user.gender ?? "",
+//     //     };
 
-    //     const userDetails = {
-    //       userId: user.userID,
-    //       userObjId: user.user_obj_id,
-    //       userType: user.role,
-    //     };
-    //     dispatch(addUserDetails({ userDetails: userDetails }));
-    //     dispatch(addUserInfo({ info: info }));
-    //     onCloseModal();
-    //   }
-    // } catch (err) {
-    //   setWrongOTP(true);
-    //   dispatch(hideLoader());
-    //   console.log(err);
-    // }
-  };
-  // ------------------------------ Resend OTP function
-  const resendOTP = () => {
-    setTimeRemaining(30);
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-    });
+//     //     const userDetails = {
+//     //       userId: user.userID,
+//     //       userObjId: user.user_obj_id,
+//     //       userType: user.role,
+//     //     };
+//     //     dispatch(addUserDetails({ userDetails: userDetails }));
+//     //     dispatch(addUserInfo({ info: info }));
+//     //     onCloseModal();
+//     //   }
+//     // } catch (err) {
+//     //   setWrongOTP(true);
+//     //   dispatch(hideLoader());
+//     //   console.log(err);
+//     // }
+//   };
+//   // ------------------------------ Resend OTP function
+//   const resendOTP = () => {
+//     setTimeRemaining(30);
+//     let data = JSON.stringify({
+//       contact: Number(userCred),
+//     });
 
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // axiosInstance
-    //   .post("/global/app/v1/user/resendOtpViaSms", {
-    //     contact: Number(phoneNo),
-    //   })
-    //   .then((response) => {
-    //     // console.log(response.data);
-    //     setWrongOTP(false);
-    //     dispatch(hideLoader());
-    //     setIsTimeUp(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     dispatch(hideLoader());
-    //   });
-  };
+//     // let config = {
+//     //   method: "post",
+//     //   maxBodyLength: Infinity,
+//     //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
+//     //   headers: {
+//     //     "Content-Type": "application/json",
+//     //     Authorization: "Basic aGFyc2g6MTIz",
+//     //   },
+//     //   data: data,
+//     // };
+//     // dispatch(showLoader());
+//     // axiosInstance
+//     //   .post("/global/app/v1/user/resendOtpViaSms", {
+//     //     contact: Number(userCred),
+//     //   })
+//     //   .then((response) => {
+//     //     // console.log(response.data);
+//     //     setWrongOTP(false);
+//     //     dispatch(hideLoader());
+//     //     setIsTimeUp(false);
+//     //   })
+//     //   .catch((error) => {
+//     //     console.log(error);
+//     //     dispatch(hideLoader());
+//     //   });
+//   };
 
-  // ---------------------------------- user Register
-  const registerUser = async () => {
-    console.log("this is nothing");
-    // let endPoint = "/global/app/v1/user/createUser";
-    // let body = {
-    //   firstName: name,
-    //   lastName: "",
-    //   contact: parseInt(registerPhoneNo),
-    //   countryName: "India",
-    //   contactCode: contactCode,
-    //   address: "",
-    //   city: "",
-    //   gender: gender.toUpperCase(),
-    //   postalCode: "",
-    //   emailID: emailId,
-    //   password: "",
-    //   otp: {
-    //     code: "",
-    //     otpExpiry: "",
-    //   },
-    // };
-    // dispatch(showLoader());
-    // try {
-    //   const res = await axiosInstance.post(endPoint, {
-    //     firstName: name,
-    //     lastName: "",
-    //     contact: parseInt(registerPhoneNo),
-    //     contactCode: contactCode,
-    //     countryName: "India",
-    //     address: "",
-    //     city: "",
-    //     gender: gender.toUpperCase(),
-    //     postalCode: "",
-    //     emailID: emailId,
-    //     password: "",
-    //     otp: {
-    //       code: "",
-    //       otpExpiry: "",
-    //     },
-    //   });
-    //   // console.log("create USER", res.data);
-    //   dispatch(toggleToast());
+//   // ---------------------------------- user Register
+//   const registerUser = async () => {
+//     console.log("this is nothing");
+//     // let endPoint = "/global/app/v1/user/createUser";
+//     // let body = {
+//     //   firstName: name,
+//     //   lastName: "",
+//     //   contact: parseInt(registerPhoneNo),
+//     //   countryName: "India",
+//     //   contactCode: contactCode,
+//     //   address: "",
+//     //   city: "",
+//     //   gender: gender.toUpperCase(),
+//     //   postalCode: "",
+//     //   emailID: emailId,
+//     //   password: "",
+//     //   otp: {
+//     //     code: "",
+//     //     otpExpiry: "",
+//     //   },
+//     // };
+//     // dispatch(showLoader());
+//     // try {
+//     //   const res = await axiosInstance.post(endPoint, {
+//     //     firstName: name,
+//     //     lastName: "",
+//     //     contact: parseInt(registerPhoneNo),
+//     //     contactCode: contactCode,
+//     //     countryName: "India",
+//     //     address: "",
+//     //     city: "",
+//     //     gender: gender.toUpperCase(),
+//     //     postalCode: "",
+//     //     emailID: emailId,
+//     //     password: "",
+//     //     otp: {
+//     //       code: "",
+//     //       otpExpiry: "",
+//     //     },
+//     //   });
+//     //   // console.log("create USER", res.data);
+//     //   dispatch(toggleToast());
 
-    //   if (res.data.userExist) {
-    //     dispatch(toggleToast("User Exist Already"));
-    //     setError(true);
-    //     setEmailId("");
-    //     setGender("MALE");
-    //     setPhoneNo(registerPhoneNo);
-    //     setName("");
-    //   } else {
-    //     dispatch(toggleToast("User Created Successfully"));
-    //     setError(false);
-    //     setIsLoginForm(true);
-    //     setEmailId("");
-    //     setGender("MALE");
-    //     setName("");
-    //   }
-    //   dispatch(hideLoader());
-    // } catch (err) {
-    //   dispatch(hideLoader());
-    //   dispatch(toggleToast(err.response.data.result));
-    //   console.log(err.response.data);
-    // }
-  };
+//     //   if (res.data.userExist) {
+//     //     dispatch(toggleToast("User Exist Already"));
+//     //     setError(true);
+//     //     setEmailId("");
+//     //     setGender("MALE");
+//     //     setUserCred(registerPhoneNo);
+//     //     setName("");
+//     //   } else {
+//     //     dispatch(toggleToast("User Created Successfully"));
+//     //     setError(false);
+//     //     setIsLoginForm(true);
+//     //     setEmailId("");
+//     //     setGender("MALE");
+//     //     setName("");
+//     //   }
+//     //   dispatch(hideLoader());
+//     // } catch (err) {
+//     //   dispatch(hideLoader());
+//     //   dispatch(toggleToast(err.response.data.result));
+//     //   console.log(err.response.data);
+//     // }
+//   };
 
-  return (
-    <div>
-      <>
-        {isInstituteLoginForm ? (
-          <>
-            {isEnterPhoneNumber ? (
-              <>
-                <div>
-                  <div className="flex flex-col space-y-4">
-                    <p className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          setIsEnterPhoneNumber(!isEnterPhoneNumber)
-                        }
-                      >
-                        <ArrowBackIcon />
-                      </button>
-                      <label className="text-lg font-medium">
-                        Enter the OTP
-                      </label>
-                    </p>
-                    <OtpInput
-                      className=""
-                      value={otp}
-                      onChange={setOtp}
-                      numInputs={6}
-                      renderSeparator={<span className="mx-4"></span>}
-                      renderInput={(props) => (
-                        <input
-                          {...props}
-                          type="number"
-                          className=" text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
-                          maxLength={1}
-                          // placeholder="*"
-                          style={{ width: "60px", height: "40px" }}
-                        />
-                      )}
-                    />
-                    {wrongOTP && (
-                      <p className="text-[12px] text-red-500">Wrong OTP</p>
-                    )}
-                  </div>
+//   return (
+//     <div>
+//       <>
+//         {isInstituteLoginForm ? (
+//           <>
+//             {isEnterPhoneNumber ? (
+//               <>
+//                 <div>
+//                   <div className="flex flex-col space-y-4">
+//                     <p className="flex items-center gap-2">
+//                       <button
+//                         onClick={() =>
+//                           setIsEnterPhoneNumber(!isEnterPhoneNumber)
+//                         }
+//                       >
+//                         <ArrowBackIcon />
+//                       </button>
+//                       <label className="text-lg font-medium">
+//                         Enter the OTP
+//                       </label>
+//                     </p>
+//                     <OtpInput
+//                       className=""
+//                       value={otp}
+//                       onChange={setOtp}
+//                       numInputs={6}
+//                       renderSeparator={<span className="mx-4"></span>}
+//                       renderInput={(props) => (
+//                         <input
+//                           {...props}
+//                           type="number"
+//                           className=" text-xl text-center  border-b-2  border-b-[#797979]  focus:outline-none focus:border-blue-500"
+//                           maxLength={1}
+//                           // placeholder="*"
+//                           style={{ width: "60px", height: "40px" }}
+//                         />
+//                       )}
+//                     />
+//                     {wrongOTP && (
+//                       <p className="text-[12px] text-red-500">Wrong OTP</p>
+//                     )}
+//                   </div>
 
-                  <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
-                    <p>
-                      (OTP has been sent to +91 {maskNumber(phoneNo) ?? "NA"}{" "}
-                      and registered email)
-                    </p>
-                    <p className="mt-2">
-                      <>
-                        Didn&apos;t received OTP?{" "}
-                        <button
-                          // onClick={() => resendOTP()}
-                          className=" hover:underline font-semibold text-[#7878FF]"
-                          disabled={timeRemaining != 0}
-                        >
-                          Resend OTP
-                        </button>{" "}
-                        {timeRemaining > 0 && (
-                          <>
-                            in
-                            <CountdownTimer
-                              timeRemaining={timeRemaining}
-                              setTimeRemaining={setTimeRemaining}
-                              setIsTimeUp={setIsTimeUp}
-                              isTimeUp={isTimeUp}
-                            />
-                          </>
-                        )}
-                      </>
-                    </p>
-                  </div>
-                </div>
+//                   <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
+//                     <p>
+//                       (OTP has been sent to  {maskNumber(userCred) ?? "NA"}{" "}
+//                       and registered email)
+//                     </p>
+//                     <p className="mt-2">
+//                       <>
+//                         Didn&apos;t received OTP?{" "}
+//                         <button
+//                           // onClick={() => resendOTP()}
+//                           className=" hover:underline font-semibold text-[#7878FF]"
+//                           disabled={timeRemaining != 0}
+//                         >
+//                           Resend OTP
+//                         </button>{" "}
+//                         {timeRemaining > 0 && (
+//                           <>
+//                             in
+//                             <CountdownTimer
+//                               timeRemaining={timeRemaining}
+//                               setTimeRemaining={setTimeRemaining}
+//                               setIsTimeUp={setIsTimeUp}
+//                               isTimeUp={isTimeUp}
+//                             />
+//                           </>
+//                         )}
+//                       </>
+//                     </p>
+//                   </div>
+//                 </div>
 
-                <div>
-                  <button
-                    disabled={otp.length > 5 ? false : true}
-                    className={`w-full ${
-                      otp.length > 5
-                        ? "bg-blue-600 cursor-pointer"
-                        : "bg-gray-200"
-                    } py-3 px-2 rounded-lg text-xl text-white font-semibold`}
-                    // onClick={verifyOTP}
-                  >
-                    Validate
-                  </button>
-                </div>
-                <p className="text-[#5C5C5C]">
-                  <span className="text-red-500">*</span> OTP is Valid for
-                  <span className="text-[#0195C6]"> 05 Minutes</span>
-                </p>
-              </>
-            ) : (
-              <div className="flex flex-col gap-8">
-                <div>
-                  <label htmlFor="Phonenumber" className="block text-lg mb-2">
-                    Email/Phone Number
-                  </label>
+//                 <div>
+//                   <button
+//                     disabled={otp.length > 5 ? false : true}
+//                     className={`w-full ${
+//                       otp.length > 5
+//                         ? "bg-blue-600 cursor-pointer"
+//                         : "bg-gray-200"
+//                     } py-3 px-2 rounded-lg text-xl text-white font-semibold`}
+//                     // onClick={verifyOTP}
+//                   >
+//                     Validate
+//                   </button>
+//                 </div>
+//                 <p className="text-[#5C5C5C]">
+//                   <span className="text-red-500">*</span> OTP is Valid for
+//                   <span className="text-[#0195C6]"> 05 Minutes</span>
+//                 </p>
+//               </>
+//             ) : (
+//               <div className="flex flex-col gap-8">
+//                 <div>
+//                   <label htmlFor="Phonenumber" className="block text-lg mb-2">
+//                     Email/Phone Number
+//                   </label>
 
-                  <FormControl fullWidth>
-                    <TextField
-                      type="text"
-                      placeholder="Enter Your Number"
-                      sx={inputStyle}
-                      value={phoneNo}
-                      onChange={(e) => setPhoneNo(e.target.value)}
-                    />
-                  </FormControl>
-                  {userFound && (
-                    <p className="text-[12px] text-red-500">User Not Found</p>
-                  )}
-                </div>
-                <div>
-                  {/*  */}
-                  <button
-                    className={`w-full cursor-pointer  ${
-                      phoneNo.length >= 5 && phoneNo.length <= 15
-                        ? "bg-blue-600"
-                        : "bg-gray-400"
-                    }
-                         
-                            text-white
-                         py-3 px-2 rounded-lg text-xl font-semibold`}
-                    // onClick={verifyPhoneNumber}
-                    disabled={!(phoneNo.length >= 5 && phoneNo.length <= 15)}
-                    onClick={() => navigate("/profile")}
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="flex flex-col gap-[6px]">
-            {/* Name */}
-            <FormControl fullWidth>
-              <TextField
-                type="text"
-                label="Institute Name"
-                placeholder="Enter Your Name"
-                sx={inputStyle}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </FormControl>
-            {/* E-mail */}
-            <FormControl fullWidth>
-              <TextField
-                type="email"
-                label="Email Id"
-                placeholder="Enter Your Email ID"
-                sx={inputStyle}
-                value={emailId}
-                onChange={(e) => setEmailId(e.target.value)}
-              />
-            </FormControl>
+//                   <FormControl fullWidth>
+//                     <TextField
+//                       type="text"
+//                       placeholder="Enter Your Email/Number"
+//                       sx={inputStyle}
+//                       value={userCred}
+//                       onChange={(e) => setUserCred(e.target.value)}
+//                     />
+//                   </FormControl>
+//                   {userFound && (
+//                     <p className="text-[12px] text-red-500">User Not Found</p>
+//                   )}
+//                 </div>
+//                 <div>
+//                   {/*  */}
+//                   <button
+//                     className={`w-full cursor-pointer  ${
+//                       userCred.length >= 5 && userCred.length <= 15
+//                         ? "bg-blue-600"
+//                         : "bg-gray-400"
+//                     }
 
-            {/* Mobile Number */}
-            <TextField
-              name="number"
-              required={true}
-              placeholder="Phone Number"
-              // onChange={(e) => setRegisterPhoneNo(e)}
-              onChange={handlePhoneChange}
-              inputStyle={{
-                height: "51px",
-                borderRadius: "12px",
-                width: "100%",
-              }}
-              buttonStyle={{ borderRadius: "12px 0 0 12px" }}
-              containerClass="phone-input-custom"
-            />
-            {error && (
-              <p className="text-red-500 text-md">Already Exist User</p>
-            )}
-            <div className="flex items-center gap-2">
-              <FormControl fullWidth>
-                <TextField
-                  type="text"
-                  label="City"
-                  placeholder="Enter Your City"
-                  sx={inputStyle}
-                  //   value={emailId}
-                  //   onChange={(e) => setEmailId(e.target.value)}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  type="type"
-                  label="Address"
-                  placeholder="Enter Your Address"
-                  sx={inputStyle}
-                  //
-                  //   value={emailId}
-                  //   onChange={(e) => setEmailId(e.target.value)}
-                />
-              </FormControl>
-            </div>
-            <div>
-              <button
-                className={`w-full py-3 px-2 rounded-lg text-xl ${
-                  (contactCode.includes("91") &&
-                    registerPhoneNo.length == 10 &&
-                    name.length > 0 &&
-                    validateEmail(emailId)) ||
-                  (!contactCode.includes("91") &&
-                    registerPhoneNo.length > 6 &&
-                    registerPhoneNo.length <= 15 &&
-                    name.length > 0 &&
-                    validateEmail(emailId))
-                    ? "bg-blue-600"
-                    : "bg-gray-400"
-                } text-white font-semibold`}
-                disabled={
-                  contactCode.includes("91")
-                    ? !(
-                        registerPhoneNo.length == 10 &&
-                        name.length > 0 &&
-                        validateEmail(emailId)
-                      )
-                    : !(
-                        registerPhoneNo.length > 6 &&
-                        registerPhoneNo.length <= 15 &&
-                        name.length > 0 &&
-                        validateEmail(emailId)
-                      )
-                }
-                onClick={registerUser}
-              >
-                Register
-              </button>
-            </div>
-          </div>
-        )}
-      </>
-    </div>
-  );
-};
+//                             text-white
+//                          py-3 px-2 rounded-lg text-xl font-semibold`}
+//                     // onClick={verifyPhoneNumber}
+//                     disabled={!(userCred.length >= 5 && userCred.length <= 15)}
+//                     onClick={() => navigate("/profile")}
+//                   >
+//                     Continue
+//                   </button>
+//                 </div>
+//               </div>
+//             )}
+//           </>
+//         ) : (
+//           <div className="flex flex-col gap-[6px]">
+//             {/* Name */}
+//             <FormControl fullWidth>
+//               <TextField
+//                 type="text"
+//                 label="Institute Name"
+//                 placeholder="Enter Your Name"
+//                 sx={inputStyle}
+//                 value={name}
+//                 onChange={(e) => setName(e.target.value)}
+//               />
+//             </FormControl>
+//             {/* E-mail */}
+//             <FormControl fullWidth>
+//               <TextField
+//                 type="email"
+//                 label="Email Id"
+//                 placeholder="Enter Your Email ID"
+//                 sx={inputStyle}
+//                 value={emailId}
+//                 onChange={(e) => setEmailId(e.target.value)}
+//               />
+//             </FormControl>
+
+//             {/* Mobile Number */}
+//             <TextField
+//               name="number"
+//               required={true}
+//               placeholder="Phone Number"
+//               // onChange={(e) => setRegisterPhoneNo(e)}
+//               onChange={handlePhoneChange}
+//               inputStyle={{
+//                 height: "51px",
+//                 borderRadius: "12px",
+//                 width: "100%",
+//               }}
+//               buttonStyle={{ borderRadius: "12px 0 0 12px" }}
+//               containerClass="phone-input-custom"
+//             />
+//             {error && (
+//               <p className="text-red-500 text-md">Already Exist User</p>
+//             )}
+//             <div className="flex items-center gap-2">
+//               <FormControl fullWidth>
+//                 <TextField
+//                   type="text"
+//                   label="City"
+//                   placeholder="Enter Your City"
+//                   sx={inputStyle}
+//                   //   value={emailId}
+//                   //   onChange={(e) => setEmailId(e.target.value)}
+//                 />
+//               </FormControl>
+//               <FormControl fullWidth>
+//                 <TextField
+//                   type="type"
+//                   label="Address"
+//                   placeholder="Enter Your Address"
+//                   sx={inputStyle}
+//                   //
+//                   //   value={emailId}
+//                   //   onChange={(e) => setEmailId(e.target.value)}
+//                 />
+//               </FormControl>
+//             </div>
+//             <div>
+//               <button
+//                 className={`w-full py-3 px-2 rounded-lg text-xl ${
+//                   (contactCode.includes("91") &&
+//                     registerPhoneNo.length == 10 &&
+//                     name.length > 0 &&
+//                     validateEmail(emailId)) ||
+//                   (!contactCode.includes("91") &&
+//                     registerPhoneNo.length > 6 &&
+//                     registerPhoneNo.length <= 15 &&
+//                     name.length > 0 &&
+//                     validateEmail(emailId))
+//                     ? "bg-blue-600"
+//                     : "bg-gray-400"
+//                 } text-white font-semibold`}
+//                 disabled={
+//                   contactCode.includes("91")
+//                     ? !(
+//                         registerPhoneNo.length == 10 &&
+//                         name.length > 0 &&
+//                         validateEmail(emailId)
+//                       )
+//                     : !(
+//                         registerPhoneNo.length > 6 &&
+//                         registerPhoneNo.length <= 15 &&
+//                         name.length > 0 &&
+//                         validateEmail(emailId)
+//                       )
+//                 }
+//                 onClick={registerUser}
+//               >
+//                 Register
+//               </button>
+//             </div>
+//           </div>
+//         )}
+//       </>
+//     </div>
+//   );
+// };

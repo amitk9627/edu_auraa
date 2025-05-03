@@ -16,7 +16,7 @@ const Footer = () => {
             
              
               <p className="mt-2 text-sm text-gray-600  max-md:text-justify">
-                Studyshala is India's largest online learning <br></br>{" "}
+                Eduauraa is India's largest online learning <br></br>{" "}
                 platform. Download our apps to start learning.
               </p>
             </div>
@@ -26,7 +26,7 @@ const Footer = () => {
               </p>
               <p className="text-sm text-gray-600">
                 Call us and we will answer all your questions <br></br> about
-                learning on Studyshala
+                learning on Eduauraa
               </p>
               <div className="mt-2 flex items-center gap-2">
                 <PhoneInTalkIcon />
@@ -93,7 +93,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">Studyshala Centre</h3>
+              <h3 className="font-semibold mb-2">Eduauraa Centre</h3>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>Kota IIT JEE</li>
                 <li>Kota NEET UG</li>
