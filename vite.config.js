@@ -12,6 +12,9 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['redux-persist/integration/react']
+  },
+  resolve: {
+    preserveSymlinks: true, // Helps with module resolution
   }
 })
 

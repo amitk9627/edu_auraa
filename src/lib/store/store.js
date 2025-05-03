@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import User from "../slices/user"; // example slice
 import storage from "redux-persist/lib/storage";
-import { persistReducer } from "redux-persist";
+import { persistReducer,persistStore } from "redux-persist";
 
-import { persistStore } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist:["tracking"]
 };
 
 const rootReducer = combineReducers({
