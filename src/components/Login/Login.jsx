@@ -406,8 +406,13 @@ export const Login = ({ onCloseModal }) => {
 
                       <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
                         <p>
-                          (OTP has been sent to +91{" "}
-                          {maskNumber(phoneNo) ?? "NA"} and registered email)
+                          (OTP has been sent to{" "}
+                          <b>
+                            {isNaN(userCred)
+                              ? `${userCred} email`
+                              : ` registered email associated +91 ${maskNumber(userCred)}`}
+                          </b>{" "}
+                         )
                         </p>
                         <p className="mt-2">
                           <>
@@ -848,147 +853,147 @@ export const Login = ({ onCloseModal }) => {
 //     setRegisterPhoneNo(numberOnly);
 //   };
 
-  // verify Phone number -----------------------------
-  const verifyPhoneNumber = () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-    });
-    // if (phoneNo.length > 0) {
-    //   let config = {
-    //     method: "post",
-    //     maxBodyLength: Infinity,
-    //     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "Basic aGFyc2g6MTIz",
-    //     },
-    //     data: data,
-    //   };
-    //   dispatch(showLoader());
-    //   axiosInstance
-    //     .post(`/global/app/v1/user/loginViaSms`, {
-    //       contact: Number(phoneNo),
-    //     })
-    //     .then((response) => {
-    //       setUserFound(false);
-    //       if (response.data.userAssociated) {
-    //         setIsEnterPhoneNumber(true);
-    //         dispatch(hideLoader());
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       setUserFound(true);
-    //       dispatch(hideLoader());
-    //       if (!error.response.data.userAssociated) {
-    //         setTimeout(() => {
-    //           setIsLoginForm(false);
-    //           setUserFound(false);
-    //         }, 1000);
-    //       }
-    //       // console.log(error.response.data.result);
-    //     });
-    // }
-  };
-  // user OTP verify ---------------------------------
-  const verifyOTP = async () => {
-    let data = JSON.stringify({
-      contact: Number(phoneNo),
-      otp: otp,
-    });
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // try {
-    //   const res = await axiosInstance.post(
-    //     "/global/app/v1/user/verifyOtpViaSms",
-    //     {
-    //       contact: Number(phoneNo),
-    //       otp: otp,
-    //     }
-    //   );
+// verify Phone number -----------------------------
+// const verifyPhoneNumber = () => {
+//   let data = JSON.stringify({
+//     contact: Number(phoneNo),
+//   });
+// if (phoneNo.length > 0) {
+//   let config = {
+//     method: "post",
+//     maxBodyLength: Infinity,
+//     url: `${baseUrl}/global/app/v1/user/loginViaSms`,
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Basic aGFyc2g6MTIz",
+//     },
+//     data: data,
+//   };
+//   dispatch(showLoader());
+//   axiosInstance
+//     .post(`/global/app/v1/user/loginViaSms`, {
+//       contact: Number(phoneNo),
+//     })
+//     .then((response) => {
+//       setUserFound(false);
+//       if (response.data.userAssociated) {
+//         setIsEnterPhoneNumber(true);
+//         dispatch(hideLoader());
+//       }
+//     })
+//     .catch((error) => {
+//       setUserFound(true);
+//       dispatch(hideLoader());
+//       if (!error.response.data.userAssociated) {
+//         setTimeout(() => {
+//           setIsLoginForm(false);
+//           setUserFound(false);
+//         }, 1000);
+//       }
+//       // console.log(error.response.data.result);
+//     });
+// }
+// };
+// user OTP verify ---------------------------------
+// const verifyOTP = async () => {
+//   let data = JSON.stringify({
+//     contact: Number(phoneNo),
+//     otp: otp,
+//   });
+// let config = {
+//   method: "post",
+//   maxBodyLength: Infinity,
+//   url: `${baseUrl}/global/app/v1/user/verifyOtpViaSms`,
+//   headers: {
+//     "Content-Type": "application/json",
+//     Authorization: "Basic aGFyc2g6MTIz",
+//   },
+//   data: data,
+// };
+// dispatch(showLoader());
+// try {
+//   const res = await axiosInstance.post(
+//     "/global/app/v1/user/verifyOtpViaSms",
+//     {
+//       contact: Number(phoneNo),
+//       otp: otp,
+//     }
+//   );
 
-  //   if (res.data.auth) {
-  //     dispatch(hideLoader());
-  //     dispatch(setUserExist(true));
-  //     dispatch(
-  //       setTokens({
-  //         refreshToken: res.data.refreshToken,
-  //         accessToken: res.data.accessToken,
-  //       })
-  //     );
-  //     localStorage.setItem("refreshToken", res.data.refreshToken);
-  //     localStorage.setItem("accessToken", res.data.accessToken);
-  //     setWrongOTP(false);
-  //     const user = await decodeToken(res.data?.accessToken);
-  //     setCookie(null, "authToken", res.data?.accessToken, {
-  //       path: "/", // Allows cookie access for all paths
-  //       maxAge: user.exp,
-  //     });
+//   if (res.data.auth) {
+//     dispatch(hideLoader());
+//     dispatch(setUserExist(true));
+//     dispatch(
+//       setTokens({
+//         refreshToken: res.data.refreshToken,
+//         accessToken: res.data.accessToken,
+//       })
+//     );
+//     localStorage.setItem("refreshToken", res.data.refreshToken);
+//     localStorage.setItem("accessToken", res.data.accessToken);
+//     setWrongOTP(false);
+//     const user = await decodeToken(res.data?.accessToken);
+//     setCookie(null, "authToken", res.data?.accessToken, {
+//       path: "/", // Allows cookie access for all paths
+//       maxAge: user.exp,
+//     });
 
-  //     const info = {
-  //       userName: user.username,
-  //       userProfile: user.profileImg ?? "",
-  //       number: user.contact,
-  //       email: user.emailID,
-  //       gender: user.gender ?? "",
-  //     };
+//     const info = {
+//       userName: user.username,
+//       userProfile: user.profileImg ?? "",
+//       number: user.contact,
+//       email: user.emailID,
+//       gender: user.gender ?? "",
+//     };
 
-    //     const userDetails = {
-    //       userId: user.userID,
-    //       userObjId: user.user_obj_id,
-    //       userType: user.role,
-    //     };
-    //     dispatch(addUserDetails({ userDetails: userDetails }));
-    //     dispatch(addUserInfo({ info: info }));
-    //     onCloseModal();
-    //   }
-    // } catch (err) {
-    //   setWrongOTP(true);
-    //   dispatch(hideLoader());
-    //   console.log(err);
-    // }
-  };
-  // ------------------------------ Resend OTP function
-  // const resendOTP = () => {
-  //   setTimeRemaining(30);
-  //   let data = JSON.stringify({
-  //     contact: Number(phoneNo),
-  //   });
+//     const userDetails = {
+//       userId: user.userID,
+//       userObjId: user.user_obj_id,
+//       userType: user.role,
+//     };
+//     dispatch(addUserDetails({ userDetails: userDetails }));
+//     dispatch(addUserInfo({ info: info }));
+//     onCloseModal();
+//   }
+// } catch (err) {
+//   setWrongOTP(true);
+//   dispatch(hideLoader());
+//   console.log(err);
+// }
+// };
+// ------------------------------ Resend OTP function
+// const resendOTP = () => {
+//   setTimeRemaining(30);
+//   let data = JSON.stringify({
+//     contact: Number(phoneNo),
+//   });
 
-    // let config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Basic aGFyc2g6MTIz",
-    //   },
-    //   data: data,
-    // };
-    // dispatch(showLoader());
-    // axiosInstance
-    //   .post("/global/app/v1/user/resendOtpViaSms", {
-    //     contact: Number(phoneNo),
-    //   })
-    //   .then((response) => {
-    //     // console.log(response.data);
-    //     setWrongOTP(false);
-    //     dispatch(hideLoader());
-    //     setIsTimeUp(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     dispatch(hideLoader());
-    //   });
-  // };
+// let config = {
+//   method: "post",
+//   maxBodyLength: Infinity,
+//   url: `${baseUrl}/global/app/v1/user/resendOtpViaSms`,
+//   headers: {
+//     "Content-Type": "application/json",
+//     Authorization: "Basic aGFyc2g6MTIz",
+//   },
+//   data: data,
+// };
+// dispatch(showLoader());
+// axiosInstance
+//   .post("/global/app/v1/user/resendOtpViaSms", {
+//     contact: Number(phoneNo),
+//   })
+//   .then((response) => {
+//     // console.log(response.data);
+//     setWrongOTP(false);
+//     dispatch(hideLoader());
+//     setIsTimeUp(false);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//     dispatch(hideLoader());
+//   });
+// };
 
 //   // ---------------------------------- user Register
 //   const registerUser = async () => {
@@ -1033,28 +1038,28 @@ export const Login = ({ onCloseModal }) => {
 //     //   // console.log("create USER", res.data);
 //     //   dispatch(toggleToast());
 
-    //   if (res.data.userExist) {
-    //     dispatch(toggleToast("User Exist Already"));
-    //     setError(true);
-    //     setEmailId("");
-    //     setGender("MALE");
-    //     setPhoneNo(registerPhoneNo);
-    //     setName("");
-    //   } else {
-    //     dispatch(toggleToast("User Created Successfully"));
-    //     setError(false);
-    //     setIsLoginForm(true);
-    //     setEmailId("");
-    //     setGender("MALE");
-    //     setName("");
-    //   }
-    //   dispatch(hideLoader());
-    // } catch (err) {
-    //   dispatch(hideLoader());
-    //   dispatch(toggleToast(err.response.data.result));
-    //   console.log(err.response.data);
-    // }
-  // };
+//   if (res.data.userExist) {
+//     dispatch(toggleToast("User Exist Already"));
+//     setError(true);
+//     setEmailId("");
+//     setGender("MALE");
+//     setPhoneNo(registerPhoneNo);
+//     setName("");
+//   } else {
+//     dispatch(toggleToast("User Created Successfully"));
+//     setError(false);
+//     setIsLoginForm(true);
+//     setEmailId("");
+//     setGender("MALE");
+//     setName("");
+//   }
+//   dispatch(hideLoader());
+// } catch (err) {
+//   dispatch(hideLoader());
+//   dispatch(toggleToast(err.response.data.result));
+//   console.log(err.response.data);
+// }
+// };
 
 //   return (
 //     <div>
@@ -1099,36 +1104,36 @@ export const Login = ({ onCloseModal }) => {
 //                     )}
 //                   </div>
 
-                //   <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
-                //     <p>
-                //       (OTP has been sent to +91 {maskNumber(phoneNo) ?? "NA"}{" "}
-                //       and registered email)
-                //     </p>
-                //     <p className="mt-2">
-                //       <>
-                //         Didn&apos;t received OTP?{" "}
-                //         <button
-                //           // onClick={() => resendOTP()}
-                //           className=" hover:underline font-semibold text-[#7878FF]"
-                //           disabled={timeRemaining != 0}
-                //         >
-                //           Resend OTP
-                //         </button>{" "}
-                //         {timeRemaining > 0 && (
-                //           <>
-                //             in
-                //             <CountdownTimer
-                //               timeRemaining={timeRemaining}
-                //               setTimeRemaining={setTimeRemaining}
-                //               setIsTimeUp={setIsTimeUp}
-                //               isTimeUp={isTimeUp}
-                //             />
-                //           </>
-                //         )}
-                //       </>
-                //     </p>
-                //   </div>
-                // </div>
+//   <div className="flex flex-col mt-8 justify-center items-center text-[#797979] text-sm">
+//     <p>
+//       (OTP has been sent to +91 {maskNumber(phoneNo) ?? "NA"}{" "}
+//       and registered email)
+//     </p>
+//     <p className="mt-2">
+//       <>
+//         Didn&apos;t received OTP?{" "}
+//         <button
+//           // onClick={() => resendOTP()}
+//           className=" hover:underline font-semibold text-[#7878FF]"
+//           disabled={timeRemaining != 0}
+//         >
+//           Resend OTP
+//         </button>{" "}
+//         {timeRemaining > 0 && (
+//           <>
+//             in
+//             <CountdownTimer
+//               timeRemaining={timeRemaining}
+//               setTimeRemaining={setTimeRemaining}
+//               setIsTimeUp={setIsTimeUp}
+//               isTimeUp={isTimeUp}
+//             />
+//           </>
+//         )}
+//       </>
+//     </p>
+//   </div>
+// </div>
 
 //                 <div>
 //                   <button
@@ -1155,64 +1160,64 @@ export const Login = ({ onCloseModal }) => {
 //                     Email/Phone Number
 //                   </label>
 
-        //           <FormControl fullWidth>
-        //             <TextField
-        //               type="text"
-        //               placeholder="Enter Your Number"
-        //               sx={inputStyle}
-        //               value={phoneNo}
-        //               onChange={(e) => setPhoneNo(e.target.value)}
-        //             />
-        //           </FormControl>
-        //           {userFound && (
-        //             <p className="text-[12px] text-red-500">User Not Found</p>
-        //           )}
-        //         </div>
-        //         <div>
-        //           {/*  */}
-        //           <button
-        //             className={`w-full cursor-pointer  ${
-        //               phoneNo.length >= 5 && phoneNo.length <= 15
-        //                 ? "bg-blue-600"
-        //                 : "bg-gray-400"
-        //             }
-                         
-        //                     text-white
-        //                  py-3 px-2 rounded-lg text-xl font-semibold`}
-        //             // onClick={verifyPhoneNumber}
-        //             disabled={!(phoneNo.length >= 5 && phoneNo.length <= 15)}
-        //             onClick={() => navigate("/profile")}
-        //           >
-        //             Continue
-        //           </button>
-        //         </div>
-        //       </div>
-        //     )}
-        //   </>
-        // ) : (
-          // <div className="flex flex-col gap-[6px]">
-            // {/* Name */}
-            // <FormControl fullWidth>
-            //   <TextField
-            //     type="text"
-            //     label="Institute Name"
-            //     placeholder="Enter Your Name"
-            //     sx={inputStyle}
-            //     value={name}
-            //     onChange={(e) => setName(e.target.value)}
-            //   />
-            // </FormControl>
-            // {/* E-mail */}
-            // <FormControl fullWidth>
-            //   <TextField
-            //     type="email"
-            //     label="Email Id"
-            //     placeholder="Enter Your Email ID"
-            //     sx={inputStyle}
-            //     value={emailId}
-            //     onChange={(e) => setEmailId(e.target.value)}
-            //   />
-            // </FormControl>
+//           <FormControl fullWidth>
+//             <TextField
+//               type="text"
+//               placeholder="Enter Your Number"
+//               sx={inputStyle}
+//               value={phoneNo}
+//               onChange={(e) => setPhoneNo(e.target.value)}
+//             />
+//           </FormControl>
+//           {userFound && (
+//             <p className="text-[12px] text-red-500">User Not Found</p>
+//           )}
+//         </div>
+//         <div>
+//           {/*  */}
+//           <button
+//             className={`w-full cursor-pointer  ${
+//               phoneNo.length >= 5 && phoneNo.length <= 15
+//                 ? "bg-blue-600"
+//                 : "bg-gray-400"
+//             }
+
+//                     text-white
+//                  py-3 px-2 rounded-lg text-xl font-semibold`}
+//             // onClick={verifyPhoneNumber}
+//             disabled={!(phoneNo.length >= 5 && phoneNo.length <= 15)}
+//             onClick={() => navigate("/profile")}
+//           >
+//             Continue
+//           </button>
+//         </div>
+//       </div>
+//     )}
+//   </>
+// ) : (
+// <div className="flex flex-col gap-[6px]">
+// {/* Name */}
+// <FormControl fullWidth>
+//   <TextField
+//     type="text"
+//     label="Institute Name"
+//     placeholder="Enter Your Name"
+//     sx={inputStyle}
+//     value={name}
+//     onChange={(e) => setName(e.target.value)}
+//   />
+// </FormControl>
+// {/* E-mail */}
+// <FormControl fullWidth>
+//   <TextField
+//     type="email"
+//     label="Email Id"
+//     placeholder="Enter Your Email ID"
+//     sx={inputStyle}
+//     value={emailId}
+//     onChange={(e) => setEmailId(e.target.value)}
+//   />
+// </FormControl>
 
 //             {/* Mobile Number */}
 //             <TextField
