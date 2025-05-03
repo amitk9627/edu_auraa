@@ -410,9 +410,9 @@ export const Login = ({ onCloseModal }) => {
                           <b>
                             {isNaN(userCred)
                               ? `${userCred} email`
-                              : `+91 ${maskNumber(userCred)}`}
+                              : `registered email associated with +91 ${maskNumber(userCred)} `}
                           </b>{" "}
-                          registered email)
+                          )
                         </p>
                         <p className="mt-2">
                           <>
