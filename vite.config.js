@@ -12,6 +12,9 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['redux-persist/integration/react']
-  }
+  },
+  resolve: {
+    dedupe: ['redux-persist'], // prevent duplication if multiple versions are being bundled
+  },
 })
 
