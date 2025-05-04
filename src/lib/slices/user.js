@@ -11,6 +11,7 @@ const initialState = {
   contact: "",
   gender: "",
   userType: "STUDENT",
+  isLogin: true
 };
 
 export const userSlice = createSlice({
@@ -48,8 +49,11 @@ export const userSlice = createSlice({
       state.gender = "";
       state.userType = "STUDENT";
     },
+    handleLoginRegister: (state, action) => {
+      state.isLogin = action.payload
+    }
   },
 });
 
-export const { setUserExist, addUserDetails, addUserInfo, clearUserDetails } = userSlice.actions;
+export const { setUserExist, addUserDetails, addUserInfo, clearUserDetails, handleLoginRegister } = userSlice.actions;
 export default userSlice.reducer;

@@ -64,6 +64,16 @@ export const Login = ({ onCloseModal }) => {
   const [errEmail, setErrEmail] = useState(false);
   const [errNumber, setErrNumber] = useState(false);
   const [isInstituteLoginForm, setIsInstituteLoginForm] = useState(false);
+  const userDetails = useSelector((store) => store.User);
+
+
+  useEffect(() => {
+    if(userDetails.isLogin){
+      setIsLoginForm(true)
+    } else {
+      setIsLoginForm(false)
+    }
+  }, [userDetails.isLogin])
 
   // verify Phone number -----------------------------
   const verifyPhoneNumber = () => {

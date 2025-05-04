@@ -11,7 +11,8 @@ import "react-modern-drawer/dist/index.css";
 import { MdMenu } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  clearUserDetails
+  clearUserDetails,
+  handleLoginRegister
 } from "../../lib/slices/user";
 
 const style = {
@@ -39,6 +40,11 @@ const Navbar = () => {
   // console.log(userDetails);
   const handleOpen = () => {
     setLoginState(true);
+    dispatch(handleLoginRegister(true));
+  };
+  const handleRegisterOpen = () => {
+    setLoginState(true);
+    dispatch(handleLoginRegister(false));
   };
   const handleClose = () => {
     setLoginState(false);
@@ -189,7 +195,8 @@ const Navbar = () => {
                             onMouseDown={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              dispatch(clearUserDetails())}}
+                              dispatch(clearUserDetails())
+                              navigate("/")}}
                           >
                             Logout
                           </button>
@@ -198,13 +205,12 @@ const Navbar = () => {
                     )}
                   </>
                 )}
-                <Link
-                  to="/institute-info"
-                  // onClick={() => handleOpen()}
-                  className="bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
+                <button
+                  onClick={userDetails.firstName ? () => navigate("/institute-info") : () => handleRegisterOpen()}
+                  className="cursor-pointer bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
                   List Your Coaching
-                </Link>
+                </button>
               </p>
             </div>
           </nav>
@@ -267,7 +273,7 @@ const Navbar = () => {
                 <div className="flex justify-center items-center size-[56px]">
                   <span className="rounded-full p-2 h-8 w-8 bg-orange-600 flex items-center justify-center text-white font-semibold">
                     {/* {String(UserDetail.fields.name)[0]} */}
-                    Hello World
+                    {/* Hello World */}
                   </span>
                 </div>
               </div>
