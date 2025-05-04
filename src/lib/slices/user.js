@@ -36,8 +36,20 @@ export const userSlice = createSlice({
       state.contact = info.email;
       state.gender = info.gender;
     },
+    clearUserDetails: (state, action) => {
+      state.userExist = false;
+      state.firstName = "";
+      state._id = "";
+      state.instituteId = "";
+      state.userID = "";
+      state.lastName = "";
+      state.email = "";
+      state.contact = "";
+      state.gender = "";
+      state.userType = "STUDENT";
+    },
   },
 });
 
-export const { setUserExist, addUserDetails, addUserInfo } = userSlice.actions;
+export const { setUserExist, addUserDetails, addUserInfo, clearUserDetails } = userSlice.actions;
 export default userSlice.reducer;

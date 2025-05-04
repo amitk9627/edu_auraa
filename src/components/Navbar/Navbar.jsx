@@ -4,12 +4,15 @@ import Container from "../Container/Container";
 import { Login } from "../Login/Login";
 import LoginMobile from "../Login/LoginMobile";
 import { Modal, Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Drawer from "react-modern-drawer";
 import { FaUserCircle } from "react-icons/fa";
 import "react-modern-drawer/dist/index.css";
 import { MdMenu } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  clearUserDetails
+} from "../../lib/slices/user";
 
 const style = {
   position: "absolute",
@@ -20,6 +23,7 @@ const style = {
   // boxShadow: 24,
 };
 const Navbar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loginState, setLoginState] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +36,7 @@ const Navbar = () => {
 
   const dropdownRef = useRef(null);
 
-  console.log(userDetails);
+  // console.log(userDetails);
   const handleOpen = () => {
     setLoginState(true);
   };
@@ -180,12 +184,15 @@ const Navbar = () => {
                           >
                             Manage Your Institute
                           </a>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-red-600 hover:bg-red-100 rounded-md transition"
+                          <button
+                            className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 rounded-md transition"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              dispatch(clearUserDetails())}}
                           >
                             Logout
-                          </a>
+                          </button>
                         </div>
                       </div>
                     )}
