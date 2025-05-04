@@ -51,10 +51,10 @@ const InstituteDetail = () => {
       title: "Institute Information",
     },
     {
-      title: "Faculty Management",
+      title: "Courses",
     },
     {
-      title: "Courses",
+      title: "Faculty Management",
     },
     {
       title: "Batches",
@@ -134,10 +134,10 @@ const InstituteDetail = () => {
             <TabPanel value={value} index={0}>
               <InstituteInfo setValue={setValue} />
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={2}>
               <Faculty setValue={setValue} />
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={value} index={1}>
               <Courses setValue={setValue} />
             </TabPanel>
             <TabPanel value={value} index={3}>

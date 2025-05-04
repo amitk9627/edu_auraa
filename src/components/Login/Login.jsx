@@ -44,6 +44,7 @@ export const Login = ({ onCloseModal }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [userCred, setUserCred] = useState("");
   const [registerPhoneNo, setRegisterPhoneNo] = useState("");
+  const [userType, setUserType] = useState("STUDENT");
   const [formType, setFormType] = useState({
     student: true,
     institute: false,
@@ -66,14 +67,13 @@ export const Login = ({ onCloseModal }) => {
   const [isInstituteLoginForm, setIsInstituteLoginForm] = useState(false);
   const userDetails = useSelector((store) => store.User);
 
-
   useEffect(() => {
-    if(userDetails.isLogin){
-      setIsLoginForm(true)
+    if (userDetails.isLogin) {
+      setIsLoginForm(true);
     } else {
-      setIsLoginForm(false)
+      setIsLoginForm(false);
     }
-  }, [userDetails.isLogin])
+  }, [userDetails.isLogin]);
 
   // verify Phone number -----------------------------
   const verifyPhoneNumber = () => {
@@ -125,8 +125,8 @@ export const Login = ({ onCloseModal }) => {
       if (res.data.auth) {
         // dispatch(hideLoader());
         let response = res.data.response;
-        console.log(response);
-        console.log(response);
+        // console.log(response);
+        // console.log(response);
         dispatch(setUserExist(true));
         // dispatch(
         //   setTokens({
@@ -182,7 +182,7 @@ export const Login = ({ onCloseModal }) => {
         firstName: name,
         contact: parseInt(registerPhoneNo),
         email: emailId,
-        userType: "STUDENT",
+        userType: userType,
       });
       setUserCred(emailId);
       setIsLoginForm(true);
@@ -199,6 +199,7 @@ export const Login = ({ onCloseModal }) => {
   const bgLoginImage = {
     backgroundImage: `url(${LoginImage})`,
   };
+  console.log(userType);
 
   return (
     <div className="w-[994px] h-[520px] p-4 flex bg-[#eee] justify-between rounded-[20px] overflow-hidden">
@@ -420,9 +421,11 @@ export const Login = ({ onCloseModal }) => {
                           <b>
                             {isNaN(userCred)
                               ? `${userCred} email`
-                              : ` registered email associated +91 ${maskNumber(userCred)}`}
+                              : ` registered email associated +91 ${maskNumber(
+                                  userCred
+                                )}`}
                           </b>{" "}
-                         )
+                          )
                         </p>
                         <p className="mt-2">
                           <>
@@ -554,7 +557,39 @@ export const Login = ({ onCloseModal }) => {
                 {error && (
                   <p className="text-red-500 text-md">Already Exist User</p>
                 )}
-                {/* {  !(emailId && registerPhoneNo && name) && <>hello</>} */}
+
+                <FormControl className="">
+                  <FormLabel>User Role</FormLabel>
+                  <RadioGroup
+                    row
+                    name="userRole"
+                    value={userType}
+                    onChange={(e) => setUserType(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="STUDENT"
+                      checked={userType == "STUDENT"}
+                      control={<Radio />}
+                      label="STUDENT"
+                    />
+                    <FormControlLabel
+                      value="INSTITUTE"
+                      checked={userType == "INSTITUTE"}
+                      control={<Radio />}
+                      label="INSTITUTE"
+                    />
+                    {/* <FormControlLabel
+                      value="FACULTY" checked={userType=="FACULTY"}
+                      control={<Radio  />}
+                      label="FACULTY"
+                    />
+                    <FormControlLabel
+                      value="ADMIN" checked={userType=="ADMIN"} 
+                      control={<Radio />}
+                      label="ADMIN"
+                    /> */}
+                  </RadioGroup>
+                </FormControl>
                 <div>
                   <button
                     className={`w-full py-3 px-2 rounded-lg text-xl ${
