@@ -1,7 +1,9 @@
 import React from "react";
 import { RiPencilLine } from "react-icons/ri";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 const Media = () => {
+  const navigate = useNavigate()
   const data = [
     {
       image:
@@ -48,7 +50,7 @@ const Media = () => {
       <div className="flex flex-wrap gap-5">
         {data.map((item, i) => (
           <div key={i} className="relative rounded-lg">
-            <button className="cursor-pointer absolute top-1 right-7 text-xl" >
+            <button className="cursor-pointer absolute top-1 right-7 text-xl">
               <RiPencilLine />
             </button>
             <button className="cursor-pointer absolute top-1 right-1 text-xl">
@@ -57,6 +59,15 @@ const Media = () => {
             <img src={item.image} className="w-[140px] h-[140px]" />
           </div>
         ))}
+      </div>
+      <div className="w-full flex justify-end pt-2">
+
+        <button
+          onClick={() => navigate("/my-profile")}
+          className="cursor-pointer py-2 w-[30%] flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB] "
+        >
+          Next
+        </button>
       </div>
     </div>
   );

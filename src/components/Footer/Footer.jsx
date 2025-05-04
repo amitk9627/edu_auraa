@@ -2,9 +2,10 @@ import React from "react";
 import Container from "../Container/Container";
 import logo from "../../assets/images/websiteLogo.svg";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <footer className="bg-white text-gray-700 py-10 max-md:px-4">
       <Container>
@@ -12,7 +13,7 @@ const Footer = () => {
           <div className="flex flex-col items-start gap-8 max-md:gap-4">
             <div>
               
-              <img src={logo} className="max-md:h-8 h-24" />
+              <img src={logo} className="max-md:h-8 h-24 cursor-pointer" onClick={() => navigate("/")} />
               <p className="mt-2 text-sm text-gray-600  max-md:text-justify">
                 Eduauraa Coaching is India's largest online learning <br></br>{" "}
                 platform. Download our apps to start learning.

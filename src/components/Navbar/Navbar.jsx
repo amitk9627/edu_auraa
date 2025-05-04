@@ -9,7 +9,7 @@ import Drawer from "react-modern-drawer";
 import { FaUserCircle } from "react-icons/fa";
 import "react-modern-drawer/dist/index.css";
 import { MdMenu } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -20,6 +20,7 @@ const style = {
   // boxShadow: 24,
 };
 const Navbar = () => {
+  const navigate = useNavigate()
   const [loginState, setLoginState] = useState(false);
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({
@@ -74,7 +75,7 @@ const Navbar = () => {
             </button>
 
             {/* Logo */}
-            <img src={logo} className="max-md:mx-auto max-md:h-6 h-20"></img>
+            <img src={logo} className="max-md:mx-auto max-md:h-6 h-20 cursor-pointer" onClick={() => navigate("/")}></img>
             <div className="flex items-center space-x-[48px] max-md:hidden">
               <div className="flex leading-[16px] items-center space-x-[28px] text-[16px] font-medium text-[#333333]">
                 <a href="#" className="hover:text-indigo-600">
