@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import logo from "../../assets/images/websiteLogo.svg";
 import Container from "../Container/Container";
 import { Login } from "../Login/Login";
@@ -20,15 +20,19 @@ const style = {
   // boxShadow: 24,
 };
 const Navbar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [loginState, setLoginState] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({
     width: 0,
     height: 0,
   });
   const userDetails = useSelector((store) => store.User);
-  console.log(userDetails)
+
+  const dropdownRef = useRef(null);
+
+  console.log(userDetails);
   const handleOpen = () => {
     setLoginState(true);
   };
@@ -49,6 +53,16 @@ const Navbar = () => {
         window.removeEventListener("resize", handleResize);
       };
     }
+  }, []);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   const showNavbarHandler = () => {
     if (windowDimensions.width > 1200) {
@@ -75,7 +89,11 @@ const Navbar = () => {
             </button>
 
             {/* Logo */}
-            <img src={logo} className="max-md:mx-auto max-md:h-6 h-20 cursor-pointer" onClick={() => navigate("/")}></img>
+            <img
+              src={logo}
+              className="max-md:mx-auto max-md:h-6 h-20 cursor-pointer"
+              onClick={() => navigate("/")}
+            ></img>
             <div className="flex items-center space-x-[48px] max-md:hidden">
               <div className="flex leading-[16px] items-center space-x-[28px] text-[16px] font-medium text-[#333333]">
                 <a href="#" className="hover:text-indigo-600">
@@ -135,7 +153,7 @@ const Navbar = () => {
                 )}
               </> */}
               <p className="flex items-center gap-4">
-                {userDetails?.userExist==false ? (
+                {userDetails?.userExist == false ? (
                   <button
                     onClick={() => handleOpen()}
                     className="border border-[#55BFEB] leading-[16px] text-[#55BFEB] px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
@@ -144,11 +162,33 @@ const Navbar = () => {
                   </button>
                 ) : (
                   <>
-                    <div className="flex justify-center items-center size-[56px]">
-                      <span className="rounded-full p-2 h-12 w-12 bg-[#55BFEB] text-lg flex items-center justify-center text-white font-semibold">
+                    <div
+                      ref={dropdownRef}
+                      className="flex justify-center items-center size-[56px]"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <span className="rounded-full p-2 h-12 w-12 bg-[#55BFEB] text-lg flex items-center justify-center text-white font-semibold cursor-pointer">
                         {String(userDetails?.firstName)[0] ?? "NA"}
                       </span>
                     </div>
+                    {isOpen && (
+                      <div className="absolute right-60 top-20 mt-2 w-52 origin-top-right bg-white border border-gray-200 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 transition ease-out duration-200 z-30">
+                        <div className="p-2">
+                          <a
+                            href="#"
+                            className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md transition"
+                          >
+                            Manage Your Institute
+                          </a>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 text-sm text-red-600 hover:bg-red-100 rounded-md transition"
+                          >
+                            Logout
+                          </a>
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
                 <Link
