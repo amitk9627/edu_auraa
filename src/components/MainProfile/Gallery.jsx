@@ -1,13 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../Container/Container";
 import AcademyDetails from "./AcademyDetails";
+import { backendUrl } from "../../config";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const Gallery = ({insData}) => {
+const Gallery = ({ insData }) => {
+  const { instituteId } = useSelector((store) => store.User);
+  const [imageData, setImageData] = useState([]);
+
   const images = [
-    { id: 1, src: "", alt: "Main Image", large: true },
-    { id: 2, src: "", alt: "Small Image 1", large: false },
-    { id: 3, src: "", alt: "Small Image 2", large: false },
+    {
+      id: 1,
+      src: `${
+        imageData.length > 0
+          ? `data:${imageData[0].contentType};base64,${imageData[0].base64}`
+          : ""
+      }`,
+      alt: "Main Image",
+      large: true,
+    },
+    {
+      id: 2,
+      src: `${
+        imageData.length > 1
+          ? `data:${imageData[1].contentType};base64,${imageData[1].base64}`
+          : ""
+      }`,
+      alt: "Small Image 1",
+      large: false,
+    },
+    {
+      id: 3,
+      src: `${
+        imageData.length > 2
+          ? `data:${imageData[2].contentType};base64,${imageData[2].base64}`
+          : ""
+      }`,
+      alt: "Small Image 2",
+      large: false,
+    },
   ];
+  async function getImage() {
+    await axios
+      .get(`${backendUrl}/app/v1/image/getImage/${instituteId}`)
+      .then((res) => {
+        console.log(res.data.images);
+        setImageData(res.data.images);
+      })
+      .catch((err) => console.error("Failed to fetch images", err));
+  }
+
+  useEffect(() => {
+    getImage();
+  }, []);
 
   return (
     <Container>
@@ -17,17 +63,34 @@ const Gallery = ({insData}) => {
         {/* Left Big Image */}
         <div className="col-span-2">
           <div className="bg-gray-200 rounded-md h-80 flex items-center justify-center">
-            <span className="text-gray-400">
-              {images[0].alt || "Image"}
-            </span>
+            {images[0].src ? (
+              <img
+                src={images[0].src}
+                alt={images[0].alt}
+                className="w-full h-80 object-cover rounded-md"
+              />
+            ) : (
+              <span className="text-gray-400">{"Image"}</span>
+            )}
           </div>
         </div>
 
         {/* Right 2 Small Images */}
         <div className="flex flex-col space-y-4">
           {images.slice(1).map((image, index) => (
-            <div key={image.id} className="bg-gray-200 rounded-md h-38 flex items-center justify-center relative">
-              <span className="text-gray-400">{image.alt || "Image"}</span>
+            <div
+              key={image.id}
+              className="bg-gray-200 rounded-md h-38 flex items-center justify-center relative"
+            >
+              {image.src ? (
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-38 object-cover rounded-md "
+                />
+              ) : (
+                <span className="text-gray-400">{"Image"}</span>
+              )}
 
               {/* Show all button on last image */}
               {index === 1 && (

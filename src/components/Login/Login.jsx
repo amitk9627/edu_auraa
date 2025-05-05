@@ -162,6 +162,7 @@ export const Login = ({ onCloseModal }) => {
           userId: response.userID,
           _id: response._id,
           instituteId: response.instituteId,
+          userType: response.userType,
         };
 
         dispatch(addUserInfo({ info: info }));

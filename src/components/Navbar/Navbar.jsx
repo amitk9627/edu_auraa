@@ -170,7 +170,7 @@ const Navbar = () => {
                   </div>
                 )}
               </> */}
-              <p className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 {userDetails?.userExist == false ? (
                   <button
                     onClick={() => handleOpen()}
@@ -232,7 +232,7 @@ const Navbar = () => {
                 >
                   List Your Coaching
                 </button>}
-              </p>
+              </div>
             </div>
           </nav>
         </Container>
