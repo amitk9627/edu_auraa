@@ -37,6 +37,12 @@ const Navbar = () => {
 
   const dropdownRef = useRef(null);
 
+  useEffect(() => {
+    if (userDetails.firstName) {
+      setIsOpen(false);
+    }
+  }, [userDetails.firstName]);
+
   // console.log(userDetails);
   const handleOpen = () => {
     setLoginState(true);
@@ -64,12 +70,14 @@ const Navbar = () => {
       };
     }
   }, []);
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
+
+
+  function handleClickOutside(event) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
     }
+  }
+  useEffect(() => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -184,12 +192,24 @@ const Navbar = () => {
                     {isOpen && (
                       <div className="absolute right-60 top-20 mt-2 w-52 origin-top-right bg-white border border-gray-200 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 transition ease-out duration-200 z-30">
                         <div className="p-2">
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md transition"
-                          >
+                          <button
+                            className="cursor-pointer w-full text-left block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md transition"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate("/institute-info")
+                              handleClickOutside(e)}}>
                             Manage Your Institute
-                          </a>
+                          </button>
+                          <button
+                            className="cursor-pointer w-full text-left block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 rounded-md transition"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              navigate("/my-profile")
+                              handleClickOutside(e)}}>
+                            View Your Institute
+                          </button>
                           <button
                             className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 rounded-md transition"
                             onMouseDown={(e) => {
@@ -205,12 +225,13 @@ const Navbar = () => {
                     )}
                   </>
                 )}
-                <button
-                  onClick={userDetails.firstName ? () => navigate("/institute-info") : () => handleRegisterOpen()}
+                {userDetails.firstName ? "" : <button
+                  onClick={handleRegisterOpen}
+                  // onClick={userDetails.firstName ? () => navigate("/institute-info") : () => handleRegisterOpen()}
                   className="cursor-pointer bg-[#55BFEB] leading-[16px] text-white px-[20px] py-[18px] rounded-[8px] text-[18px] font-semibold hover:bg-indigo-700 transition"
                 >
                   List Your Coaching
-                </button>
+                </button>}
               </p>
             </div>
           </nav>

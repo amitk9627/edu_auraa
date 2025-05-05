@@ -29,9 +29,9 @@ const MainProfile = () => {
   }, []);
   return (
     <div>
-      <div className="bg-[#F4F4F4] py-[24px]">
+      {/* <div className="bg-[#F4F4F4] py-[24px]">
         <HeaderSearchBar />
-      </div>
+      </div> */}
       <Gallery insData={insData} />
       <Overview insData={insData} />
     </div>
