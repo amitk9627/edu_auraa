@@ -1,9 +1,12 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { backendUrl } from "../../config";
+import { useSelector } from "react-redux";
 const BatchesOffered = () => {
   const [selected, setSelected] = useState(2);
+  const { instituteId, email } = useSelector((store) => store.User);
 
-  const batches = [
+  const [batches, setBatches] = useState([
     {
       id: 1,
       title: "UPSC Crash Batch",
@@ -57,14 +60,32 @@ const BatchesOffered = () => {
       emi: "₹7,999/month",
       price: "From ₹7,999/month",
     },
-  ];
+  ]);
+  useEffect(() => {
+    axios
+      .get(`${backendUrl}/app/v1/batches/getBatch/${instituteId}`)
+      .then(({ data }) => {
+        console.log(data.BatchList);
+        setBatches(data.BatchList);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  {
+    /* // batchName: { type: String, required: true },
+  // startDate: { type: Date, required: true },
+  // endDate: { type: Date, required: true },
+  // daysOfClasses: { type: [String] },
+  // timeSlot: { startTime: String, endTime: String },
+  // seatsAvailable: { type: Number },
+  // facultyAssigned: { type: mongoose.Schema.Types.ObjectId, ref: 'faculty', default: null } */
+  }
   return (
     <div className="bg-[#f9f9f9] p-4 rounded  text-sm text-gray-800">
       <h2 className="font-semibold text-[24px] text-[#565E6D] mb-4">
         Batches Offered
       </h2>
       <div className="grid sm:grid-cols-2 gap-4">
-        {batches.map((batch) => (
+        {batches?.map((batch) => (
           <div
             key={batch.id}
             className={`relative border rounded bg-[#f9f9f9] p-4 ${
@@ -81,7 +102,7 @@ const BatchesOffered = () => {
 
             <div className="flex justify-between mb-1 mt-[20px]">
               <p className="font-semibold text-[24px] text-[#565E6D]">
-                {batch.title} {""} – {batch.duration}
+                {batch.batchName} {""} – {batch.duration}
               </p>
               <input
                 type="radio"
@@ -94,8 +115,8 @@ const BatchesOffered = () => {
               {batch.description}
             </p>
 
-            <ul className="mb-[8px] space-y-[8px]">
-              {batch.batches.map((slot, idx) => (
+            {/* <ul className="mb-[8px] space-y-[8px]">
+              {batch.daysOfClasses.map((slot, idx) => (
                 <li
                   key={idx}
                   className="flex items-center text-[18px] leading-[28px] gap-2 text-[#565E6D]"
@@ -109,12 +130,12 @@ const BatchesOffered = () => {
                   {slot}
                 </li>
               ))}
-            </ul>
+            </ul> */}
 
             <ul className="text-[#565E6D] mb-[8px] space-y-1 text-[18px] leading-[28px]">
               <li>Start Date: {batch.startDate}</li>
               <li>Mode: {batch.mode}</li>
-              <li>{batch.seatsLeft} Seats Left</li>
+              <li>{batch.seatsAvailable} Seats Left</li>
             </ul>
 
             <p className="text-[18px] leading-[28px] text-[#565E6D] mb-[16px]">

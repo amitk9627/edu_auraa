@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../Container/Container";
 import AcademyDetails from "./AcademyDetails";
 
-const Gallery = () => {
+const Gallery = ({insData}) => {
   const images = [
     { id: 1, src: "", alt: "Main Image", large: true },
     { id: 2, src: "", alt: "Small Image 1", large: false },
@@ -12,7 +12,7 @@ const Gallery = () => {
   return (
     <Container>
       {/* Image Grid */}
-      <AcademyDetails />
+      <AcademyDetails insData={insData} />
       <div className="mt-6 mb-10 grid grid-cols-3 gap-4 px-[16px] md:px-0">
         {/* Left Big Image */}
         <div className="col-span-2">

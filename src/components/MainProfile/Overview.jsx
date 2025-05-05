@@ -10,7 +10,7 @@ import BatchesOffered from "./BatchesOffered";
 import WhyChooseUs from "./WhyChooseUs";
 import MentorsSection from "./MentorsSection";
 
-const Overview = () => {
+const Overview = ({insData}) => {
   return (
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-[16px] md:px-0">

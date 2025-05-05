@@ -2,14 +2,27 @@ import React from "react";
 import save from "../../assets/MainProfileImages/save.png";
 import share from "../../assets/MainProfileImages/share.png";
 
-const AcademyDetails = () => {
+const AcademyDetails = ({insData}) => {
+  console.log(insData)
+//   aboutInstitue
+// contact
+// createdAt
+// email
+// instituteId
+// instituteName
+// isActive
+// location
+// profile
+// tagline
+// totalStudents
+// updatedAt
   return (
     <div className="flex justify-between items-start mt-[30px] md:px-0 px-[16px]">
       <div>
         <h1 className="text-[14px] md:text-2xlfont-bold text-gray-700">
-          Chanakya IAS Academy – UPSC
+          {insData.instituteName} – UPSC
         </h1>
-        <p>Tagline</p>
+        <p>{insData.tagline}</p>
       </div>
       <div className="flex space-x-2">
         <button className="flex items-center px-4 py-2 border cursor-pointer rounded-md text-gray-700 hover:bg-gray-100">

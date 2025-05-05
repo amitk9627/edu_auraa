@@ -54,81 +54,19 @@ const Batches = ({ setValue }) => {
     seatsAvailable: "",
     facultyAssigned: "",
   });
-  const [batchData, setBatchData] = useState([
-    {
-      batchName: "UPSC",
-      startDate: "01-May-25",
-      endDate: "31-Dec-25",
-      days: "Mon, Wed, Fri",
-      seats: 30,
-    },
-    {
-      batchName: "SSC",
-      startDate: "05-May-25",
-      endDate: "30-Nov-25",
-      days: "Tue, Thu, Sat",
-      seats: 25,
-    },
-    {
-      batchName: "Banking",
-      startDate: "10-May-25",
-      endDate: "31-Dec-25",
-      days: "Mon, Wed, Fri",
-      seats: 40,
-    },
-    {
-      batchName: "Railways",
-      startDate: "15-May-25",
-      endDate: "30-Sep-25",
-      days: "Sat, Sun",
-      seats: 20,
-    },
-    {
-      batchName: "Defence",
-      startDate: "20-May-25",
-      endDate: "31-Oct-25",
-      days: "Mon, Tue",
-      seats: 35,
-    },
-    {
-      batchName: "CA Foundation",
-      startDate: "01-Jun-25",
-      endDate: "31-Dec-25",
-      days: "Wed, Fri",
-      seats: 50,
-    },
-    {
-      batchName: "UPSC Optional",
-      startDate: "05-Jun-25",
-      endDate: "31-Dec-25",
-      days: "Mon, Thu",
-      seats: 15,
-    },
-    {
-      batchName: "Law Entrance",
-      startDate: "10-Jun-25",
-      endDate: "30-Nov-25",
-      days: "Tue, Thu",
-      seats: 45,
-    },
-    {
-      batchName: "NDA",
-      startDate: "15-Jun-25",
-      endDate: "30-Nov-25",
-      days: "Sat, Sun",
-      seats: 28,
-    },
-    {
-      batchName: "UPSC Prelims",
-      startDate: "20-Jun-25",
-      endDate: "31-Dec-25",
-      days: "Mon, Wed, Fri",
-      seats: 32,
-    },
-  ]);
+  const [batchData, setBatchData] = useState([]);
+
   // ------------------
   const [selectedDays, setSelectedDays] = useState([]);
   useEffect(() => {
+    // /getBatch/:instituteId
+    axios
+      .get(`${backendUrl}/app/v1/batches/getBatch/${instituteId}`)
+      .then(({ data }) => {
+        // console.log(data.BatchList);
+        setBatchData(data.BatchList);
+      })
+      .catch((err) => console.log(err));
     axios
       .get(`${backendUrl}/app/v1/faculty/getFaculty/${instituteId}`)
       .then(({ data }) => {
@@ -425,10 +363,10 @@ const Batches = ({ setValue }) => {
                       {item.endDate}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.days}
+                      {item.daysOfClasses.map((val, i)=><span key={i}>{val.slice(0,3)},</span>)}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.seats}
+                      {item.seatsAvailable}
                     </td>
                     <td className="py-3 space-x-2 text-[24px] text-[#757575]">
                       <button className="cursor-pointer" onClick={handleOpen}>
