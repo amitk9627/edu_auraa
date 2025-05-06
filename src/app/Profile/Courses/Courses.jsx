@@ -287,14 +287,6 @@ const Courses = ({ setValue }) => {
               className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
             />
             <input
-              name="mode"
-              value={formData.mode}
-              onChange={handleChange}
-              type="text"
-              placeholder="Enter Mode: Online / Offline / Hybrid"
-              className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-            />
-            <input
               name="duration"
               value={formData.duration}
               onChange={handleChange}

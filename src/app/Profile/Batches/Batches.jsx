@@ -49,6 +49,7 @@ const Batches = ({ setValue }) => {
     batchName: "",
     startDate: "",
     endDate: "",
+    mode: "",
     daysOfClasses: [],
     timeSlot: { startTime: "", endTime: "" },
     seatsAvailable: "",
@@ -90,14 +91,6 @@ const Batches = ({ setValue }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // instituteId: { type: String, required: true },
-  // batchName: { type: String, required: true },
-  // startDate: { type: Date, required: true },
-  // endDate: { type: Date, required: true },
-  // daysOfClasses: { type: [String] },
-  // timeSlot: { startTime: String, endTime: String },
-  // seatsAvailable: { type: Number },
-  // facultyAssigned: { type: mongoose.Schema.Types.ObjectId, ref: 'faculty', default: null }
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -110,6 +103,7 @@ const Batches = ({ setValue }) => {
     if (!formData.timeSlot.startTime)
       newErrors.startTime = "Start Time is required";
     if (!formData.timeSlot.endTime) newErrors.endTime = "End Time is required";
+    if (!formData.mode) newErrors.mode = "Mode is required";
     if (!formData.facultyAssigned)
       newErrors.facultyAssigned = "Faculty must be selected";
 
@@ -130,6 +124,7 @@ const Batches = ({ setValue }) => {
           endDate: formData.endDate,
           daysOfClasses: selectedDays,
           timeSlot: formData.timeSlot,
+          mode: formData.mode,
           seatsAvailable: formData.seatsAvailable,
           facultyAssigned: formData.facultyAssigned,
         }
@@ -187,6 +182,24 @@ const Batches = ({ setValue }) => {
                 placeholder="Batch Name (e.g., 'UPSC Evening Batch')"
                 className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
               />
+              <FormControl className="w-[70%]">
+                <InputLabel id="demo-simple-select-label">Mode</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={formData.mode}
+                  onChange={(e) =>
+                    setFormData({ ...formData, mode: e.target.value })
+                  }
+                  label="Mode"
+                  size="small"
+                >
+                  <MenuItem value="online">Online</MenuItem>
+                  <MenuItem value="offline">Offline</MenuItem>
+                  <MenuItem value="hybrid">Hybrid</MenuItem>
+                </Select>
+              </FormControl>
+
               <TextField
                 label="Start Date"
                 size="small"
@@ -363,7 +376,9 @@ const Batches = ({ setValue }) => {
                       {item.endDate}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.daysOfClasses.map((val, i)=><span key={i}>{val.slice(0,3)},</span>)}
+                      {item.daysOfClasses.map((val, i) => (
+                        <span key={i}>{val.slice(0, 3)},</span>
+                      ))}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
                       {item.seatsAvailable}
