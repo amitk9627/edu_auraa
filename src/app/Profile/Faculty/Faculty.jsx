@@ -74,6 +74,7 @@ const Faculty = ({ setValue }) => {
     //   linkedCourses: "Mechanics",
     // },
   ];
+<<<<<<< Updated upstream
 
   const [courses, setCourses] = useState([]);
   // const []=useState([]),
@@ -119,6 +120,28 @@ const Faculty = ({ setValue }) => {
     return Object.keys(errors).length === 0;
   };
 
+=======
+  const [formData, setFormData] = useState({
+    name: "",
+    subject: "",
+    experience: "",
+    linkedCourses: "",
+    about: "",
+  });
+  
+  const [formErrors, setFormErrors] = useState({});
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.name.trim()) errors.name = "Name is required";
+    if (!formData.subject.trim()) errors.subject = "Subject is required";
+    if (!formData.experience.trim()) errors.experience = "Experience is required";
+    if (!formData.linkedCourses.trim()) errors.linkedCourses = "Linked courses required";
+    if (!formData.about.trim()) errors.about = "About section is required";
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
+>>>>>>> Stashed changes
   // -----------
 
   const [open, setOpen] = React.useState(false);
@@ -129,6 +152,7 @@ const Faculty = ({ setValue }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+<<<<<<< Updated upstream
   const handleSave = async () => {
     if (validateForm()) {
       // setCourses((prev) => [...prev, formData]);
@@ -158,6 +182,9 @@ const Faculty = ({ setValue }) => {
     }
   };
 
+=======
+  
+>>>>>>> Stashed changes
   return (
     <>
       <div className="">
