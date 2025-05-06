@@ -31,6 +31,7 @@ export const userSlice = createSlice({
       state.firstName = info.firstName;
       state._id = info._id;
       state.instituteId = info.instituteId;
+      state.userType = info.userType;
       state.userID = info.userId;
       state.lastName = info.lastName;
       state.email = info.email;
