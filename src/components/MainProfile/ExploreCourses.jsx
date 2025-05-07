@@ -1,62 +1,74 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { backendUrl } from "../../config";
+import { useSelector, useDispatch } from "react-redux";
 const ExploreCourses = () => {
-  const courses = [
-    {
-      id: 1,
-      title: "IIT Foundation Course",
-      category: "IIT",
-      location: "Delhi",
-      price: "₹40K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-    {
-      id: 2,
-      title: "JEE Main/Advanced Coaching",
-      category: "JEE",
-      location: "Delhi",
-      price: "₹70K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-    {
-      id: 3,
-      title: "NEET Crash Course",
-      category: "NEET",
-      location: "Delhi",
-      price: "₹40K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-    {
-      id: 4,
-      title: "IIT Foundation Program",
-      category: "IIT",
-      location: "Delhi",
-      price: "₹40K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-    {
-      id: 5,
-      title: "JEE Main/Advanced Coaching",
-      category: "JEE",
-      location: "Delhi",
-      price: "₹70K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-    {
-      id: 6,
-      title: "NEET Crash Course",
-      category: "NEET",
-      location: "Delhi",
-      price: "₹40K–₹1L",
-      discount: "save 40%",
-      rating: 4.7,
-    },
-  ];
+  const [courses, setCourses] = useState([]);
+  const { instituteId } = useSelector((store) => store.User);
+  useEffect(() => {
+    axios
+      .get(`${backendUrl}/app/v1/courses/getCourse/${instituteId}`)
+      .then(({ data }) => {
+        setCourses(data.CourseList);
+      })
+      .catch((err) => console.log(err));
+  }, [instituteId]);
+  // const courses = [
+  //   {
+  //     id: 1,
+  //     title: "IIT Foundation Course",
+  //     category: "IIT",
+  //     location: "Delhi",
+  //     price: "₹40K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "JEE Main/Advanced Coaching",
+  //     category: "JEE",
+  //     location: "Delhi",
+  //     price: "₹70K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "NEET Crash Course",
+  //     category: "NEET",
+  //     location: "Delhi",
+  //     price: "₹40K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "IIT Foundation Program",
+  //     category: "IIT",
+  //     location: "Delhi",
+  //     price: "₹40K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "JEE Main/Advanced Coaching",
+  //     category: "JEE",
+  //     location: "Delhi",
+  //     price: "₹70K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "NEET Crash Course",
+  //     category: "NEET",
+  //     location: "Delhi",
+  //     price: "₹40K–₹1L",
+  //     discount: "save 40%",
+  //     rating: 4.7,
+  //   },
+  // ];
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="flex justify-between items-center mb-6">
@@ -90,20 +102,24 @@ const ExploreCourses = () => {
               <span className="text-gray-500 text-sm">Image</span>
             </div>
             <h3 className="text-sm font-semibold text-gray-800 mb-1">
-              {course.title}
+              {course.courseName}
             </h3>
             <div className="flex justify-between">
-              <p className="text-xs text-gray-500">{course.category}</p>
-              <p className="text-sm text-gray-700 mt-1">📍 {course.location}</p>
+              <p className="text-xs text-gray-500">
+                {course.examType}
+                </p>
+              <p className="text-sm text-gray-700 mt-1">📍 Delhi</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm mt-1">
-                {course.price}{" "}
+                {/* {course.price}{" "} */}500
                 <span className="text-xs text-[#333] ml-1">
-                  ({course.discount})
+                  {/* ({course.discount}) */} 10% 
                 </span>
               </p>
-              <p className="text-sm mt-1">⭐ {course.rating}</p>
+              <p className="text-sm mt-1">⭐ {course.duration}
+                {/* {course.rating} */}
+                </p>
             </div>
           </div>
         ))}

@@ -32,7 +32,6 @@ const Faculty = ({ setValue }) => {
   const [addFaculty, setAddFaculty] = useState(false);
 
   const [courses, setCourses] = useState([]);
-  // const []=useState([]),
   const { instituteId, email } = useSelector((store) => store.User);
   const [formData, setFormData] = useState({
     facultyName: "",
@@ -61,9 +60,8 @@ const Faculty = ({ setValue }) => {
       .catch((err) => console.log(err));
   }, [instituteId, refreshPage]);
 
-  const [formErrors, setFormErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const validateForm = () => {
-    console.log(formData);
     const errors = {};
     if (!formData.facultyName.trim()) errors.name = "Name is required";
     if (!formData.subject.trim()) errors.subject = "Subject is required";
@@ -73,7 +71,7 @@ const Faculty = ({ setValue }) => {
       errors.linkedCourses = "Linked courses required";
     if (!formData.aboutFaculty.trim())
       errors.about = "About section is required";
-    setFormErrors(errors);
+    setErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
@@ -103,7 +101,7 @@ const Faculty = ({ setValue }) => {
         }
       );
       console.log(res.data);
-      setRefreshPage(false);
+      setRefreshPage(true);
       setAddFaculty(false);
       setFormData({
         facultyName: "",
@@ -171,6 +169,11 @@ const Faculty = ({ setValue }) => {
                 placeholder="Faculty Name (pre-filled)"
                 className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
               />
+              {errors.facultyName && (
+                <span className="text-red-500 text-sm">
+                  {errors.facultyName}
+                </span>
+              )}
               <input
                 type="text"
                 value={formData.subject}
@@ -180,6 +183,9 @@ const Faculty = ({ setValue }) => {
                 placeholder="Subject Taught (multi Select dropdown)"
                 className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
               />
+              {errors.subject && (
+                <span className="text-red-500 text-sm">{errors.subject}</span>
+              )}
               <input
                 type="text"
                 value={formData.experience}
@@ -189,6 +195,11 @@ const Faculty = ({ setValue }) => {
                 placeholder="Enter your Experience (years)"
                 className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
               />
+              {errors.experience && (
+                <span className="text-red-500 text-sm">
+                  {errors.experience}
+                </span>
+              )}
               <FormControl className="w-[70%]">
                 <InputLabel id="demo-simple-select-label">
                   Select Cources
@@ -214,6 +225,11 @@ const Faculty = ({ setValue }) => {
                     </MenuItem>
                   ))}
                 </Select>
+                {errors.linkedCourses && (
+                  <span className="text-red-500 text-sm">
+                    {errors.linkedCourses}
+                  </span>
+                )}
               </FormControl>
               <div>
                 {formData.linkedCourses.length > 0 && (
@@ -233,6 +249,11 @@ const Faculty = ({ setValue }) => {
                 placeholder="About Faculty (textarea)"
                 className="w-[70%] px-4 py-4 border-[1px] border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
               />
+              {errors.aboutFaculty && (
+                <span className="text-red-500 text-sm">
+                  {errors.aboutFaculty}
+                </span>
+              )}
               <div className="w-[70%] flex gap-4">
                 <button className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[1px_solid_#5E5BFB]">
                   Skip
@@ -301,13 +322,13 @@ const Faculty = ({ setValue }) => {
             </table>
             <div className="w-[70%] flex gap-4">
               <button
-                onClick={() => setValue(0)}
+                onClick={() => setValue(1)}
                 className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[1px_solid_#5E5BFB]"
               >
                 Back
               </button>
               <button
-                onClick={() => setValue(2)}
+                onClick={() => setValue(3)}
                 className="cursor-pointer py-2 w-full flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB] "
               >
                 Next

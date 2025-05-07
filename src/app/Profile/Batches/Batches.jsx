@@ -134,7 +134,8 @@ const Batches = ({ setValue }) => {
       if (response.data.success) {
         console.log("Success:", response.data);
         setSelectedDays([]);
-        setAddBatch(true);
+        setAddBatch(false);
+        setRefreshPage(true);
         setFormData({
           batchName: "",
           startDate: "",
@@ -150,6 +151,19 @@ const Batches = ({ setValue }) => {
     } catch (err) {
       console.error("Error:", err);
       // Show error toast here
+    }
+  };
+  const handleDelete = async (ID) => {
+    try {
+      const res = await axios.delete(
+        `${backendUrl}/app/v1/batches/deleteBatch/${ID}`
+      );
+      if (res.data.success) {
+        setRefreshPage(true);
+        console.log("deleted successfully");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -201,6 +215,7 @@ const Batches = ({ setValue }) => {
                   <MenuItem value="offline">Offline</MenuItem>
                   <MenuItem value="hybrid">Hybrid</MenuItem>
                 </Select>
+                {errors.mode && <span>{errors.mode}</span>}
               </FormControl>
 
               <TextField
@@ -319,7 +334,7 @@ const Batches = ({ setValue }) => {
               /> */}
               <FormControl className="w-[70%]">
                 <InputLabel id="demo-simple-select-label">
-                  Select Cources
+                  Select Faculty
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -331,7 +346,7 @@ const Batches = ({ setValue }) => {
                       facultyAssigned: e.target.value,
                     })
                   }
-                  label="Select Cource"
+                  label="Select Faculty"
                 >
                   {allFaculty.map((item, key) => (
                     <MenuItem key={key} value={item._id}>
@@ -384,13 +399,16 @@ const Batches = ({ setValue }) => {
                       ))}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.seatsAvailable}{item.mode}
+                      {item.seatsAvailable}({item.mode})
                     </td>
                     <td className="py-3 space-x-2 text-[24px] text-[#757575]">
                       <button className="cursor-pointer" onClick={handleOpen}>
                         <RiPencilLine />
                       </button>
-                      <button className="cursor-pointer">
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => handleDelete(item._id)}
+                      >
                         <MdOutlineDeleteOutline />
                       </button>
                     </td>

@@ -54,22 +54,6 @@ const InstituteInfo = ({ setValue }) => {
           totalStudents: data.institute.totalStudents,
           aboutInstitute: data.institute.aboutInstitue,
         });
-        //    {
-        //     "_id": "68177c6e6f8e64f3ce8c5503",
-        //     "instituteId": "INS1746369646400",
-        //     "instituteName": "RMS School",
-        //     "profile": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s",
-        //     "tagline": "jai hind",
-        //     "location": "sector 15",
-        //     "contact": "7267033009",
-        //     "email": "akgzp56@gmail.com",
-        //     "totalStudents": 500,
-        //     "aboutInstitue": "thisis testing",
-        //     "isActive": true,
-        //     "createdAt": "2025-05-04T14:40:46.415Z",
-        //     "updatedAt": "2025-05-04T14:40:46.415Z",
-        //     "__v": 0
-        // }
       })
       .catch((err) => console.log(err));
   }, [instituteId]);

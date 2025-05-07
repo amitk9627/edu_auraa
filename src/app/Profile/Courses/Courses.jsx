@@ -50,11 +50,7 @@ const Courses = ({ setValue }) => {
     // examType: { type: String, required: true },
     // mode: { type: String, required: true },
     // duration: { type: String, required: true }
-    if (
-      formData.courseName &&
-      formData.examType &&
-      formData.duration
-    ) {
+    if (formData.courseName && formData.examType && formData.duration) {
       // setCourses((prev) => [...prev, formData]);
       const res = await axios.post(
         `${backendUrl}/app/v1/courses/addUpdateCourse`,
@@ -62,15 +58,15 @@ const Courses = ({ setValue }) => {
           instituteId: instituteId,
           courseName: formData.courseName,
           examType: formData.examType,
-         
           duration: formData.duration,
         }
       );
       console.log(res.data);
+      setAddCourses(false);
+      setRefreshPage(true);
       setFormData({
         courseName: "",
         examType: "",
-       
         duration: "",
       });
     } else {
@@ -84,7 +80,7 @@ const Courses = ({ setValue }) => {
         `${backendUrl}/app/v1/courses/deleteCourse/${ID}`
       );
       if (res.data.success) {
-        setRefreshPage(true)
+        setRefreshPage(true);
         console.log("deleted successfully");
       }
     } catch (err) {
@@ -122,6 +118,9 @@ const Courses = ({ setValue }) => {
               placeholder="Enter Course Name (e.g., NEET, UPSC)"
               className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
             />
+            {errors.courseName && (
+              <span className="text-red-500 text-sm">{errors.courseName}</span>
+            )}
             <input
               name="examType"
               value={formData.examType}
@@ -130,6 +129,9 @@ const Courses = ({ setValue }) => {
               placeholder="Exam Type"
               className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
             />
+            {errors.examType && (
+              <span className="text-red-500 text-sm">{errors.examType}</span>
+            )}
             <input
               name="duration"
               value={formData.duration}
@@ -138,6 +140,9 @@ const Courses = ({ setValue }) => {
               placeholder="Enter Duration (e.g., 3 months, 6 months, 1 year)"
               className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
             />
+            {errors.duration && (
+              <span className="text-red-500 text-sm">{errors.duration}</span>
+            )}
             <div className="w-[70%] flex gap-4">
               <button
                 onClick={() => setAddCourses(false)}
@@ -160,7 +165,7 @@ const Courses = ({ setValue }) => {
                 <tr className="sticky top-0 z-10 bg-white text-left text-[#000000] text-[14px] font-semibold">
                   <th className="py-3">Course Name</th>
                   <th className="py-3">Exam Type</th>
-                 
+
                   <th className="py-3">Duration</th>
                   <th className="py-3">Actions</th>
                 </tr>
@@ -174,7 +179,7 @@ const Courses = ({ setValue }) => {
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
                       {item.examType}
                     </td>
-       
+
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
                       {item.duration}
                     </td>
@@ -195,13 +200,13 @@ const Courses = ({ setValue }) => {
             </table>
             <div className="w-[70%] flex gap-4 mt-4">
               <button
-                onClick={() => setValue(1)}
+                onClick={() => setValue(0)}
                 className="cursor-pointer py-2 w-full flex items-center justify-center text-[#5E5BFB] border rounded-[8px] border-[#5E5BFB]"
               >
                 Back
               </button>
               <button
-                onClick={() => setValue(3)}
+                onClick={() => setValue(2)}
                 className="cursor-pointer py-2 w-full flex items-center justify-center text-[#FFFFFF] rounded-[8px] bg-[#5E5BFB]"
               >
                 Next
