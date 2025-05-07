@@ -30,51 +30,6 @@ const style = {
 
 const Faculty = ({ setValue }) => {
   const [addFaculty, setAddFaculty] = useState(false);
-  const data = [
-    {
-      photo: profileImg,
-      name: "John Doe",
-      subject: "Mathematics",
-      experience: "5 Years",
-      linkedCourses: "Algebra, Geometry",
-    },
-    {
-      photo: profileImg,
-      name: "Jane Smith",
-      subject: "Physics",
-      experience: "3 Years",
-      linkedCourses: "Mechanics",
-    },
-    {
-      photo: profileImg,
-      name: "Jane Smith",
-      subject: "Physics",
-      experience: "3 Years",
-      linkedCourses: "Mechanics",
-    },
-    {
-      photo: profileImg,
-      name: "Jane Smith",
-      subject: "Physics",
-      experience: "3 Years",
-      linkedCourses: "Mechanics",
-    },
-    {
-      photo: profileImg,
-      name: "Jane Smith",
-      subject: "Physics",
-      experience: "3 Years",
-      linkedCourses: "Mechanics",
-    },
-    // {
-    //   photo: profileImg,
-    //   name: "Jane Smith",
-    //   subject: "Physics",
-    //   experience: "3 Years",
-    //   linkedCourses: "Mechanics",
-    // },
-  ];
-<<<<<<< Updated upstream
 
   const [courses, setCourses] = useState([]);
   // const []=useState([]),
@@ -88,7 +43,9 @@ const Faculty = ({ setValue }) => {
     profile: "", // Assume this is a URL or base64 string
   });
   const [allFaculty, setAllFaculty] = useState([]);
+  const [refreshPage, setRefreshPage] = useState(false);
   useEffect(() => {
+    setRefreshPage(false);
     axios
       .get(`${backendUrl}/app/v1/faculty/getFaculty/${instituteId}`)
       .then(({ data }) => {
@@ -102,7 +59,7 @@ const Faculty = ({ setValue }) => {
         setCourses(data.CourseList);
       })
       .catch((err) => console.log(err));
-  }, [instituteId]);
+  }, [instituteId, refreshPage]);
 
   const [formErrors, setFormErrors] = useState({});
   const validateForm = () => {
@@ -120,28 +77,6 @@ const Faculty = ({ setValue }) => {
     return Object.keys(errors).length === 0;
   };
 
-=======
-  const [formData, setFormData] = useState({
-    name: "",
-    subject: "",
-    experience: "",
-    linkedCourses: "",
-    about: "",
-  });
-  
-  const [formErrors, setFormErrors] = useState({});
-  const validateForm = () => {
-    const errors = {};
-    if (!formData.name.trim()) errors.name = "Name is required";
-    if (!formData.subject.trim()) errors.subject = "Subject is required";
-    if (!formData.experience.trim()) errors.experience = "Experience is required";
-    if (!formData.linkedCourses.trim()) errors.linkedCourses = "Linked courses required";
-    if (!formData.about.trim()) errors.about = "About section is required";
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-  
->>>>>>> Stashed changes
   // -----------
 
   const [open, setOpen] = React.useState(false);
@@ -152,7 +87,6 @@ const Faculty = ({ setValue }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-<<<<<<< Updated upstream
   const handleSave = async () => {
     if (validateForm()) {
       // setCourses((prev) => [...prev, formData]);
@@ -169,6 +103,8 @@ const Faculty = ({ setValue }) => {
         }
       );
       console.log(res.data);
+      setRefreshPage(false);
+      setAddFaculty(false);
       setFormData({
         facultyName: "",
         subject: "",
@@ -181,10 +117,20 @@ const Faculty = ({ setValue }) => {
       alert("Please fill in all fields.");
     }
   };
+  const handleDelete = async (ID) => {
+    try {
+      const res = await axios.delete(
+        `${backendUrl}/app/v1/faculty/deleteFaculty/${ID}`
+      );
+      if (res.data.success) {
+        setRefreshPage(false);
+        console.log("deleted successfully");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-=======
-  
->>>>>>> Stashed changes
   return (
     <>
       <div className="">
@@ -342,7 +288,10 @@ const Faculty = ({ setValue }) => {
                       <button className="cursor-pointer" onClick={handleOpen}>
                         <RiPencilLine />
                       </button>
-                      <button className="cursor-pointer">
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => handleDelete(item._id)}
+                      >
                         <MdOutlineDeleteOutline />
                       </button>
                     </td>

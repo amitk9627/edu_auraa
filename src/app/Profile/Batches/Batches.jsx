@@ -59,8 +59,10 @@ const Batches = ({ setValue }) => {
 
   // ------------------
   const [selectedDays, setSelectedDays] = useState([]);
+  const [refreshPage, setRefreshPage] = useState(false);
   useEffect(() => {
     // /getBatch/:instituteId
+    setRefreshPage(false);
     axios
       .get(`${backendUrl}/app/v1/batches/getBatch/${instituteId}`)
       .then(({ data }) => {
@@ -75,7 +77,7 @@ const Batches = ({ setValue }) => {
         setAllFaculty(data.facultyList);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [refreshPage, instituteId]);
 
   const handleWeekChange = (event) => {
     const { value, checked } = event.target;
@@ -132,6 +134,7 @@ const Batches = ({ setValue }) => {
       if (response.data.success) {
         console.log("Success:", response.data);
         setSelectedDays([]);
+        setAddBatch(true);
         setFormData({
           batchName: "",
           startDate: "",

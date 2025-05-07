@@ -1,17 +1,10 @@
-<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
-=======
-import React, { useState } from "react";
->>>>>>> Stashed changes
 import profile from "../../../assets/images/profile-dummy.svg";
 import camera from "../../../assets/images/camera-icon.svg";
 import { backendUrl } from "../../../config/";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-<<<<<<< Updated upstream
 import { FormControl, InputAdornment, TextField } from "@mui/material";
-=======
->>>>>>> Stashed changes
 const InstituteInfo = ({ setValue }) => {
   const [formData, setFormData] = useState({
     instituteName: "",
@@ -22,11 +15,7 @@ const InstituteInfo = ({ setValue }) => {
     totalStudents: "",
     aboutInstitute: "",
   });
-<<<<<<< Updated upstream
   const { instituteId, email } = useSelector((store) => store.User);
-=======
-  const { instituteId } = useSelector((store) => store.User);
->>>>>>> Stashed changes
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -46,16 +35,11 @@ const InstituteInfo = ({ setValue }) => {
       newErrors.contactNumber = "Valid number required";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       newErrors.email = "Valid email required";
-<<<<<<< Updated upstream
     if (!formData.totalStudents) newErrors.totalStudents = "Required";
-=======
-    if (!formData.totalStudents.trim()) newErrors.totalStudents = "Required";
->>>>>>> Stashed changes
     if (!formData.aboutInstitute.trim()) newErrors.aboutInstitute = "Required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-<<<<<<< Updated upstream
   useEffect(() => {
     axios
       .get(`${backendUrl}/app/v1/institute/getInstitute/${email}`)
@@ -89,13 +73,10 @@ const InstituteInfo = ({ setValue }) => {
       })
       .catch((err) => console.log(err));
   }, [instituteId]);
-=======
->>>>>>> Stashed changes
 
   const handleSubmit = async () => {
     if (!validateFields()) return;
     try {
-<<<<<<< Updated upstream
       const res = await axios.post(
         `${backendUrl}/app/v1/institute/addUpdateInstitute`,
         {
@@ -117,28 +98,6 @@ const InstituteInfo = ({ setValue }) => {
       }
     } catch (err) {
       console.log(err);
-=======
-      const res = await axios.post(`${backendUrl}/app/v1/institute`, {
-        instituteId: instituteId,
-        instituteName: formData.instituteName.trim(),
-        profile:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s", // Assume this is a URL or base64 string
-        tagline: formData.tagline.trim(),
-        location: formData.location.trim(),
-        email: formData.email,
-        contact: formData.contactNumber,
-        totalStudents: formData.totalStudents.trim(),
-        aboutInstitue: formData.aboutInstitute.trim(),
-      });
-
-      if (res.ok) {
-        alert("Saved successfully");
-        setValue(1);
-      } else {
-        alert(data.message || "Failed to save");
-      }
-    } catch (err) {
->>>>>>> Stashed changes
       alert("Network error");
     }
   };
@@ -154,7 +113,6 @@ const InstituteInfo = ({ setValue }) => {
         />
       </div>
       {instituteId}
-<<<<<<< Updated upstream
       <FormControl>
         <TextField
           type="text"
@@ -254,90 +212,6 @@ const InstituteInfo = ({ setValue }) => {
           <span className="text-red-500 text-sm">{errors.aboutInstitute}</span>
         )}
       </FormControl>
-=======
-      <input
-        type="text"
-        name="instituteName"
-        value={formData.instituteName}
-        onChange={handleChange}
-        placeholder="Institute Name (pre-filled)"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.instituteName && (
-        <span className="text-red-500 text-sm">{errors.instituteName}</span>
-      )}
-
-      <input
-        type="text"
-        name="tagline"
-        value={formData.tagline}
-        onChange={handleChange}
-        placeholder="Tagline / Motto"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.tagline && (
-        <span className="text-red-500 text-sm">{errors.tagline}</span>
-      )}
-
-      <input
-        type="text"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-        placeholder="Current Location (Auto-detect or search dropdown) - Prefilled"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.location && (
-        <span className="text-red-500 text-sm">{errors.location}</span>
-      )}
-
-      <input
-        type="text"
-        name="contactNumber"
-        value={formData.contactNumber}
-        onChange={handleChange}
-        placeholder="Enter Your Contact  Number"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.contactNumber && (
-        <span className="text-red-500 text-sm">{errors.contactNumber}</span>
-      )}
-
-      <input
-        type="text"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Enter Your Email ID"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.email && (
-        <span className="text-red-500 text-sm">{errors.email}</span>
-      )}
-
-      <input
-        type="text"
-        name="totalStudents"
-        value={formData.totalStudents}
-        onChange={handleChange}
-        placeholder="Total Students (Range : Dropdown)"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.totalStudents && (
-        <span className="text-red-500 text-sm">{errors.totalStudents}</span>
-      )}
-
-      <textarea
-        name="aboutInstitute"
-        value={formData.aboutInstitute}
-        onChange={handleChange}
-        placeholder="About Institute (textarea)"
-        className="w-[70%] px-4 py-4 border border-[#D9D9D9] rounded-[8px] placeholder:text-[#B3B3B3] outline-0"
-      />
-      {errors.aboutInstitute && (
-        <span className="text-red-500 text-sm">{errors.aboutInstitute}</span>
-      )}
->>>>>>> Stashed changes
 
       <div className="w-[70%] flex gap-4">
         <button
