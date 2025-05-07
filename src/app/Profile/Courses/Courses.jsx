@@ -62,7 +62,7 @@ const Courses = ({ setValue }) => {
           instituteId: instituteId,
           courseName: formData.courseName,
           examType: formData.examType,
-          mode: formData.mode,
+         
           duration: formData.duration,
         }
       );
@@ -70,7 +70,7 @@ const Courses = ({ setValue }) => {
       setFormData({
         courseName: "",
         examType: "",
-        mode: "",
+       
         duration: "",
       });
     } else {
@@ -160,7 +160,7 @@ const Courses = ({ setValue }) => {
                 <tr className="sticky top-0 z-10 bg-white text-left text-[#000000] text-[14px] font-semibold">
                   <th className="py-3">Course Name</th>
                   <th className="py-3">Exam Type</th>
-                  <th className="py-3">Mode</th>
+                 
                   <th className="py-3">Duration</th>
                   <th className="py-3">Actions</th>
                 </tr>
@@ -174,9 +174,7 @@ const Courses = ({ setValue }) => {
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
                       {item.examType}
                     </td>
-                    <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.mode}
-                    </td>
+       
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
                       {item.duration}
                     </td>
