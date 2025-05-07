@@ -362,7 +362,7 @@ const Batches = ({ setValue }) => {
                   <th className="py-3">Start Date</th>
                   <th className="py-3">End Date</th>
                   <th className="py-3">Days</th>
-                  <th className="py-3">Seats</th>
+                  <th className="py-3">Seats(Mode)</th>
                   <th className="py-3">Actions</th>
                 </tr>
               </thead>
@@ -384,7 +384,7 @@ const Batches = ({ setValue }) => {
                       ))}
                     </td>
                     <td className="py-3 text-[14px] text-[#000000] font-medium">
-                      {item.seatsAvailable}
+                      {item.seatsAvailable}{item.mode}
                     </td>
                     <td className="py-3 space-x-2 text-[24px] text-[#757575]">
                       <button className="cursor-pointer" onClick={handleOpen}>
